@@ -1,0 +1,16 @@
+{
+  "name": "parcel-jest-tsx",
+  "version": "1.0.0",
+  "description": "Getting Parcel, React, Jest and Typescript to play nice together.",
+  "main": "index.js",
+  "repository": "https://github.com/makemoneyfast/parcel-jest-tsx.git",
+  "author": "Alex Murray <make.money.fast@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "@types/jest": "^27.0.2",
+    "jest": "^27.3.0",
+    "parcel": "^2.0.0",
+    "typescript": "^4.4.4"
+  }
+}
