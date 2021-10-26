@@ -6,7 +6,7 @@
         "checkJs": false,
         "jsx": "react-jsx",
         "outDir": "./build",
-        "rootDir": "./lib",
+        "rootDir": "./src",
         "removeComments": true,
         "noEmit": true,
         "pretty": true,
@@ -16,7 +16,7 @@
         "esModuleInterop": true
     },
     "include": [
-        "./lib/**/*"
+        "src/**/*"
     ],
     "exclude": [
         "node_modules"

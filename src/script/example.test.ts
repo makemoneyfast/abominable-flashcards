@@ -1,4 +1,4 @@
-import { functionToTest } from "./example";
+import { functionToTest } from "./typescript-example";
 
 describe("sample", () => {
   it("Returns the expected value", () => {
