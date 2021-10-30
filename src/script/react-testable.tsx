@@ -1,5 +1,6 @@
-export const TestableComponent = (props: any) => {
-  const q = <strong>Hi</strong>;
+import React from "react";
+
+export const TestableComponent = () => {
   return (
     <div>
       <div>
