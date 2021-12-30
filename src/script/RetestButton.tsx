@@ -34,7 +34,7 @@ const mapDispatchToProps: (
 };
 
 const BaseRetestButton: React.StatelessComponent<RetestButtonProps> = props => {
-    const buttonCaption = props.cardIsFlagged ? "Don't retest" : "Retest";
+    const buttonCaption = props.cardIsFlagged ? "できた" : "失敗";
     return (
         <div className="retestButtonContainer">
             <input
