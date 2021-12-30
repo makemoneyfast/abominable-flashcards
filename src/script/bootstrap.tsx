@@ -12,12 +12,12 @@ import Quiz from "./Quiz";
 import "./styles/global-styles.less";
 
 ReactDOM.render(
-  <Provider
-    store={createStore(
-      reducer,
-      composeWithDevTools(applyMiddleware(thunk))
-    )}>
-    <Quiz />
-  </Provider>,
-  document.getElementById("root")
+    <Provider
+        store={createStore(
+            reducer,
+            composeWithDevTools(applyMiddleware(thunk))
+        )}>
+        <Quiz />
+    </Provider>,
+    document.getElementById("root")
 );
