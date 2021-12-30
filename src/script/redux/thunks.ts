@@ -90,7 +90,7 @@ export function thunkAttemptToLoadFromJSON(
                             asset
                         )
                     )
-                    .keyBy(asset => asset.character)
+                    .keyBy((asset: KanjiAsset) => asset.character)
                     .value();
                 output.assets.tags = _(output.assets.tags)
                     .map((asset: TagAsset) =>
@@ -101,7 +101,7 @@ export function thunkAttemptToLoadFromJSON(
                             asset
                         )
                     )
-                    .keyBy(asset => asset.id)
+                    .keyBy((asset: TagAsset) => asset.id)
                     .value();
                 dispatch(
                     dataAvailable(
