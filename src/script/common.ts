@@ -25,8 +25,8 @@ export interface KanjiAsset {
     notes: string;
     onyomi: string;
     kunyomi: string;
-    tags?: string[]; // radicals. Maybe separate tag list for themes?
-    retest?: boolean; // Not defined in data but added on import.
+    tags: string[]; // radicals. Maybe separate tag list for themes?
+    retest: boolean; // Not defined in data but added on import.
 }
 
 export interface TagAsset {

@@ -9,13 +9,13 @@ import { State, eCardState, eQuizMode } from "./common";
 import { flipCard } from "./redux/quizDuck";
 import RetestButton from "./RetestButton";
 
-import * as _ from "Lodash";
+import _ from "Lodash";
 
 import "./styles/card.less";
 
-interface CardProps {
-    currentSetName: string;
-    currentTagName: string;
+interface CardPropsFromState {
+    currentSetName: string | undefined;
+    currentTagName: string | undefined;
     cardNumber: number;
     totalCards: number;
     numberOfCardsToRetest: number;
@@ -32,10 +32,13 @@ interface CardProps {
     cardState: eCardState;
     quizType: eQuizMode;
     canFlip: boolean;
+}
+
+interface CardPropsFromDispatch {
     onFlip: () => void;
 }
 
-const mapStateToProps: (state: State) => Partial<CardProps> = (
+const mapStateToProps: (state: State) => CardPropsFromState = (
     state: State
 ) => {
     const currentSet = state.assets.sets[state.quiz.currentSetID];
@@ -68,7 +71,7 @@ const mapStateToProps: (state: State) => Partial<CardProps> = (
     };
 };
 
-const mapDispatchToProps: (dispatch: Dispatch<Action>) => Partial<CardProps> = (
+const mapDispatchToProps: (dispatch: Dispatch<Action>) => CardPropsFromDispatch = (
     dispatch: Dispatch<Action>
 ) => {
     return {
@@ -76,7 +79,7 @@ const mapDispatchToProps: (dispatch: Dispatch<Action>) => Partial<CardProps> = (
     };
 };
 
-const BasicCard: React.StatelessComponent<CardProps> = (props: CardProps) => {
+const BasicCard: React.FunctionComponent<CardPropsFromState & CardPropsFromDispatch> = (props: CardPropsFromState & CardPropsFromDispatch) => {
     let question: any[];
     let hint: any[];
     let answer: string;
@@ -218,11 +221,6 @@ const BasicCard: React.StatelessComponent<CardProps> = (props: CardProps) => {
     hint = hint.map((item) => (item ? item : "✕"));
     answer = answer || "✕";
 
-    const cardSelectStyle = {
-        border: "#00C 1px solid",
-        padding: "5px",
-    };
-
     const flipHandler = props.canFlip ? props.onFlip : () => undefined;
 
     let statusMessage;
@@ -267,6 +265,9 @@ const BasicCard: React.StatelessComponent<CardProps> = (props: CardProps) => {
         }
     }
 
+    const style = { fontSize: `${34 / question[0].length}vw` };
+    console.log(question, question.length, style)
+
     switch (props.cardState) {
         case eCardState.question:
             return (
@@ -285,7 +286,8 @@ const BasicCard: React.StatelessComponent<CardProps> = (props: CardProps) => {
                                     "content" +
                                     questionLanguage +
                                     vocabularyType
-                                }>
+                                }
+                                style={style} >
                                 {question}
                             </div>
                         </div>
@@ -310,7 +312,8 @@ const BasicCard: React.StatelessComponent<CardProps> = (props: CardProps) => {
                                     "content" +
                                     questionLanguage +
                                     vocabularyType
-                                }>
+                                }
+                                style={style} >
                                 {question}
                             </div>
                         </div>
@@ -348,7 +351,8 @@ const BasicCard: React.StatelessComponent<CardProps> = (props: CardProps) => {
                                     "content" +
                                     questionLanguage +
                                     vocabularyType
-                                }>
+                                }
+                                style={style} >
                                 {question}
                             </div>
                         </div>
