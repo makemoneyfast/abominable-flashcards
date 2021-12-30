@@ -19,5 +19,5 @@ ReactDOM.render(
     )}>
     <Quiz />
   </Provider>,
-  document.getElementById("root")
+  document.getElementById("injectionNode")
 );
