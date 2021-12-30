@@ -15,6 +15,14 @@ import _ from "Lodash";
 
 import "./styles/card.less";
 
+// import soundURL from "url:./sound.mp3";
+
+const soundURL = "lol";
+
+console.log("LOL", soundURL)
+
+
+
 interface CardPropsFromState {
     currentSetName: string | undefined;
     currentTagName: string | undefined;
@@ -336,6 +344,14 @@ const BasicCard: React.FunctionComponent<CardPropsFromState & CardPropsFromDispa
                     </div>
                 );
             }
+
+            const audio = new Audio(soundURL)
+            const playAudio = (event: any) => {
+                console.log(event)
+                event.stopPropagation();
+                audio.play();
+                return false;
+            }
             return (
                 <div
                     className={
@@ -365,6 +381,7 @@ const BasicCard: React.FunctionComponent<CardPropsFromState & CardPropsFromDispa
                                 <div className={"content" + answerLanguage}>
                                     {answer}
                                 </div>
+                                <span onClick={playAudio}>Listen</span>
                             </div>
                         </div>
                         <div className="tags">{tags}</div>
