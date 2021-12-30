@@ -9,6 +9,8 @@ import { State, eCardState, eQuizMode } from "./common";
 import { flipCard } from "./redux/quizDuck";
 import RetestButton from "./RetestButton";
 
+import { computeFontSize } from "./utils";
+
 import _ from "Lodash";
 
 import "./styles/card.less";
@@ -265,8 +267,7 @@ const BasicCard: React.FunctionComponent<CardPropsFromState & CardPropsFromDispa
         }
     }
 
-    const style = { fontSize: `${34 / question[0].length}vw` };
-    console.log(question, question.length, style)
+    const style = { fontSize: `${computeFontSize(question[0])}vw` };
 
     switch (props.cardState) {
         case eCardState.question:
