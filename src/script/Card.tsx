@@ -339,7 +339,7 @@ const BasicCard: React.FunctionComponent<CardPropsFromState & CardPropsFromDispa
                     }
                     onClick={flipHandler}>
                     <div className="status japanese">{statusMessage}</div>
-                    <div className={"question" + questionLanguage + vocabularyType} style={style} >
+                    <div className={"question" + questionLanguage + vocabularyType} style={style} onClick={playAudio} >
                         {question}
                     </div>
                     <div className="answer">
@@ -351,7 +351,6 @@ const BasicCard: React.FunctionComponent<CardPropsFromState & CardPropsFromDispa
                         <div className="hint">
                             <div className="content english">{hint}</div>
                         </div>
-                        <span onClick={playAudio} style={{ display: "none" }}>Listen</span>
                     </div>
                     <div className="tags">{tags}</div>
                     <RetestButton />
