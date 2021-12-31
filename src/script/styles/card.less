@@ -24,11 +24,11 @@
 }
 
 .card .question {
-    justify-content: space-around;
+    place-self: center;
 }
 
 .card .answer {
-    justify-content: space-around;
+    place-self: center;
 }
 
 .card .answer .hint {
@@ -53,6 +53,13 @@
     border: #333 1px solid;
     padding: 0.8vmin;
     font-size: 2vmin;
+}
+
+.card .retestButton {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 0;
 }
 
 @media screen and (orientation: landscape) {
@@ -92,7 +99,6 @@
 
     .card .retestButton {
         font-size: 5vmin;
-        display: inline-block;
     }
 
     .card .retestButtonContainer {
@@ -112,6 +118,8 @@
 
     .card .question {
         font-size: 55vmin;
+        position: relative;
+        top: 17%;
     }
 
     .card .answer .hint {

@@ -288,16 +288,10 @@ const BasicCard: React.FunctionComponent<CardPropsFromState & CardPropsFromDispa
                     }
                     onClick={flipHandler}>
                     <div className="status">{statusMessage}</div>
-                    <div className="question">
-                        <div
-                            className={
-                                "content" +
-                                questionLanguage +
-                                vocabularyType
-                            }
-                            style={style} >
-                            {question}
-                        </div>
+                    <div className={"question" +
+                        questionLanguage +
+                        vocabularyType} style={style}>
+                        {question}
                     </div>
                     <RetestButton />
                 </div>
@@ -312,16 +306,8 @@ const BasicCard: React.FunctionComponent<CardPropsFromState & CardPropsFromDispa
                     }
                     onClick={flipHandler}>
                     <div className="status">{statusMessage}</div>
-                    <div className="question">
-                        <div
-                            className={
-                                "content" +
-                                questionLanguage +
-                                vocabularyType
-                            }
-                            style={style} >
-                            {question}
-                        </div>
+                    <div className={"question" + questionLanguage + vocabularyType} style={style} >
+                        {question}
                     </div>
                     <div className="answer">
                         <div className="hint">
@@ -357,16 +343,8 @@ const BasicCard: React.FunctionComponent<CardPropsFromState & CardPropsFromDispa
                     }
                     onClick={flipHandler}>
                     <div className="status">{statusMessage}</div>
-                    <div className="question">
-                        <div
-                            className={
-                                "content" +
-                                questionLanguage +
-                                vocabularyType
-                            }
-                            style={style} >
-                            {question}
-                        </div>
+                    <div className={"question" + questionLanguage + vocabularyType} style={style} >
+                        {question}
                     </div>
                     <div className="answer">
                         <div className="hint">
