@@ -248,7 +248,7 @@ const BasicCard: React.FunctionComponent<CardPropsFromState & CardPropsFromDispa
             statusMessage = (
                 <div>
                     <strong>{props.currentSetName}</strong>{props.retesting ? "再検査" : "検査"}{"　"}
-                    <strong>{props.totalCards}</strong>枚の第<strong>{props.cardNumber}</strong>{"　"}
+                    <strong>{props.totalCards}</strong>枚の第<strong>{props.cardNumber}</strong>
                 </div>
             );
         }
@@ -256,20 +256,16 @@ const BasicCard: React.FunctionComponent<CardPropsFromState & CardPropsFromDispa
         if (props.numberOfCardsToRetest > 0) {
             statusMessage = (
                 <div>
-                    {props.retesting ? "Retesting" : "Testing"} tag{" "}
-                    <strong>{props.currentTagName}</strong>; card{" "}
-                    <strong>{props.cardNumber}</strong> of{" "}
-                    <strong>{props.totalCards}</strong>;{" "}
-                    <strong>{props.numberOfCardsToRetest}</strong> to retest
+                    <strong>&lt;{props.currentTagName}&gt;</strong>{props.retesting ? "再検査" : "検査"}{"　"}
+                    <strong>{props.totalCards}</strong>枚の第<strong>{props.cardNumber}</strong>{"　"}
+                    <strong>{props.numberOfCardsToRetest}</strong>失敗
                 </div>
             );
         } else {
             statusMessage = (
                 <div>
-                    {props.retesting ? "Retesting" : "Testing"} tag{" "}
-                    <strong>{props.currentTagName}</strong>; card{" "}
-                    <strong>{props.cardNumber}</strong> of{" "}
-                    <strong>{props.totalCards}</strong>
+                    <strong>&lt;{props.currentTagName}&gt;</strong>{props.retesting ? "再検査" : "検査"}{"　"}
+                    <strong>{props.totalCards}</strong>枚の第<strong>{props.cardNumber}</strong>
                 </div>
             );
         }
@@ -287,7 +283,7 @@ const BasicCard: React.FunctionComponent<CardPropsFromState & CardPropsFromDispa
                             : "card question-mode"
                     }
                     onClick={flipHandler}>
-                    <div className="status">{statusMessage}</div>
+                    <div className="status japanese">{statusMessage}</div>
                     <div className={"question" +
                         questionLanguage +
                         vocabularyType} style={style}>
@@ -305,7 +301,7 @@ const BasicCard: React.FunctionComponent<CardPropsFromState & CardPropsFromDispa
                             : "card hint-mode"
                     }
                     onClick={flipHandler}>
-                    <div className="status">{statusMessage}</div>
+                    <div className="status japanese">{statusMessage}</div>
                     <div className={"question" + questionLanguage + vocabularyType} style={style} >
                         {question}
                     </div>
@@ -342,20 +338,20 @@ const BasicCard: React.FunctionComponent<CardPropsFromState & CardPropsFromDispa
                             : "card answer-mode"
                     }
                     onClick={flipHandler}>
-                    <div className="status">{statusMessage}</div>
+                    <div className="status japanese">{statusMessage}</div>
                     <div className={"question" + questionLanguage + vocabularyType} style={style} >
                         {question}
                     </div>
                     <div className="answer">
-                        <div className="hint">
-                            <div className="content english">{hint}</div>
-                        </div>
                         <div className="meaning">
                             <div className={"content" + answerLanguage}>
                                 {answer}
                             </div>
-                            <span onClick={playAudio}>Listen</span>
                         </div>
+                        <div className="hint">
+                            <div className="content english">{hint}</div>
+                        </div>
+                        <span onClick={playAudio} style={{ display: "none" }}>Listen</span>
                     </div>
                     <div className="tags">{tags}</div>
                     <RetestButton />
