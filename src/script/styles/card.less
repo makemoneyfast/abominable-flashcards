@@ -4,20 +4,13 @@
     position: absolute;
     margin: 0;
     padding: 0;
+    display: grid;
 }
 
 .card.retest {
     color: #c00;
     background-color: #fcc;
     border-color: #c00;
-}
-
-.card > .content {
-    position: absolute;
-    left: 3vmin;
-    right: 3vmin;
-    top: 3vmin;
-    bottom: 3vmin;
 }
 
 .card .status {
@@ -27,22 +20,15 @@
     top: 0;
     text-align: center;
     z-index: 1;
+    font-size: 2vmin;
 }
 
 .card .question {
-    position: absolute;
     justify-content: space-around;
-    z-index: 1;
-}
-
-.card .question .content {
-    text-align: center;
 }
 
 .card .answer {
-    position: absolute;
     justify-content: space-around;
-    z-index: 1;
 }
 
 .card .answer .hint {
@@ -55,6 +41,7 @@
 }
 
 .card .tags {
+    display: none;
     position: absolute;
     left: 0;
     right: 0;
@@ -73,51 +60,21 @@
         height: 100%;
         left: 0;
         right: 21.2vmin;
-    }
-
-    .card .status {
-        height: 5.5vmin;
-        font-size: 2vmin;
-    }
-
-    .card .question {
-        left: 0;
-        width: 50%;
-        top: 5.5vmin;
-        bottom: 5.5vmin;
-        flex-direction: column;
-    }
-
-    .meaning .card .question .content {
-        font-size: 10vmin;
-    }
-
-    .card .answer {
-        right: 0;
-        width: 50%;
-        top: 5.5vmin;
-        bottom: 5.5vmin;
+        grid-template-columns: 50% 50%;
+        grid-template-rows: 90% 10%;
     }
 
     .card .answer .hint {
-        flex-basis: auto;
-        flex-grow: 0;
         font-size: 4.3vmin;
-        flex-direction: column;
     }
 
     .card .answer .hint .subsidiary {
-        flex-basis: auto;
-        flex-grow: 0;
         font-size: 2.8vmin;
-        flex-direction: column;
         line-height: 4vmin;
         display: inline-block;
     }
 
     .card .answer .meaning {
-        flex-basis: auto;
-        flex-grow: 0;
         font-size: 7.5vmin;
     }
 
@@ -134,11 +91,13 @@
     }
 
     .card .retestButton {
-        height: 9vmin;
         font-size: 5vmin;
         display: inline-block;
-        position: absolute;
-        z-index: 100;
+    }
+
+    .card .retestButtonContainer {
+        grid-column: 1 / span 2;
+        grid-row: 2;
     }
 }
 
@@ -147,58 +106,34 @@
         width: 100%;
         top: 0;
         bottom: 10.2vmin;
-    }
-
-    .card .status {
-        height: 5.5vmin;
-        font-size: 2vmin;
+        grid-template-columns: 100%;
+        grid-template-rows: 45% 45% 10%;
     }
 
     .card .question {
         font-size: 55vmin;
-        left: 0;
-        width: 100%;
-        top: 5.5vmin;
-        bottom: 50%;
-        flex-direction: column;
-    }
-
-    .meaning .card .question .content {
-        font-size: 14vmin;
-    }
-
-    .card .answer {
-        right: 0;
-        width: 100%;
-        top: 50%;
-        bottom: 5.5vmin;
     }
 
     .card .answer .hint {
-        flex-basis: auto;
-        flex-grow: 0;
         font-size: 5vmin;
     }
 
     .card .answer .hint .subsidiary {
-        flex-basis: auto;
-        flex-grow: 0;
         font-size: 2.8vmin;
         line-height: 4vmin;
         display: inline-block;
     }
 
     .card .answer .meaning {
-        flex-basis: auto;
-        flex-grow: 0;
         font-size: 8vmin;
     }
 
     .card .retestButton {
-        position: absolute;
-        z-index: 100;
-        width: 16vw;
-        height: 5vw;
         font-size: 2.6vw;
+    }
+
+    .card .retestButtonContainer {
+        grid-column: 1;
+        grid-row: 3;
     }
 }

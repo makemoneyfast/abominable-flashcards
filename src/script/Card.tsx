@@ -287,21 +287,19 @@ const BasicCard: React.FunctionComponent<CardPropsFromState & CardPropsFromDispa
                             : "card question-mode"
                     }
                     onClick={flipHandler}>
-                    <div className="content">
-                        <div className="status">{statusMessage}</div>
-                        <div className="question">
-                            <div
-                                className={
-                                    "content" +
-                                    questionLanguage +
-                                    vocabularyType
-                                }
-                                style={style} >
-                                {question}
-                            </div>
+                    <div className="status">{statusMessage}</div>
+                    <div className="question">
+                        <div
+                            className={
+                                "content" +
+                                questionLanguage +
+                                vocabularyType
+                            }
+                            style={style} >
+                            {question}
                         </div>
-                        <RetestButton />
                     </div>
+                    <RetestButton />
                 </div>
             );
         case eCardState.hint:
@@ -313,26 +311,24 @@ const BasicCard: React.FunctionComponent<CardPropsFromState & CardPropsFromDispa
                             : "card hint-mode"
                     }
                     onClick={flipHandler}>
-                    <div className="content">
-                        <div className="status">{statusMessage}</div>
-                        <div className="question">
-                            <div
-                                className={
-                                    "content" +
-                                    questionLanguage +
-                                    vocabularyType
-                                }
-                                style={style} >
-                                {question}
-                            </div>
+                    <div className="status">{statusMessage}</div>
+                    <div className="question">
+                        <div
+                            className={
+                                "content" +
+                                questionLanguage +
+                                vocabularyType
+                            }
+                            style={style} >
+                            {question}
                         </div>
-                        <div className="answer">
-                            <div className="hint">
-                                <div className="content english">{hint}</div>
-                            </div>
-                        </div>
-                        <RetestButton />
                     </div>
+                    <div className="answer">
+                        <div className="hint">
+                            <div className="content english">{hint}</div>
+                        </div>
+                    </div>
+                    <RetestButton />
                 </div>
             );
         case eCardState.answer:
@@ -360,33 +356,31 @@ const BasicCard: React.FunctionComponent<CardPropsFromState & CardPropsFromDispa
                             : "card answer-mode"
                     }
                     onClick={flipHandler}>
-                    <div className="content">
-                        <div className="status">{statusMessage}</div>
-                        <div className="question">
-                            <div
-                                className={
-                                    "content" +
-                                    questionLanguage +
-                                    vocabularyType
-                                }
-                                style={style} >
-                                {question}
-                            </div>
+                    <div className="status">{statusMessage}</div>
+                    <div className="question">
+                        <div
+                            className={
+                                "content" +
+                                questionLanguage +
+                                vocabularyType
+                            }
+                            style={style} >
+                            {question}
                         </div>
-                        <div className="answer">
-                            <div className="hint">
-                                <div className="content english">{hint}</div>
-                            </div>
-                            <div className="meaning">
-                                <div className={"content" + answerLanguage}>
-                                    {answer}
-                                </div>
-                                <span onClick={playAudio}>Listen</span>
-                            </div>
-                        </div>
-                        <div className="tags">{tags}</div>
-                        <RetestButton />
                     </div>
+                    <div className="answer">
+                        <div className="hint">
+                            <div className="content english">{hint}</div>
+                        </div>
+                        <div className="meaning">
+                            <div className={"content" + answerLanguage}>
+                                {answer}
+                            </div>
+                            <span onClick={playAudio}>Listen</span>
+                        </div>
+                    </div>
+                    <div className="tags">{tags}</div>
+                    <RetestButton />
                 </div>
             );
     }
