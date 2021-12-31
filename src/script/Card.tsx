@@ -15,11 +15,11 @@ import _ from "Lodash";
 
 import "./styles/card.less";
 
-// import soundURL from "url:./sound.mp3";
+import soundURL from "url:./sound.mp3";
 
-const soundURL = "lol";
+// const soundURL = "lol";
 
-console.log("LOL", soundURL)
+console.log("LOL", soundURL);
 
 
 
