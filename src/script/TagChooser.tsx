@@ -1,7 +1,6 @@
 import * as React from "react";
-import * as ReactDom from "react-dom";
 
-import * as _ from "Lodash";
+import _ from "Lodash";
 
 import "./styles/tagChooser.less";
 
@@ -84,7 +83,7 @@ class TagChooser extends React.Component<TagChooserProps> {
 
         const canCreateTag: boolean =
             this.props.allowNewTagCreation &&
-            this.props.searchText &&
+            !!this.props.searchText &&
             this.props.searchText.length > 0 &&
             !_(this.props.allTags).some(
                 item => item.id === this.props.searchText.toLowerCase()

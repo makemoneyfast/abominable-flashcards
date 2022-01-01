@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { State } from "./common";
 import { thunkEditNominatedSet, thunkDeleteSetAndFlush } from "./redux/thunks";
 
-import * as _ from "Lodash";
+import _ from "Lodash";
 
 import "./styles/setManager.less";
 
@@ -15,7 +15,7 @@ interface SetManagerProps {
     onDeleteSet: (setID: string) => void;
 }
 
-const BasicSetManager: React.StatelessComponent<SetManagerProps> = (
+const BasicSetManager: React.FunctionComponent<SetManagerProps> = (
     props: SetManagerProps
 ) => {
     const sets = _(props.sets)
@@ -38,7 +38,7 @@ const BasicSetManager: React.StatelessComponent<SetManagerProps> = (
     return <div className="setManager">{sets}</div>;
 };
 
-const mapStateToProps: (state: State) => Partial<SetManagerProps> = (
+const mapStateToProps: (state: State) => SetManagerProps = (
     state: State
 ) => {
     const sets = _(state.assets.sets)
@@ -48,18 +48,18 @@ const mapStateToProps: (state: State) => Partial<SetManagerProps> = (
             id: set.id
         }))
         .value();
-    return { sets };
+    return { sets } as SetManagerProps;
 };
 
 const mapDispatchToProps: (
     dispatch: Dispatch<Action>
-) => Partial<SetManagerProps> = (dispatch: Dispatch<Action>) => {
+) => SetManagerProps = (dispatch: Dispatch<Action>) => {
     return {
         onEditSet: (setID: string) =>
             dispatch(thunkEditNominatedSet(setID, "set_manager") as any),
         onDeleteSet: (setID: string) =>
             dispatch(thunkDeleteSetAndFlush(setID) as any)
-    };
+    } as SetManagerProps
 };
 
 const SetManager = connect(

@@ -75,7 +75,7 @@ type SupportedAction =
   | Thunk;
 
 export function thunkAttemptToLoadFromJSON(
-  rawJSON: string,
+  rawJSON: string | null,
   source: DataSource
 ) {
   return (dispatch: Dispatch<SupportedAction>, getState: () => State) => {

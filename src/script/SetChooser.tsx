@@ -1,7 +1,6 @@
 import * as React from "react";
-import * as ReactDom from "react-dom";
 
-import * as _ from "Lodash";
+import _ from "Lodash";
 
 import "./styles/setChooser.less";
 

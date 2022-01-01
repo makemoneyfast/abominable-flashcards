@@ -6,7 +6,7 @@ import {
 } from "../common";
 import { ChangeAppStateAction, CHANGE_APP_STATE } from "./appDuck";
 import { DataAvailableAction, DATA_AVAILABLE } from "./loaderDuck";
-import * as _ from "Lodash";
+import _ from "Lodash";
 
 // Actions
 export const EDIT_NOMINATED_CARD =

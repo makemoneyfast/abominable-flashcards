@@ -1,4 +1,4 @@
-import * as _ from "Lodash";
+import _ from "Lodash";
 
 import appReducer from "./appDuck";
 import quizReducer from "./quizDuck";
@@ -10,13 +10,13 @@ import cardManager from "./cardManagerDuck";
 import { combineReducers } from "redux";
 
 const reducer = combineReducers({
-    app: appReducer,
-    assets: assetsReducer,
-    quiz: quizReducer,
-    setEditor: setEditorReducer,
-    cardEditor: cardEditorReducer,
-    loader: loaderReducer,
-    cardManager: cardManager
+  app: appReducer,
+  assets: assetsReducer,
+  quiz: quizReducer,
+  setEditor: setEditorReducer,
+  cardEditor: cardEditorReducer,
+  loader: loaderReducer,
+  cardManager: cardManager,
 });
 // Reducer
 export default reducer;

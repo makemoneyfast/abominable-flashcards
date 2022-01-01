@@ -16,7 +16,7 @@ import CardManager from "./CardManager";
 import SetManager from "./SetManager";
 import TagManager from "./TagManager";
 
-import * as _ from "Lodash";
+import _ from "Lodash";
 
 import "./styles/quiz.less";
 
@@ -28,7 +28,7 @@ interface QuizProps {
     quizMode: eQuizMode;
 }
 
-const mapStateToProps = (state: State): Partial<QuizProps> => {
+const mapStateToProps = (state: State): QuizProps => {
     const retestCardsExist = _(state.assets.kanji).some(kanji => kanji.retest);
 
     return {
@@ -37,15 +37,15 @@ const mapStateToProps = (state: State): Partial<QuizProps> => {
         quizMode: state.quiz.quizMode,
         currentSetID: state.quiz.currentSetID,
         currentTagID: state.quiz.currentTagID
-    };
+    } as QuizProps;
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<Action>): Partial<QuizProps> => {
-    return {};
+const mapDispatchToProps = (dispatch: Dispatch<Action>): QuizProps => {
+    return {} as QuizProps;
 };
 
 class BasicQuiz extends React.Component<QuizProps> {
-    constructor(props) {
+    constructor(props: QuizProps) {
         super(props);
     }
 
