@@ -1,10 +1,8 @@
 import * as React from "React";
-import * as ReactDom from "react-dom";
 import { Action, Dispatch } from "redux";
 import { connect } from "react-redux";
 
 import { State } from "./common";
-import { changeAppState } from "./redux/appDuck";
 import { thunkEditNominatedSet, thunkDeleteSetAndFlush } from "./redux/thunks";
 
 import * as _ from "Lodash";

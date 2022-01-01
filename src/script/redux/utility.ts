@@ -1,5 +1,5 @@
 import { Assets, KanjiAsset, SetAsset, TagAsset, State } from "../common";
-import * as _ from "Lodash";
+import _ from "Lodash";
 
 export function loadFromURL(url: string) {
     return fetch(url).then(res => {
@@ -15,7 +15,7 @@ export function saveToLocalStorage(data: string) {
     localStorage.setItem("MorningThunder", data);
 }
 
-export function validateAssets(structuredAssets) {
+export function validateAssets(structuredAssets: any) {
     // validate indeed. Todo.
     return true;
 }
@@ -26,19 +26,15 @@ export function serialiseAssets(
         kanji: { [key: string]: KanjiAsset };
         sets: { [key: string]: SetAsset };
         tags: { [key: string]: TagAsset };
-    },
-    applicationState?: {
-        unexportedChanges: boolean;
     }
 ): string {
     const output = {
         allSets,
         assets,
-        unexportedChanges: applicationState
-            ? applicationState.unexportedChanges
-            : false
+        unexportedChanges: false
     };
 
+    // Remove empty fields from the kanji record before serialising.
     output.assets.kanji = _(output.assets.kanji)
         .map(({ character, meaning, notes, tags, onyomi, kunyomi }) => {
             const returnValue: Partial<KanjiAsset> = {
@@ -68,27 +64,23 @@ export function writeStringToFile( // THANKS LUCAS
     contentType = "application/force-download"
 ) {
     const blob = new Blob([contents], { type: contentType });
-    if (typeof window.navigator.msSaveBlob !== "undefined") {
-        window.navigator.msSaveBlob(blob, filename);
+    var URL = window.URL || window["webkitURL"];
+    var downloadUrl = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    if (typeof a["download"] === "undefined") {
+        window.location.replace(downloadUrl);
     } else {
-        var URL = window.URL || window["webkitURL"];
-        var downloadUrl = URL.createObjectURL(blob);
-
-        const a = document.createElement("a");
-        if (typeof a["download"] === "undefined") {
-            window.location.replace(downloadUrl);
-        } else {
-            a.href = downloadUrl;
-            a["download"] = filename;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-        }
-
-        setTimeout(() => {
-            URL.revokeObjectURL(downloadUrl);
-        }, 100); // cleanup
+        a.href = downloadUrl;
+        a["download"] = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
     }
+
+    setTimeout(() => {
+        URL.revokeObjectURL(downloadUrl);
+    }, 100); // cleanup
 }
 
 export function createShuffledArray<T>(kanji: T[]): T[] {

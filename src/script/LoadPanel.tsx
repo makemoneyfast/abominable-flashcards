@@ -1,5 +1,4 @@
 import * as React from "react";
-import * as ReactDom from "react-dom";
 import { connect } from "react-redux";
 import { Dispatch, Action } from "redux";
 
@@ -9,8 +8,6 @@ import { loadFromURL, loadFromLocalStorage } from "./redux/utility";
 
 import { thunkHandleExport, thunkAttemptToLoadFromJSON } from "./redux/thunks";
 import { fileSelectionChanged } from "./redux/loaderDuck";
-import { changeAppState } from "./redux/appDuck";
-import { analyseAttributes } from "./redux/analyseAttributes";
 
 import "./styles/loadPanel.less";
 

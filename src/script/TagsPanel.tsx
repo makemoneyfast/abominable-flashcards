@@ -1,11 +1,8 @@
 import * as React from "react";
-import * as ReactDom from "react-dom";
 import { connect } from "react-redux";
 import { Dispatch, Action } from "redux";
 import * as _ from "Lodash";
 
-import { TagAsset } from "./common";
-import { changeAppState } from "./redux/appDuck";
 import { thunkStartTagQuiz } from "./redux/thunks";
 
 import { State, SetAsset, eCardState } from "./common";
