@@ -1,18 +1,15 @@
 import { Action, UnhandledAction } from "./Action";
-import { State, AppMode, AppState } from "../common";
-import { DataAvailableAction, DATA_AVAILABLE } from "./loaderDuck";
+import { AppMode, AppState } from "../common";
 import {
     EditNominatedAction,
-    EDIT_NOMINATED_CARD,
     EndCardEditAction,
-    END_CARD_EDIT
 } from "./cardEditorDuck";
 import * as _ from "Lodash";
 
 // Actions
 export const CHANGE_APP_STATE = "MorningThunder/app/CHANGE_APP_STATE";
 
-type AppAction =
+export type AppAction =
     | UnhandledAction
     | ChangeAppStateAction
     | EditNominatedAction
@@ -46,18 +43,18 @@ export type ChangeAppStateAction = Action<
     "MorningThunder/app/CHANGE_APP_STATE",
     {
         mode: AppMode;
-        previousMode: AppMode;
+        previousMode: AppMode | null;
     }
 >;
 
 export function changeAppState(
-    newMode: AppMode,
-    previousMode: AppMode = null
+    newMode: AppMode | null = null,
+    previousMode: AppMode | null = null
 ): ChangeAppStateAction {
     return {
         type: CHANGE_APP_STATE,
         payload: {
-            mode: newMode,
+            mode: newMode !== null ? newMode : "card_manager",
             previousMode
         }
     };

@@ -27,6 +27,7 @@ export interface KanjiAsset {
     kunyomi: string;
     tags: string[]; // radicals. Maybe separate tag list for themes?
     retest: boolean; // Not defined in data but added on import.
+    audio?: string;
 }
 
 export interface TagAsset {
@@ -66,32 +67,52 @@ export interface AppState {
     mode: AppMode;
 }
 
-export interface QuizState {
-    // Quiz
+export type QuizState = PopulatedQuizState | EmptyQuizState;
 
-    // This needs to be sufficient.
-    // Should the 'Can we retest' be here? No, it's redundant.
-    // Should it be in the component?
 
-    currentSetID: string; // Indicates which set's button should be disabled, so can be null.
-    currentTagID: string; // Indicates which tag's button should be disabled, so can be null.
-    currentQuiz: string[]; // Arbitrary array of card IDs, shuffled
+export interface PopulatedQuizState {
+    currentSetID: string | null; // Indicates which set's button should be disabled, so can be null.
+    currentTagID: string | null; // Indicates which tag's button should be disabled, so can be null.
+    currentQuiz: string[]; // You can nominate the order of cards in the quiz, but I can probably get rid of this.
     currentCardIndex: number; // Index into currentQuiz
     quizMode: eQuizMode;
     cardState: eCardState;
     retesting: boolean;
 }
 
-export interface SetEditorState {
+
+export interface EmptyQuizState {
+    currentSetID: null;
+    currentTagID: null;
+    currentQuiz: null;
+    currentCardIndex: null;
+    quizMode: null;
+    cardState: null;
+    retesting: null;
+}
+
+export type SetEditorState = PopulatedSetEditorState | EmptySetEditorState;
+
+export interface PopulatedSetEditorState {
     newSet: boolean;
-    id: string;
+    id: string | null;
     name: string;
     kanji: string[];
     modeOnExit: AppMode;
 }
 
-export interface CardEditorState {
-    id: string;
+export interface EmptySetEditorState {
+    newSet: null;
+    id: null;
+    name: null;
+    kanji: null;
+    modeOnExit: null;
+}
+
+export type CardEditorState = PopulatedCardEditorState | EmptyCardEditorState;
+
+export interface PopulatedCardEditorState {
+    id: string | null;
     kanji: string;
     hint: string;
     meaning: string;
@@ -106,6 +127,22 @@ export interface CardEditorState {
     modeOnExit: AppMode;
 }
 
+export interface EmptyCardEditorState {
+    id: null;
+    kanji: null;
+    hint: null;
+    meaning: null;
+    kunyomi: null;
+    onyomi: null;
+    tags: null;
+    sets: null;
+    tagSearchText: null;
+    newCard: null;
+    unexportedChanges: null;
+    unflushedChanges: null;
+    modeOnExit: null;
+}
+
 // This belongs in a duck?
 export interface LoaderState {
     dataState: "uninitialized" | "no_data" | "data_loaded";
@@ -114,7 +151,7 @@ export interface LoaderState {
     selectedFileIsBad: boolean;
     currentFileName: string;
     revisionCount: number;
-    error: string;
+    error: string | null;
 }
 
 export interface CardManagerState {

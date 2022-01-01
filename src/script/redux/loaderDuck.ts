@@ -10,7 +10,7 @@ const EXPORT_DATA = "MorningThunder/loader/EXPORT_DATA";
 const FILE_SELECTED_CHANGED = "MorningThunder/loader/FILE_SELECTED_CHANGED";
 
 export type DataSource = "file" | "local" | "remote";
-type LoaderAction =
+export type LoaderAction =
     | DataAvailableAction
     | DataBadAction
     | DataLoadedAction

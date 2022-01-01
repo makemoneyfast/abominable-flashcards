@@ -1,5 +1,5 @@
 import { Action, UnhandledAction } from "./Action";
-import { State, QuizState, eQuizMode, eCardState } from "../common";
+import { State, QuizState, eQuizMode, eCardState, EmptyQuizState, PopulatedQuizState } from "../common";
 import { createShuffledArray } from "./utility";
 import { DeleteCardAction, DELETE_CARD } from "./assetsDuck";
 import * as _ from "Lodash";
@@ -10,24 +10,26 @@ const START_TAG_QUIZ = "MorningThunder/quiz/START_TAG_QUIZ";
 const FLIP = "MorningThunder/quiz/FLIP";
 const CHANGE_QUIZ_MODE = "MorningThunder/quiz/CHANGE_QUIZ_MODE";
 const START_RETEST = "MorningThunder/quiz/START_RETEST";
+const CLEAR_QUIZ = "MorningThunder/quiz/CLEAR_QUIZ";
 
-type QuizAction =
+export type QuizAction =
     | UnhandledAction
     | SelectQuizModeAction
     | FlipAction
     | StartSetQuizAction
     | StartTagQuizAction
     | StartRetestAction
-    | DeleteCardAction;
+    | DeleteCardAction
+    | ClearQuizAction;
 
-const initialState: QuizState = {
-    currentQuiz: [],
-    quizMode: eQuizMode.character,
-    cardState: eCardState.question,
+const initialState: EmptyQuizState = {
+    currentQuiz: null,
+    quizMode: null,
+    cardState: null,
     currentSetID: null,
     currentTagID: null,
     currentCardIndex: null,
-    retesting: false
+    retesting: null
 };
 // Reducer
 export default function reducer(
@@ -48,28 +50,15 @@ export default function reducer(
 
     switch (action.type) {
         case START_SET_QUIZ:
-            // Todo: turn this into a function.
-            if (action.payload.setID === null) {
-                return {
-                    ...state,
-                    currentCardIndex: 0,
-                    cardState: null,
-                    currentSetID: null,
-                    currentTagID: null,
-                    currentQuiz: [],
-                    retesting: false
-                };
-            } else {
-                return {
-                    ...state,
-                    currentCardIndex: 0,
-                    cardState: eCardState.question,
-                    currentSetID: action.payload.setID,
-                    currentTagID: null,
-                    currentQuiz: action.payload.shuffledCardIDs,
-                    retesting: false
-                };
-            }
+            return {
+                ...state,
+                currentCardIndex: 0,
+                cardState: eCardState.question,
+                currentSetID: action.payload.setID,
+                currentTagID: null,
+                currentQuiz: action.payload.shuffledCardIDs,
+                retesting: false
+            } as PopulatedQuizState;
         case START_TAG_QUIZ:
             // Todo: turn this into a function.
             return {
@@ -80,23 +69,35 @@ export default function reducer(
                 currentTagID: action.payload.tag,
                 currentQuiz: action.payload.shuffledCardIDs,
                 retesting: false
-            };
+            } as PopulatedQuizState;
         case FLIP:
-            const nextCardState = cardFlipStateMap[state.cardState];
-            let newCardIndex = state.currentCardIndex;
-            if (nextCardState === eCardState.question) {
-                newCardIndex++;
+            if (state.currentCardIndex === null || state.cardState === null) {
+                return {
+                    ...state
+                };
+            } else {
+                const nextCardState = cardFlipStateMap[state.cardState];
+                let newCardIndex = state.currentCardIndex;
+                if (nextCardState === eCardState.question) {
+                    newCardIndex++;
+                }
+                return {
+                    ...state,
+                    currentCardIndex: newCardIndex,
+                    cardState: nextCardState
+                };
             }
-            return {
-                ...state,
-                currentCardIndex: newCardIndex,
-                cardState: nextCardState
-            };
         case CHANGE_QUIZ_MODE:
-            return {
-                ...state,
-                quizMode: action.payload.mode
-            };
+            if (state.currentCardIndex !== null) {
+                return {
+                    ...state,
+                    quizMode: action.payload.mode
+                };
+            } else {
+                return {
+                    ...state
+                }
+            }
         case START_RETEST:
             return {
                 ...state,
@@ -104,12 +105,14 @@ export default function reducer(
                 cardState: eCardState.question,
                 currentCardIndex: 0,
                 retesting: true
-            };
+            } as PopulatedQuizState;
         case DELETE_CARD:
             if (state.currentSetID !== null || state.currentTagID !== null) {
                 console.log("oh shit");
             }
             return state;
+        case CLEAR_QUIZ:
+            return { ...initialState } as EmptyQuizState;
         default:
             return state;
     }
@@ -178,5 +181,17 @@ export function startRetest(IDsOfKanjiToRetest: string[]): StartRetestAction {
     return {
         type: START_RETEST,
         payload: { shuffledKanji }
+    };
+}
+
+type ClearQuizAction = Action<
+    "MorningThunder/quiz/CLEAR_QUIZ",
+    undefined
+>;
+
+export function clearQuiz(): ClearQuizAction {
+    return {
+        type: CLEAR_QUIZ,
+        payload: undefined
     };
 }

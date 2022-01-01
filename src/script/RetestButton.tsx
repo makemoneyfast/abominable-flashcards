@@ -1,5 +1,4 @@
 import * as React from "react";
-import * as ReactDom from "react-dom";
 import { Dispatch, Action } from "redux";
 import { connect } from "react-redux";
 
@@ -15,11 +14,17 @@ interface RetestButtonProps {
 const mapStateToProps: (state: State) => Partial<RetestButtonProps> = (
     state: State
 ) => {
-    const currentCardID = state.quiz.currentQuiz[state.quiz.currentCardIndex];
-    const currentCard = state.assets.kanji[currentCardID];
-    return {
-        cardIsFlagged: currentCard.retest
-    };
+    if (state.quiz.currentCardIndex === null) {
+        return {
+            cardIsFlagged: false
+        }
+    } else {
+        const currentCardID = state.quiz.currentQuiz[state.quiz.currentCardIndex];
+        const currentCard = state.assets.kanji[currentCardID];
+        return {
+            cardIsFlagged: currentCard.retest
+        };
+    }
 };
 
 const mapDispatchToProps: (
@@ -28,7 +33,7 @@ const mapDispatchToProps: (
     return {
         onClick: (e: React.MouseEvent<HTMLInputElement>) => {
             e.stopPropagation();
-            dispatch(thunkToggleRetest() as any); // Need to fix this!
+            dispatch(thunkToggleRetest()); // Need to fix this!
         }
     };
 };

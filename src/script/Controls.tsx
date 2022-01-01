@@ -25,7 +25,7 @@ import {
 } from "./redux/thunks";
 import { changeAppState } from "./redux/appDuck";
 
-import * as _ from "Lodash";
+import _ from "Lodash";
 
 import "./styles/quiz.less";
 
@@ -220,7 +220,7 @@ interface ControlItem {
 }
 
 class BasicControls extends React.Component<ControlsProps> {
-    constructor(props) {
+    constructor(props: ControlsProps) {
         super(props);
     }
 
@@ -336,7 +336,7 @@ class BasicControls extends React.Component<ControlsProps> {
                 ];
                 break;
             case "quiz":
-                quizControls = [].concat(
+                quizControls = ([] as ControlItem[]).concat(
                     [
                         {
                             handler: () => this.props.onEditCurrentCard("quiz"),
@@ -551,7 +551,7 @@ class BasicControls extends React.Component<ControlsProps> {
         return (
             <div className="controls">
                 {_(quizControls)
-                    .map(item => {
+                    .map((item: ControlItem) => {
                         if (item.handler) {
                             return (
                                 <div

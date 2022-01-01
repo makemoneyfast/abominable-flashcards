@@ -4,7 +4,7 @@ import * as ReactDom from "react-dom";
 import { connect } from "react-redux";
 import { Dispatch, Action } from "redux";
 
-import { State, eCardState, eQuizMode } from "./common";
+import { State, eCardState, eQuizMode, KanjiAsset } from "./common";
 
 import { flipCard } from "./redux/quizDuck";
 import RetestButton from "./RetestButton";
@@ -51,33 +51,51 @@ interface CardPropsFromDispatch {
 const mapStateToProps: (state: State) => CardPropsFromState = (
     state: State
 ) => {
-    const currentSet = state.assets.sets[state.quiz.currentSetID];
-    const currentTag = state.assets.tags[state.quiz.currentTagID];
-    const currentCard =
-        state.assets.kanji[state.quiz.currentQuiz[state.quiz.currentCardIndex]];
+    const currentSet = state.quiz.currentSetID !== null ? state.assets.sets[state.quiz.currentSetID] : undefined;
+    const currentTag = state.quiz.currentTagID !== null ? state.assets.tags[state.quiz.currentTagID] : undefined;
+    let currentCard: KanjiAsset | undefined;
+    let canFlip: boolean;
+    if (state.quiz.currentCardIndex !== null) {
+        canFlip = !(
+            state.quiz.cardState === eCardState.answer &&
+            state.quiz.currentCardIndex >= state.quiz.currentQuiz.length - 1);
+        currentCard = state.assets.kanji[state.quiz.currentQuiz[state.quiz.currentCardIndex]];
+    } else {
+        canFlip = false
+        currentCard = undefined
+    }
     return {
         currentSetName: currentSet ? currentSet.name : undefined,
         currentTagName: currentTag ? currentTag.id : undefined,
-        cardNumber: state.quiz.currentCardIndex + 1,
+        cardNumber: state.quiz.currentCardIndex !== null ? state.quiz.currentCardIndex + 1 : 0,
         totalCards: state.quiz.currentQuiz.length,
         numberOfCardsToRetest: _(state.assets.kanji)
             .filter((kanji) => kanji.retest)
             .value().length,
         retesting: state.quiz.retesting,
-        character: currentCard.character,
-        tags: currentCard.tags,
-        hint: currentCard.notes,
-        meaning: currentCard.meaning,
-        kunyomi: currentCard.kunyomi,
-        onyomi: currentCard.onyomi,
+        ...currentCard ? {
+            character: currentCard.character,
+            tags: currentCard.tags,
+            hint: currentCard.notes,
+            meaning: currentCard.meaning,
+            kunyomi: currentCard.kunyomi,
+            onyomi: currentCard.onyomi,
 
-        retest: currentCard.retest,
-        cardState: state.quiz.cardState,
+            retest: currentCard.retest,
+            cardState: state.quiz.cardState,
+        } : {
+            character: "",
+            tags: [],
+            hint: [],
+            meaning: "",
+            kunyomi: "",
+            onyomi: "",
+
+            retest: false,
+            cardState: state.quiz.cardState,
+        },
         quizType: state.quiz.quizMode,
-        canFlip: !(
-            state.quiz.cardState === eCardState.answer &&
-            state.quiz.currentCardIndex >= state.quiz.currentQuiz.length - 1
-        ),
+        canFlip,
     };
 };
 

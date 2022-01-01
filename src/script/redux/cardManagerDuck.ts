@@ -1,7 +1,7 @@
 import { Action, UnhandledAction } from "./Action";
 import { State, CardManagerState } from "../common";
 import { DeleteCardAction, DELETE_CARD } from "./assetsDuck";
-import * as _ from "Lodash";
+import _ from "Lodash";
 
 // Actions
 export const TOGGLE_CARD_SELECTION =
@@ -30,7 +30,7 @@ export const APPLY_CHANGES_TO_FILTERED =
 const RESET_FILTER_PARAMETERS =
     "MorningThunder/cardManager/RESET_FILTER_PARAMETERS";
 
-type CardManagerAction =
+export type CardManagerAction =
     | UnhandledAction
     | ToggleCardSelectAction
     | ToggleFilterSelectedAction
