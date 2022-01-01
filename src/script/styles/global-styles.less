@@ -1,14 +1,13 @@
 body,
 #root {
-    font: 14px "Century Gothic", Futura, sans-serif;
+    font: 14px Georgia, serif;
     margin: 0px;
     padding: 0px;
-    left: 3.6vmin;
-    right: 3.6vmin;
-    top: 3.6vmin;
-    bottom: 3.6vmin;
+    left: 4vmin;
+    right: 4vmin;
+    top: 4vmin;
+    bottom: 4vmin;
     position: absolute;
-    display: flex;
 }
 
 .japanese {
@@ -17,7 +16,7 @@ body,
 }
 
 .english {
-    font-family: Futura;
+    font-family: Georgia, serif;
 }
 
 .button {
@@ -37,16 +36,21 @@ body,
     white-space: nowrap;
 }
 
+.control-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+}
+
 @media screen and (orientation: landscape) {
     .control-button {
-        flex-grow: 1;
         font-size: 3.5vmin;
     }
 }
 
 @media screen and (orientation: portrait) {
     .control-button {
-        flex-grow: 1;
         font-size: 2.5vmin;
     }
 }

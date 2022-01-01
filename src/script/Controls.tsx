@@ -556,7 +556,7 @@ class BasicControls extends React.Component<ControlsProps> {
                             return (
                                 <div
                                     key={item.caption}
-                                    className="control-button button"
+                                    className="control-button button japanese"
                                     onClick={item.handler}>
                                     {item.caption}
                                 </div>
@@ -565,7 +565,7 @@ class BasicControls extends React.Component<ControlsProps> {
                             return (
                                 <div
                                     key={item.caption}
-                                    className="control-button button disabled">
+                                    className="control-button button japanese disabled">
                                     {item.caption}
                                 </div>
                             );

@@ -41,7 +41,7 @@ const BaseRetestButton: React.StatelessComponent<RetestButtonProps> = props => {
                 type="button"
                 onClick={props.onClick}
                 value={buttonCaption}
-                className="retestButton"
+                className="retestButton japanese"
             />
         </div>
     );

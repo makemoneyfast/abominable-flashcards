@@ -4,6 +4,8 @@
     position: absolute;
     margin: 0;
     padding: 0;
+    display: grid;
+    user-select: none;
 }
 
 .card.retest {
@@ -12,48 +14,28 @@
     border-color: #c00;
 }
 
-.card > .content {
-    position: absolute;
-    left: 3vmin;
-    right: 3vmin;
-    top: 3vmin;
-    bottom: 3vmin;
-}
-
 .card .status {
     position: absolute;
     left: 0;
     right: 0;
-    top: 0;
+    top: 1vh;
     text-align: center;
     z-index: 1;
+    font-size: 2vh;
 }
 
 .card .question {
-    position: absolute;
-    display: flex;
-    justify-content: space-around;
-    z-index: 1;
-}
-
-.card .question .content {
-    text-align: center;
-    flex-basis: auto;
-    flex-grow: 0;
-    flex-shrink: 1;
+    place-self: center;
 }
 
 .card .answer {
-    position: absolute;
-    display: flex;
-    flex-flow: column;
-    justify-content: space-around;
-    z-index: 1;
+    place-self: center;
 }
 
 .card .answer .hint {
     text-align: center;
     font-style: italic;
+    margin-top: 3vh;
 }
 
 .card .answer .meaning {
@@ -61,23 +43,26 @@
 }
 
 .card .tags {
+    display: none;
     position: absolute;
     left: 0;
     right: 0;
     bottom: 0;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
 }
 
 .card .tags span {
     display: block;
-    flex-basis: auto;
-    flex-grow: 0;
-    flex-shrink: 1;
     border: #333 1px solid;
     padding: 0.8vmin;
     font-size: 2vmin;
+}
+
+.card .retestButton {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    font-size: 5.5vh;
 }
 
 @media screen and (orientation: landscape) {
@@ -85,51 +70,25 @@
         height: 100%;
         left: 0;
         right: 21.2vmin;
-    }
-
-    .card .status {
-        height: 5.5vmin;
-        font-size: 2vmin;
-    }
-
-    .card .question {
-        left: 0;
-        width: 50%;
-        top: 5.5vmin;
-        bottom: 5.5vmin;
-        flex-direction: column;
-    }
-
-    .meaning .card .question .content {
-        font-size: 10vmin;
+        grid-template-columns: 50% 50%;
+        grid-template-rows: 90% 10%;
     }
 
     .card .answer {
-        right: 0;
-        width: 50%;
-        top: 5.5vmin;
-        bottom: 5.5vmin;
+        padding: 4vw;
     }
 
     .card .answer .hint {
-        flex-basis: auto;
-        flex-grow: 0;
         font-size: 4.3vmin;
-        flex-direction: column;
     }
 
     .card .answer .hint .subsidiary {
-        flex-basis: auto;
-        flex-grow: 0;
         font-size: 2.8vmin;
-        flex-direction: column;
         line-height: 4vmin;
         display: inline-block;
     }
 
     .card .answer .meaning {
-        flex-basis: auto;
-        flex-grow: 0;
         font-size: 7.5vmin;
     }
 
@@ -145,12 +104,9 @@
         padding: 5px;
     }
 
-    .card .retestButton {
-        height: 9vmin;
-        font-size: 5vmin;
-        display: inline-block;
-        position: absolute;
-        z-index: 100;
+    .card .retestButtonContainer {
+        grid-column: 1 / span 2;
+        grid-row: 2;
     }
 }
 
@@ -159,58 +115,36 @@
         width: 100%;
         top: 0;
         bottom: 10.2vmin;
-    }
-
-    .card .status {
-        height: 5.5vmin;
-        font-size: 2vmin;
+        grid-template-columns: 100%;
+        grid-template-rows: 45% 45% 10%;
     }
 
     .card .question {
         font-size: 55vmin;
-        left: 0;
-        width: 100%;
-        top: 5.5vmin;
-        bottom: 50%;
-        flex-direction: column;
-    }
-
-    .meaning .card .question .content {
-        font-size: 14vmin;
+        position: relative;
+        top: 17%;
     }
 
     .card .answer {
-        right: 0;
-        width: 100%;
-        top: 50%;
-        bottom: 5.5vmin;
+        padding: 15vw;
     }
 
     .card .answer .hint {
-        flex-basis: auto;
-        flex-grow: 0;
         font-size: 5vmin;
     }
 
     .card .answer .hint .subsidiary {
-        flex-basis: auto;
-        flex-grow: 0;
         font-size: 2.8vmin;
         line-height: 4vmin;
         display: inline-block;
     }
 
     .card .answer .meaning {
-        flex-basis: auto;
-        flex-grow: 0;
         font-size: 8vmin;
     }
 
-    .card .retestButton {
-        position: absolute;
-        z-index: 100;
-        width: 16vw;
-        height: 5vw;
-        font-size: 2.6vw;
+    .card .retestButtonContainer {
+        grid-column: 1;
+        grid-row: 3;
     }
 }
