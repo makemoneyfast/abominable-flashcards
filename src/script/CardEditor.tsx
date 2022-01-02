@@ -1,15 +1,13 @@
 import * as React from "react";
-import * as ReactDom from "react-dom";
 
 import { Dispatch, Action } from "redux";
 import { connect } from "react-redux";
 
-import { State } from "./common";
+import { PopulatedCardEditorState, State } from "./common";
 
 import TagChooser from "./TagChooser";
 
 import {
-  CardEditBuffer,
   updateCardBufferCharacter,
   updateCardBufferKunyomi,
   updateCardBufferOnyomi,
@@ -17,7 +15,6 @@ import {
   updateCardBufferAnswer,
   updateCardBufferNewTag,
   changeCardBufferTags,
-  removeTagFromCardBuffer,
   addSetToCardBuffer,
   removeSetFromCardBuffer,
 } from "./redux/cardEditorDuck";
@@ -174,6 +171,9 @@ class BasicCardEditor extends React.Component<CardEditorProps> {
 }
 
 const mapStateToProps: (state: State) => CardEditorProps = (state: State) => {
+  if (state.cardEditor.kanji === "null") {
+    throw new Error("Card editor rendered while card editor state is empty.");
+  }
   // Tags
   const allTags = _(state.assets.tags)
     .map((tag) => ({ id: tag.id, name: tag.name }))
@@ -185,12 +185,12 @@ const mapStateToProps: (state: State) => CardEditorProps = (state: State) => {
     .value();
   const unlinkedSets = _.differenceWith(
     allSets,
-    state.cardEditor.sets,
+    (state.cardEditor as PopulatedCardEditorState).sets,
     (a, b) => a.id === b
   );
   const linkedSets = _.intersectionWith(
     allSets,
-    state.cardEditor.sets,
+    (state.cardEditor as PopulatedCardEditorState).sets,
     (a, b) => a.id === b
   );
 
@@ -213,7 +213,8 @@ const mapStateToProps: (state: State) => CardEditorProps = (state: State) => {
       state.cardEditor.onyomi !== "" ||
       state.cardEditor.tags.length !== 0; /// O MY GOD HAVE TO FIX THIS OM
   } else {
-    const currentCard = state.assets.kanji[state.cardEditor.kanji];
+    const currentCard =
+      state.assets.kanji[(state.cardEditor as PopulatedCardEditorState).kanji];
     idDefined = true;
     setAssigned = true;
 
