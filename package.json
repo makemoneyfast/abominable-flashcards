@@ -36,7 +36,7 @@
   "scripts": {
     "test": "jest",
     "test-debug": "node --inspect-brk ./node_modules/jest/bin/jest.js --runInBand",
-    "start": "parcel src/index.html --no-optimize",
+    "start": "parcel src/index.html",
     "build-dev": "parcel build src/index.html --no-optimize",
     "build": "parcel build src/index.html",
     "clean": "rimraf dist"
