@@ -1,150 +1,150 @@
 .card {
-    background-color: #ccc;
-    border: #333 1px solid;
-    position: absolute;
-    margin: 0;
-    padding: 0;
-    display: grid;
-    user-select: none;
+  background-color: #ccc;
+  border: #333 1px solid;
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  user-select: none;
 }
 
 .card.retest {
-    color: #c00;
-    background-color: #fcc;
-    border-color: #c00;
+  color: #c00;
+  background-color: #fcc;
+  border-color: #c00;
 }
 
 .card .status {
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 1vh;
-    text-align: center;
-    z-index: 1;
-    font-size: 2vh;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 1vh;
+  text-align: center;
+  z-index: 1;
+  font-size: 2vh;
 }
 
 .card .question {
-    place-self: center;
+  place-self: center;
 }
 
 .card .answer {
-    place-self: center;
+  place-self: center;
 }
 
 .card .answer .hint {
-    text-align: center;
-    font-style: italic;
-    margin-top: 3vh;
+  text-align: center;
+  font-style: italic;
+  margin-top: 3vh;
 }
 
 .card .answer .meaning {
-    text-align: center;
+  text-align: center;
 }
 
 .card .tags {
-    display: none;
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
+  display: none;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
 
 .card .tags span {
-    display: block;
-    border: #333 1px solid;
-    padding: 0.8vmin;
-    font-size: 2vmin;
+  display: block;
+  border: #333 1px solid;
+  padding: 0.8vmin;
+  font-size: 2vmin;
 }
 
 .card .retestButton {
-    display: block;
-    width: 100%;
-    height: 100%;
-    border: 0;
-    font-size: 5.5vh;
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  font-size: 5.5vh;
 }
 
 @media screen and (orientation: landscape) {
-    .card {
-        height: 100%;
-        left: 0;
-        right: 21.2vmin;
-        grid-template-columns: 50% 50%;
-        grid-template-rows: 90% 10%;
-    }
+  .card {
+    height: 100%;
+    left: 0;
+    right: 19.5vmin;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 90% 10%;
+  }
 
-    .card .answer {
-        padding: 4vw;
-    }
+  .card .answer {
+    padding: 4vw;
+  }
 
-    .card .answer .hint {
-        font-size: 4.3vmin;
-    }
+  .card .answer .hint {
+    font-size: 4.3vmin;
+  }
 
-    .card .answer .hint .subsidiary {
-        font-size: 2.8vmin;
-        line-height: 4vmin;
-        display: inline-block;
-    }
+  .card .answer .hint .subsidiary {
+    font-size: 2.8vmin;
+    line-height: 4vmin;
+    display: inline-block;
+  }
 
-    .card .answer .meaning {
-        font-size: 7.5vmin;
-    }
+  .card .answer .meaning {
+    font-size: 7.5vmin;
+  }
 
-    .card .tags {
-        height: 5.5vmin;
-    }
+  .card .tags {
+    height: 5.5vmin;
+  }
 
-    .card .tags .tag {
-        display: inline-block;
-        border: #333 1px solid;
-        border-radius: 6px;
-        margin: 5px;
-        padding: 5px;
-    }
+  .card .tags .tag {
+    display: inline-block;
+    border: #333 1px solid;
+    border-radius: 6px;
+    margin: 5px;
+    padding: 5px;
+  }
 
-    .card .retestButtonContainer {
-        grid-column: 1 / span 2;
-        grid-row: 2;
-    }
+  .card .retestButtonContainer {
+    grid-column: 1 / span 2;
+    grid-row: 2;
+  }
 }
 
 @media screen and (orientation: portrait) {
-    .card {
-        width: 100%;
-        top: 0;
-        bottom: 10.2vmin;
-        grid-template-columns: 100%;
-        grid-template-rows: 45% 45% 10%;
-    }
+  .card {
+    width: 100%;
+    top: 0;
+    bottom: 8.5vmin;
+    grid-template-columns: 100%;
+    grid-template-rows: 45% 45% 10%;
+  }
 
-    .card .question {
-        font-size: 55vmin;
-        position: relative;
-        top: 17%;
-    }
+  .card .question {
+    font-size: 55vmin;
+    position: relative;
+    top: 17%;
+  }
 
-    .card .answer {
-        padding: 15vw;
-    }
+  .card .answer {
+    padding: 15vw;
+  }
 
-    .card .answer .hint {
-        font-size: 5vmin;
-    }
+  .card .answer .hint {
+    font-size: 5vmin;
+  }
 
-    .card .answer .hint .subsidiary {
-        font-size: 2.8vmin;
-        line-height: 4vmin;
-        display: inline-block;
-    }
+  .card .answer .hint .subsidiary {
+    font-size: 2.8vmin;
+    line-height: 4vmin;
+    display: inline-block;
+  }
 
-    .card .answer .meaning {
-        font-size: 8vmin;
-    }
+  .card .answer .meaning {
+    font-size: 8vmin;
+  }
 
-    .card .retestButtonContainer {
-        grid-column: 1;
-        grid-row: 3;
-    }
+  .card .retestButtonContainer {
+    grid-column: 1;
+    grid-row: 3;
+  }
 }

@@ -257,15 +257,15 @@ class BasicControls extends React.Component<ControlsProps> {
     }
 
     let disabledRestartControls = this.props.canRestart
-      ? [{ caption: "繰り返す" }]
+      ? [{ caption: "再検査" }]
       : [];
     let disabledRetestControls = this.props.canRetest
-      ? [{ caption: "失敗繰り返す" }]
+      ? [{ caption: "失敗再検査" }]
       : [];
     let restartControls = this.props.canRestart
       ? [
           {
-            caption: "繰り返す",
+            caption: "再検査",
             handler: () =>
               this.props.onRestart(
                 this.props.currentSetID,
@@ -275,7 +275,7 @@ class BasicControls extends React.Component<ControlsProps> {
         ]
       : [];
     let retestControls = this.props.canRetest
-      ? [{ caption: "失敗繰り返す", handler: this.props.onStartRetest }]
+      ? [{ caption: "失敗再検査", handler: this.props.onStartRetest }]
       : [];
 
     modeControls = [

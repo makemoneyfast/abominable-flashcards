@@ -1,52 +1,52 @@
 .quiz {
-    padding: 0;
-    margin: 0;
-    width: 100%;
-    height: 100%;
-    justify-content: space-between;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  justify-content: space-between;
 }
 
 .controls {
+  position: absolute;
+  width: 19vmin;
+  height: 100%;
+  right: 0;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: space-between;
+  user-select: none;
+}
+
+.controls hr {
+  flex-grow: 0;
+  width: 100%;
+}
+
+@media screen and (orientation: landscape) {
+  .controls {
     position: absolute;
     width: 19vmin;
     height: 100%;
     right: 0;
     margin: 0;
     padding: 0;
-    display: flex;
+    flex-flow: column;
     justify-content: space-between;
-    user-select: none;
-}
-
-.controls hr {
-    flex-grow: 0;
-    width: 100%;
-}
-
-@media screen and (orientation: landscape) {
-    .controls {
-        position: absolute;
-        width: 19vmin;
-        height: 100%;
-        right: 0;
-        margin: 0;
-        padding: 0;
-        flex-flow: column;
-        justify-content: space-between;
-        gap: 2vmin;
-    }
+    gap: 0.5vmin;
+  }
 }
 
 @media screen and (orientation: portrait) {
-    .controls {
-        position: absolute;
-        width: 100%;
-        height: 8vmin;
-        bottom: 0;
-        margin: 0;
-        padding: 0;
-        flex-flow: row;
-        justify-content: space-between;
-        gap: 2vmin;
-    }
+  .controls {
+    position: absolute;
+    width: 100%;
+    height: 8vmin;
+    bottom: 0;
+    margin: 0;
+    padding: 0;
+    flex-flow: row;
+    justify-content: space-between;
+    gap: 0.5vmin;
+  }
 }

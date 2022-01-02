@@ -95,8 +95,6 @@ class BasicCardEditor extends React.Component<CardEditorProps> {
 
     return (
       <div className="cardEditor">
-        "{this.props.newCard ? "new card" : "existing"}"
-        <br />
         {validatorMessage}
         <div>
           {this.props.newCard ? (
