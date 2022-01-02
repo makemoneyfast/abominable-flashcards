@@ -171,8 +171,26 @@ class BasicCardEditor extends React.Component<CardEditorProps> {
 }
 
 const mapStateToProps: (state: State) => CardEditorProps = (state: State) => {
-  if (state.cardEditor.kanji === "null") {
-    throw new Error("Card editor rendered while card editor state is empty.");
+  if (state.cardEditor.kanji === null) {
+    return {
+      newCard: false,
+      character: "",
+      hint: "",
+      answer: "",
+      kunyomi: "",
+      onyomi: "",
+
+      allTags: [] as any,
+      selectedTags: [] as any,
+      tagSearchText: "",
+
+      linkedSets: [] as any,
+      unlinkedSets: [] as any,
+      idCollision: false,
+      idDefined: true,
+      setAssigned: true,
+      unsavedChanges: false,
+    } as CardEditorProps;
   }
   // Tags
   const allTags = _(state.assets.tags)

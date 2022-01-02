@@ -30,7 +30,7 @@ export type QuizAction =
 
 const initialState: EmptyQuizState = {
   currentQuiz: null,
-  quizMode: null,
+  quizMode: eQuizMode.character,
   cardState: null,
   currentSetID: null,
   currentTagID: null,
@@ -47,8 +47,6 @@ export default function reducer(
     eCardState.answer,
     eCardState.question,
   ];
-  let currentQuizID: string;
-  let shuffledKanji: string[];
 
   if (state === undefined) {
     return Object.assign({}, initialState);
@@ -94,16 +92,10 @@ export default function reducer(
         };
       }
     case CHANGE_QUIZ_MODE:
-      if (state.currentCardIndex !== null) {
-        return {
-          ...state,
-          quizMode: action.payload.mode,
-        };
-      } else {
-        return {
-          ...state,
-        };
-      }
+      return {
+        ...state,
+        quizMode: action.payload.mode,
+      };
     case START_RETEST:
       return {
         ...state,
