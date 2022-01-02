@@ -69,10 +69,6 @@ class BasicLoadPanel extends React.Component<
       //     // Check for load failure here
       //     this.props.onAssetLoad(JSON.parse(rawData));
       // });
-      // loadFromURL("/craaaap.json").then(rawData => {
-      //     // Analyse the attribute data I snuck in
-      //     console.log(analyseAttributes(rawData));
-      // });
     }
   }
 
