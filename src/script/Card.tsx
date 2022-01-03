@@ -19,8 +19,6 @@ import soundURL from "url:./sound.mp3";
 
 // const soundURL = "lol";
 
-console.log("LOL", soundURL);
-
 interface CardPropsFromState {
   currentSetName: string | undefined;
   currentTagName: string | undefined;
