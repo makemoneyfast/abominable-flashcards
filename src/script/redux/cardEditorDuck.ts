@@ -215,7 +215,7 @@ export default function reducer(
         tags: action.payload.slice().sort(),
       } as PopulatedCardEditorState;
     case ADD_SET_TO_CARD_BUFFER:
-      if (state.id === null) {
+      if (state.sets === null) {
         return { ...state };
       } else {
         if (state.sets.indexOf(action.payload) >= 0) {
@@ -228,7 +228,7 @@ export default function reducer(
         }
       }
     case REMOVE_SET_FROM_CARD_BUFFER:
-      if (state.id === null) {
+      if (state.sets === null) {
         return { ...state };
       } else {
         const setIndex = state.sets.indexOf(action.payload);
