@@ -46,6 +46,7 @@ interface CardEditorProps {
   newCardAlreadyExists: boolean;
   linkedSets: { name: string; id: string }[];
   unlinkedSets: { name: string; id: string }[];
+  availableSets: { name: string; id: string; linked: boolean }[];
 
   setAssigned: boolean;
   idDefined: boolean;
@@ -76,11 +77,29 @@ class BasicCardEditor extends React.Component<CardEditorProps> {
         </div>
       ))
       .value();
-    const unlinkedSetControls = _(this.props.unlinkedSets)
+    const availableSets = _(this.props.availableSets)
+      .map((set) => (
+        <div
+          key={set.id}
+          className={
+            set.linked ? "setItem selected clickable" : "setItem clickable"
+          }
+          onClick={() =>
+            set.linked
+              ? this.props.onUnlinkSet(set.id)
+              : this.props.onLinkSet(set.id)
+          }
+        >
+          {set.name} {set.linked && "linked"}
+        </div>
+      ))
+      .value();
+
+    const linkedSets = _(this.props.linkedSets)
       .map((set) => (
         <div key={set.id}>
           {set.name}{" "}
-          <span onClick={() => this.props.onLinkSet(set.id)}> add </span>
+          <span onClick={() => this.props.onUnlinkSet(set.id)}> kill </span>
         </div>
       ))
       .value();
@@ -162,13 +181,12 @@ class BasicCardEditor extends React.Component<CardEditorProps> {
           onTagChange={this.props.onSelectedTagsChange}
         />
         {this.props.newCard ? (
-          <div className="setChooser">
-            <br />
-            Add to: {linkedSetControls}
-            <br />
-            Available sets: {unlinkedSetControls}
-          </div>
+          <div className="setChooser">{linkedSets}</div>
         ) : null}
+        <div>
+          Experiment
+          {availableSets}
+        </div>
       </div>
     );
   }
@@ -194,6 +212,7 @@ const mapStateToProps: (state: State) => CardEditorProps = (state: State) => {
 
       linkedSets: [] as any,
       unlinkedSets: [] as any,
+      availableSets: [] as any,
       idCollision: false,
       idDefined: true,
       setAssigned: true,
@@ -219,6 +238,13 @@ const mapStateToProps: (state: State) => CardEditorProps = (state: State) => {
     (state.cardEditor as PopulatedCardEditorState).sets,
     (a, b) => a.id === b
   );
+  const availableSets = allSets.map((set) => ({
+    name: set.name,
+    id: set.id,
+    linked: (state.cardEditor as PopulatedCardEditorState).sets.includes(
+      set.id
+    ),
+  }));
 
   // Validation
   let setAssigned = false;
@@ -270,6 +296,7 @@ const mapStateToProps: (state: State) => CardEditorProps = (state: State) => {
 
     linkedSets,
     unlinkedSets,
+    availableSets,
     idCollision,
     idDefined,
     setAssigned,
