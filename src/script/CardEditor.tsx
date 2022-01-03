@@ -69,14 +69,6 @@ class BasicCardEditor extends React.Component<CardEditorProps> {
   }
 
   render() {
-    const linkedSetControls = _(this.props.linkedSets)
-      .map((set) => (
-        <div key={set.id}>
-          {set.name}{" "}
-          <span onClick={() => this.props.onUnlinkSet(set.id)}> kill </span>
-        </div>
-      ))
-      .value();
     const availableSets = _(this.props.availableSets)
       .map((set) => (
         <div
@@ -90,16 +82,7 @@ class BasicCardEditor extends React.Component<CardEditorProps> {
               : this.props.onLinkSet(set.id)
           }
         >
-          {set.name} {set.linked && "linked"}
-        </div>
-      ))
-      .value();
-
-    const linkedSets = _(this.props.linkedSets)
-      .map((set) => (
-        <div key={set.id}>
-          {set.name}{" "}
-          <span onClick={() => this.props.onUnlinkSet(set.id)}> kill </span>
+          {set.name}
         </div>
       ))
       .value();
@@ -181,12 +164,8 @@ class BasicCardEditor extends React.Component<CardEditorProps> {
           onTagChange={this.props.onSelectedTagsChange}
         />
         {this.props.newCard ? (
-          <div className="setChooser">{linkedSets}</div>
+          <div className="setChooser">{availableSets}</div>
         ) : null}
-        <div>
-          Experiment
-          {availableSets}
-        </div>
       </div>
     );
   }
