@@ -15,10 +15,6 @@ import _ from "Lodash";
 
 import "./styles/card.less";
 
-import soundURL from "url:./sound.mp3";
-
-// const soundURL = "lol";
-
 interface CardPropsFromState {
   currentSetName: string | undefined;
   currentTagName: string | undefined;
@@ -293,11 +289,18 @@ const BasicCard: React.FunctionComponent<
         cardClasses.push("audio");
       }
 
-      const audio = new Audio(soundURL);
+      const assetPath = `${window.location}audio/${props.audio}.mp3`;
+      const audio = new Audio(assetPath);
       const playAudio = (event: any) => {
         console.log(event);
         event.stopPropagation();
-        audio.play();
+        audio
+          .play()
+          .catch((e) =>
+            console.log(
+              `Failed to play audio at ${assetPath} - asset probably missing or invalid.`
+            )
+          );
         return false;
       };
 
