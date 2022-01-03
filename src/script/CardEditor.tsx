@@ -95,68 +95,63 @@ class BasicCardEditor extends React.Component<CardEditorProps> {
 
     return (
       <div className="cardEditor">
-        {validatorMessage}
-        <div>
-          {this.props.newCard ? (
-            <div>
-              Kanji:
-              <input
-                type="string"
-                value={this.props.character}
-                onChange={this.props.onCharacterChange}
-              />
-              <br />
-              {this.props.newCardAlreadyExists ? (
-                <strong>A card with this text already exists</strong>
-              ) : null}
-            </div>
-          ) : (
-            <div>
-              Character: <strong>{this.props.character}</strong>
-            </div>
-          )}
-          Hint:{" "}
+        <div className="validation">{validatorMessage}</div>
+        <div className="formCaption">Kanji:</div>
+        <div className="formInput">
+          <input
+            type="string"
+            value={this.props.character}
+            onChange={this.props.onCharacterChange}
+            disabled={!this.props.newCard}
+          />
+          <br />
+          {this.props.newCardAlreadyExists ? (
+            <strong>A card with this text already exists</strong>
+          ) : null}
+        </div>
+        <div className="formCaption">Hint:</div>
+        <div className="formInput">
           <input
             type="string"
             value={this.props.hint}
             onChange={this.props.onHintChange}
           />
-          <br />
-          Answer:{" "}
+        </div>
+        <div className="formCaption">Answer:</div>
+        <div className="formInput">
           <input
             type="string"
             value={this.props.answer}
             onChange={this.props.onAnswerChange}
           />
-          <br />
-          Kunyomi:{" "}
+        </div>
+        <div className="formCaption">Kunyomi:</div>
+        <div className="formInput">
           <input
             type="string"
             value={this.props.kunyomi}
             onChange={this.props.onKunyomiChange}
           />
-          <br />
-          Onyomi:{" "}
+        </div>
+        <div className="formCaption">Onyomi:</div>
+        <div className="formInput">
           <input
             type="string"
             value={this.props.onyomi}
             onChange={this.props.onOnyomiChange}
           />
-          <br />
         </div>
-        <div>
-          <TagChooser
-            allTags={this.props.allTags}
-            selectedTags={this.props.selectedTags}
-            searchText={this.props.tagSearchText}
-            allowNewTagCreation={true}
-            onSearchTextChange={this.props.onTagSearchTextChange}
-            onTagSave={this.props.onNewTagSave}
-            onTagChange={this.props.onSelectedTagsChange}
-          />
-        </div>
+        <TagChooser
+          allTags={this.props.allTags}
+          selectedTags={this.props.selectedTags}
+          searchText={this.props.tagSearchText}
+          allowNewTagCreation={true}
+          onSearchTextChange={this.props.onTagSearchTextChange}
+          onTagSave={this.props.onNewTagSave}
+          onTagChange={this.props.onSelectedTagsChange}
+        />
         {this.props.newCard ? (
-          <div>
+          <div className="setChooser">
             <br />
             Add to: {linkedSetControls}
             <br />
@@ -167,6 +162,9 @@ class BasicCardEditor extends React.Component<CardEditorProps> {
     );
   }
 }
+/*
+
+*/
 
 const mapStateToProps: (state: State) => CardEditorProps = (state: State) => {
   if (state.cardEditor.kanji === null) {
