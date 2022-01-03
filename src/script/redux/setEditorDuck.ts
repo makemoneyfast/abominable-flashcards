@@ -1,9 +1,7 @@
 import { Action, UnhandledAction } from "./Action";
-import { State, SetEditorState, AppMode } from "../common";
-import { createShuffledArray } from "./utility";
+import { SetEditorState, PopulatedSetEditorState, EmptySetEditorState } from "../common";
 import { ChangeAppStateAction, CHANGE_APP_STATE } from "./appDuck";
-import { DataAvailableAction, DATA_AVAILABLE } from "./loaderDuck";
-import * as _ from "Lodash";
+import _ from "Lodash";
 
 // Actions
 export const EDIT_NOMINATED_SET = "MorningThunder/setEditor/EDIT_NOMINATED_SET";
@@ -16,7 +14,7 @@ export const SAVE_NEW_SET = "MorningThunder/setEditor/SAVE_NEW_SET";
 export const SAVE_EXISTING_SET = "MorningThunder/setEditor/SAVE_EXISTING_SET";
 export const END_SET_EDIT = "MorningThunder/setEditor/END_SET_EDIT";
 
-type QuizAction =
+export type SetEditorAction =
     | UnhandledAction
     | ChangeAppStateAction
     | EditNominatedSetAction
@@ -27,7 +25,7 @@ type QuizAction =
 
 const initialState: SetEditorState = {
     // This is effectively the edit buffer.
-    newSet: false,
+    newSet: null,
     id: null,
     name: null,
     kanji: null,
@@ -36,7 +34,7 @@ const initialState: SetEditorState = {
 // Reducer
 export default function reducer(
     state: SetEditorState,
-    action: QuizAction
+    action: SetEditorAction
 ): SetEditorState {
     if (state === undefined) {
         return Object.assign({}, initialState);
@@ -48,7 +46,7 @@ export default function reducer(
                 return {
                     ...state,
                     modeOnExit: action.payload.previousMode
-                };
+                } as PopulatedSetEditorState;
             } else {
                 return state;
             }
@@ -59,7 +57,7 @@ export default function reducer(
                 id: null,
                 name: "",
                 kanji: []
-            };
+            } as PopulatedSetEditorState;
         case EDIT_NOMINATED_SET:
             return {
                 ...state,
@@ -67,24 +65,28 @@ export default function reducer(
                 id: action.payload.id,
                 name: action.payload.name,
                 kanji: action.payload.kanji
-            };
+            } as PopulatedSetEditorState;
         case END_SET_EDIT:
             return {
                 ...state,
-                newSet: false
-            };
+                newSet: null,
+                id: null,
+                name: null,
+                kanji: null,
+                modeOnExit: null,
+            } as EmptySetEditorState;
         case UPDATE_SET_BUFFER_NAME:
             return {
                 ...state,
                 name: action.payload
-            };
+            } as PopulatedSetEditorState;
         case REMOVE_KANJI_FROM_SET_BUFFER:
             return {
                 ...state,
                 kanji: _(state.kanji)
                     .without(action.payload)
                     .value()
-            };
+            } as PopulatedSetEditorState;
         default:
             return state;
     }
@@ -93,7 +95,7 @@ export default function reducer(
 // Action Creators
 
 export interface SetEditBuffer {
-    id: string;
+    id: string | undefined;
     kanji: string[];
     name: string;
 }
@@ -138,25 +140,29 @@ export function removeKanjiFromSetBuffer(
 
 export type SaveExistingSetAction = Action<
     "MorningThunder/setEditor/SAVE_EXISTING_SET",
-    SetEditBuffer
+    { id: string, name: string, kanji: string[] }
 >;
 
-export function saveExistingSet(edits: SetEditBuffer): SaveExistingSetAction {
+export function saveExistingSet(id: string, name: string, kanji: string[]): SaveExistingSetAction {
     return {
         type: SAVE_EXISTING_SET,
-        payload: edits
+        payload: {
+            id, name, kanji
+        }
     };
 }
 
 export type SaveNewSetAction = Action<
     "MorningThunder/setEditor/SAVE_NEW_SET",
-    SetEditBuffer
+    { name: string, kanji: string[] }
 >;
 
-export function saveNewSet(newSet: SetEditBuffer): SaveNewSetAction {
+export function saveNewSet(name: string, kanji: string[]): SaveNewSetAction {
     return {
         type: SAVE_NEW_SET,
-        payload: newSet
+        payload: {
+            name, kanji
+        }
     };
 }
 
