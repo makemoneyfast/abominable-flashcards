@@ -9,7 +9,7 @@ import { State, eCardState, eQuizMode, KanjiAsset } from "./common";
 import { flipCard } from "./redux/quizDuck";
 import RetestButton from "./RetestButton";
 
-import { computeFontSize } from "./utils";
+import { computeFontSize, mapToKatakana } from "./utils";
 
 import _ from "Lodash";
 
@@ -33,6 +33,7 @@ interface CardPropsFromState {
   meaning: string;
   kunyomi: string;
   onyomi: string;
+  audio: string;
 
   retest: boolean;
   cardState: eCardState;
@@ -91,6 +92,7 @@ const mapStateToProps: (state: State) => CardPropsFromState = (
           meaning: currentCard.meaning,
           kunyomi: currentCard.kunyomi,
           onyomi: currentCard.onyomi,
+          audio: currentCard.audio,
 
           retest: currentCard.retest,
           cardState: state.quiz.cardState,
@@ -102,6 +104,7 @@ const mapStateToProps: (state: State) => CardPropsFromState = (
           meaning: "",
           kunyomi: "",
           onyomi: "",
+          audio: "",
 
           retest: false,
           cardState: state.quiz.cardState,
@@ -128,93 +131,6 @@ const BasicCard: React.FunctionComponent<
   let questionLanguage: string;
   let vocabularyType: " character" | " compound";
   let answerLanguage: string;
-  let mapToKatakana = (hiragana: string) => {
-    return hiragana
-      .split("")
-      .map(
-        (character) =>
-          ({
-            あ: "ア",
-            い: "イ",
-            う: "ウ",
-            え: "エ",
-            お: "オ",
-            は: "ハ",
-            ひ: "ヒ",
-            ふ: "フ",
-            へ: "ヘ",
-            ほ: "ホ",
-            か: "カ",
-            き: "キ",
-            く: "ク",
-            け: "ケ",
-            こ: "コ",
-            さ: "サ",
-            し: "シ",
-            す: "ス",
-            せ: "セ",
-            そ: "ソ",
-            た: "タ",
-            ち: "チ",
-            つ: "ツ",
-            て: "テ",
-            と: "ト",
-            ら: "ラ",
-            り: "リ",
-            る: "ル",
-            れ: "レ",
-            ろ: "ロ",
-            ま: "マ",
-            み: "ミ",
-            む: "ム",
-            め: "メ",
-            も: "モ",
-            な: "ナ",
-            に: "ニ",
-            ぬ: "ヌ",
-            ね: "ネ",
-            の: "ノ",
-            や: "ヤ",
-            ゆ: "ユ",
-            よ: "ヨ",
-            わ: "ワ",
-            を: "ヲ",
-            ん: "ン",
-            が: "ガ",
-            ぎ: "ギ",
-            ぐ: "グ",
-            げ: "ゲ",
-            ご: "ゴ",
-            だ: "ダ",
-            ぢ: "ヂ",
-            づ: "ヅ",
-            で: "デ",
-            ど: "ド",
-            ざ: "ザ",
-            じ: "ジ",
-            ず: "ズ",
-            ぜ: "ゼ",
-            ぞ: "ゾ",
-            ば: "バ",
-            び: "ビ",
-            ぶ: "ブ",
-            べ: "ベ",
-            ぼ: "ボ",
-            ぱ: "パ",
-            ぴ: "ピ",
-            ぷ: "プ",
-            ぺ: "ペ",
-            ぽ: "ポ",
-            ゃ: "ャ",
-            ゅ: "ュ",
-            ょ: "ョ",
-            っ: "ッ",
-            " ": " ",
-            "　": "　",
-          }[character])
-      )
-      .join("");
-  };
 
   switch (props.quizType) {
     case eQuizMode.character:
@@ -369,6 +285,14 @@ const BasicCard: React.FunctionComponent<
         );
       }
 
+      const cardClasses = ["card", "answer-mode"];
+      if (props.retest) {
+        cardClasses.push("retest");
+      }
+      if (props.audio !== "" && props.audio !== undefined) {
+        cardClasses.push("audio");
+      }
+
       const audio = new Audio(soundURL);
       const playAudio = (event: any) => {
         console.log(event);
@@ -376,18 +300,15 @@ const BasicCard: React.FunctionComponent<
         audio.play();
         return false;
       };
+
       return (
-        <div
-          className={
-            props.retest ? "card answer-mode retest" : "card answer-mode"
-          }
-          onClick={flipHandler}
-        >
+        <div className={cardClasses.join(" ")} onClick={flipHandler}>
           <div className="status japanese">{statusMessage}</div>
+          {props.audio && <div className="audioIndicator">耳</div>}
           <div
             className={"question" + questionLanguage + vocabularyType}
             style={style}
-            onClick={playAudio}
+            onClick={props.audio !== "" ? playAudio : () => undefined}
           >
             {question}
           </div>
