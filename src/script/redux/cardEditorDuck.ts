@@ -27,6 +27,8 @@ const UPDATE_CARD_BUFFER_KUNYOMI =
   "MorningThunder/cardEditor/UPDATE_CARD_BUFFER_KUNYOMI";
 const UPDATE_CARD_BUFFER_ONYOMI =
   "MorningThunder/cardEditor/UPDATE_CARD_BUFFER_ONYOMI";
+const UPDATE_CARD_BUFFER_AUDIO =
+  "MorningThunder/cardEditor/UPDATE_CARD_BUFFER_AUDIO";
 export const SAVE_NEW_CARD = "MorningThunder/cardEditor/SAVE_NEW_CARD";
 export const SAVE_EXISTING_CARD =
   "MorningThunder/cardEditor/SAVE_EXISTING_CARD";
@@ -55,6 +57,7 @@ export type CardEditorAction =
   | UpdateBufferNewTagAction
   | UpdateBufferKunyomiAction
   | UpdateBufferOnyomiAction
+  | UpdateBufferAudioAction
   | SaveNewTagAction
   | ChangeCardBufferTagsAction
   | RemoveTagFromBufferAction
@@ -73,6 +76,7 @@ const initialState: EmptyCardEditorState = {
   hint: null,
   kunyomi: null,
   onyomi: null,
+  audio: null,
   tags: null,
   sets: null,
   tagSearchText: null,
@@ -118,6 +122,7 @@ export default function reducer(
         meaning: "",
         kunyomi: "",
         onyomi: "",
+        audio: "",
         tags: [],
         sets: [],
         tagSearchText: "",
@@ -132,6 +137,7 @@ export default function reducer(
         meaning: action.payload.buffer.meaning,
         kunyomi: action.payload.buffer.kunyomi,
         onyomi: action.payload.buffer.onyomi,
+        audio: action.payload.buffer.audio,
         tags: action.payload.buffer.tags,
         tagSearchText: "",
       } as PopulatedCardEditorState;
@@ -163,6 +169,11 @@ export default function reducer(
       return {
         ...state,
         onyomi: action.payload,
+      } as PopulatedCardEditorState;
+    case UPDATE_CARD_BUFFER_AUDIO:
+      return {
+        ...state,
+        audio: action.payload,
       } as PopulatedCardEditorState;
     case UPDATE_CARD_BUFFER_NOTES:
       return {
@@ -250,6 +261,7 @@ export interface CardEditBuffer {
   meaning: string;
   kunyomi: string;
   onyomi: string;
+  audio: string;
   tags: string[];
   sets: string[];
 }
@@ -406,6 +418,15 @@ export function updateCardBufferOnyomi(
   onyomi: string
 ): UpdateBufferOnyomiAction {
   return { type: UPDATE_CARD_BUFFER_ONYOMI, payload: onyomi };
+}
+
+type UpdateBufferAudioAction = Action<
+  "MorningThunder/cardEditor/UPDATE_CARD_BUFFER_AUDIO",
+  string
+>;
+
+export function updateCardBufferAudio(audio: string): UpdateBufferAudioAction {
+  return { type: UPDATE_CARD_BUFFER_AUDIO, payload: audio };
 }
 
 export type RemoveTagFromBufferAction = Action<

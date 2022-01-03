@@ -27,7 +27,7 @@ export interface KanjiAsset {
   kunyomi: string;
   tags: string[]; // radicals. Maybe separate tag list for themes?
   retest: boolean; // Not defined in data but added on import.
-  audio?: string;
+  audio: string;
 }
 
 export interface TagAsset {
@@ -116,6 +116,7 @@ export interface PopulatedCardEditorState {
   meaning: string;
   kunyomi: string;
   onyomi: string;
+  audio: string;
   tags: string[];
   sets: string[];
   tagSearchText: string;
@@ -132,6 +133,7 @@ export interface EmptyCardEditorState {
   meaning: null;
   kunyomi: null;
   onyomi: null;
+  audio: null;
   tags: null;
   sets: null;
   tagSearchText: null;

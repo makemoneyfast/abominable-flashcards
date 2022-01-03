@@ -14,6 +14,7 @@ import {
   updateCardBufferHint,
   updateCardBufferAnswer,
   updateCardBufferNewTag,
+  updateCardBufferAudio,
   changeCardBufferTags,
   addSetToCardBuffer,
   removeSetFromCardBuffer,
@@ -32,6 +33,7 @@ interface CardEditorProps {
   answer: string;
   kunyomi: string;
   onyomi: string;
+  audio: string;
 
   allTags: { name: string; id: string }[];
   selectedTags: string[];
@@ -55,6 +57,7 @@ interface CardEditorProps {
   onAnswerChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onKunyomiChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onOnyomiChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onAudioChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onLinkSet: (setID: string) => void;
   onUnlinkSet: (setID: string) => void;
 }
@@ -141,6 +144,14 @@ class BasicCardEditor extends React.Component<CardEditorProps> {
             onChange={this.props.onOnyomiChange}
           />
         </div>
+        <div className="formCaption">Audio:</div>
+        <div className="formInput">
+          <input
+            type="string"
+            value={this.props.audio}
+            onChange={this.props.onAudioChange}
+          />
+        </div>
         <TagChooser
           allTags={this.props.allTags}
           selectedTags={this.props.selectedTags}
@@ -175,6 +186,7 @@ const mapStateToProps: (state: State) => CardEditorProps = (state: State) => {
       answer: "",
       kunyomi: "",
       onyomi: "",
+      audio: "",
 
       allTags: [] as any,
       selectedTags: [] as any,
@@ -225,6 +237,7 @@ const mapStateToProps: (state: State) => CardEditorProps = (state: State) => {
       state.cardEditor.meaning !== "" ||
       state.cardEditor.kunyomi !== "" ||
       state.cardEditor.onyomi !== "" ||
+      state.cardEditor.audio !== "" ||
       state.cardEditor.tags.length !== 0; /// O MY GOD HAVE TO FIX THIS OM
   } else {
     const currentCard =
@@ -237,6 +250,7 @@ const mapStateToProps: (state: State) => CardEditorProps = (state: State) => {
       state.cardEditor.meaning !== currentCard.meaning ||
       state.cardEditor.kunyomi !== currentCard.kunyomi ||
       state.cardEditor.onyomi !== currentCard.onyomi ||
+      state.cardEditor.audio !== currentCard.audio ||
       state.cardEditor.tags.toString() !==
         (currentCard.tags ? currentCard.tags.toString() : "");
   }
@@ -248,6 +262,7 @@ const mapStateToProps: (state: State) => CardEditorProps = (state: State) => {
     answer: state.cardEditor.meaning,
     kunyomi: state.cardEditor.kunyomi,
     onyomi: state.cardEditor.onyomi,
+    audio: state.cardEditor.audio,
 
     allTags: allTags,
     selectedTags: state.cardEditor.tags,
@@ -280,6 +295,9 @@ const mapDispatchToProps: (
     },
     onOnyomiChange: (event: React.ChangeEvent<HTMLInputElement>) => {
       dispatch(updateCardBufferOnyomi(event.target.value));
+    },
+    onAudioChange: (event: React.ChangeEvent<HTMLInputElement>) => {
+      dispatch(updateCardBufferAudio(event.target.value));
     },
     onTagSearchTextChange: (newTagSearchText: string) => {
       dispatch(updateCardBufferNewTag(newTagSearchText));

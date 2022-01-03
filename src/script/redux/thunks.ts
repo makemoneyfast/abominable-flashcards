@@ -113,7 +113,7 @@ export function thunkAttemptToLoadFromJSON(
                 kunyomi: "",
                 tags: [],
                 retest: false,
-                audio: null,
+                audio: "",
               },
               asset
             )
@@ -273,6 +273,7 @@ export function thunkEditNominatedCard(id: string, modeOnExit: AppMode) {
           meaning: kanji.meaning,
           kunyomi: kanji.kunyomi,
           onyomi: kanji.onyomi,
+          audio: kanji.audio,
           tags: kanji.tags ? kanji.tags : [],
           sets: [],
         })
@@ -347,6 +348,7 @@ export function thunkSaveCardBufferContentsAndExit() {
           meaning: state.cardEditor.meaning,
           kunyomi: state.cardEditor.kunyomi,
           onyomi: state.cardEditor.onyomi,
+          audio: state.cardEditor.audio,
           tags: state.cardEditor.tags,
           sets: state.cardEditor.sets,
         })
@@ -364,6 +366,7 @@ export function thunkSaveCardBufferContentsAndExit() {
             meaning: state.cardEditor.meaning,
             kunyomi: state.cardEditor.kunyomi,
             onyomi: state.cardEditor.onyomi,
+            audio: state.cardEditor.audio,
             tags: state.cardEditor.tags,
             sets: state.cardEditor.sets,
           })
