@@ -279,46 +279,38 @@ class BasicControls extends React.Component<ControlsProps> {
       ? [{ caption: "失敗再検査", handler: this.props.onStartRetest }]
       : [];
 
-    modeControls = [
-      {
-        caption: "意味",
-        handler: () => this.props.onChangeQuizMode(eQuizMode.character),
-      },
-      {
-        caption: "書き方",
-        handler: () => this.props.onChangeQuizMode(eQuizMode.meaning),
-      },
-      {
-        caption: "訓読み",
-        handler: () => this.props.onChangeQuizMode(eQuizMode.kunyomi),
-      },
-      {
-        caption: "音読み",
-        handler: () => this.props.onChangeQuizMode(eQuizMode.onyomi),
-      },
-    ];
-    disabledModeControls = [
-      { caption: "意味" },
-      { caption: "書き方" },
-      { caption: "訓読み" },
-      { caption: "音読み" },
-    ];
     switch (this.props.quizMode) {
-      case eQuizMode.character:
-        modeControls.splice(0, 1);
-        disabledModeControls.splice(0, 1);
+      case eQuizMode.onyomi:
+        modeControls = [
+          {
+            caption: "音読み",
+            handler: () => this.props.onChangeQuizMode(eQuizMode.meaning),
+          },
+        ];
         break;
       case eQuizMode.meaning:
-        modeControls.splice(1, 1);
-        disabledModeControls.splice(1, 1);
+        modeControls = [
+          {
+            caption: "意味",
+            handler: () => this.props.onChangeQuizMode(eQuizMode.character),
+          },
+        ];
+        break;
+      case eQuizMode.character:
+        modeControls = [
+          {
+            caption: "書き方",
+            handler: () => this.props.onChangeQuizMode(eQuizMode.kunyomi),
+          },
+        ];
         break;
       case eQuizMode.kunyomi:
-        modeControls.splice(2, 1);
-        disabledModeControls.splice(2, 1);
-        break;
-      case eQuizMode.onyomi:
-        modeControls.splice(3, 1);
-        disabledModeControls.splice(3, 1);
+        modeControls = [
+          {
+            caption: "訓読み",
+            handler: () => this.props.onChangeQuizMode(eQuizMode.onyomi),
+          },
+        ];
         break;
     }
 
