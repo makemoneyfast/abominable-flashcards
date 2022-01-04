@@ -67,21 +67,30 @@ class BasicCardEditor extends React.Component<CardEditorProps> {
 
   render() {
     const availableSets = _(this.props.availableSets)
-      .map((set) => (
-        <div
-          key={set.id}
-          className={
-            set.linked ? "setItem selected clickable" : "setItem clickable"
-          }
-          onClick={() =>
-            this.props.newCard
-              ? this.props.onSetLinkChange(set.id, !set.linked)
-              : undefined
-          }
-        >
-          {set.name}
-        </div>
-      ))
+      .map((set) => {
+        const classNames = ["setItem"];
+        if (set.linked) {
+          classNames.push("selected");
+        }
+        if (!this.props.newCard) {
+          classNames.push("disabled");
+        } else {
+          classNames.push("clickable");
+        }
+        return (
+          <div
+            key={set.id}
+            className={classNames.join(" ")}
+            onClick={() =>
+              this.props.newCard
+                ? this.props.onSetLinkChange(set.id, !set.linked)
+                : undefined
+            }
+          >
+            {set.name}
+          </div>
+        );
+      })
       .value();
 
     let validatorMessage: string | null = null;
@@ -151,6 +160,7 @@ class BasicCardEditor extends React.Component<CardEditorProps> {
             onChange={this.props.onAudioChange}
           />
         </div>
+        <div className="setChooser">{availableSets}</div>
         <TagChooser
           allTags={this.props.allTags}
           selectedTags={this.props.selectedTags}
@@ -160,7 +170,6 @@ class BasicCardEditor extends React.Component<CardEditorProps> {
           onTagSave={this.props.onNewTagSave}
           onTagChange={this.props.onSelectedTagsChange}
         />
-        <div className="setChooser">{availableSets}</div>
       </div>
     );
   }
@@ -198,7 +207,6 @@ const mapStateToProps: (state: State) => CardEditorProps = (state: State) => {
 
   const availableSets = _(state.assets.sets)
     .map((set) => {
-      console.log("hello", set.kanji);
       return {
         name: set.name,
         id: set.id,
