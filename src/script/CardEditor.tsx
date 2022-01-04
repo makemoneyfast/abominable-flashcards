@@ -44,8 +44,7 @@ interface CardEditorProps {
   onSelectedTagsChange: (selectedTags: string[]) => void;
 
   newCardAlreadyExists: boolean;
-  linkedSets: { name: string; id: string }[];
-  unlinkedSets: { name: string; id: string }[];
+  availableSets: { name: string; id: string; linked: boolean }[];
 
   setAssigned: boolean;
   idDefined: boolean;
@@ -58,8 +57,7 @@ interface CardEditorProps {
   onKunyomiChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onOnyomiChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onAudioChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  onLinkSet: (setID: string) => void;
-  onUnlinkSet: (setID: string) => void;
+  onSetLinkChange: (setID: string, link: boolean) => void;
 }
 
 class BasicCardEditor extends React.Component<CardEditorProps> {
@@ -68,21 +66,31 @@ class BasicCardEditor extends React.Component<CardEditorProps> {
   }
 
   render() {
-    const linkedSetControls = _(this.props.linkedSets)
-      .map((set) => (
-        <div key={set.id}>
-          {set.name}{" "}
-          <span onClick={() => this.props.onUnlinkSet(set.id)}> kill </span>
-        </div>
-      ))
-      .value();
-    const unlinkedSetControls = _(this.props.unlinkedSets)
-      .map((set) => (
-        <div key={set.id}>
-          {set.name}{" "}
-          <span onClick={() => this.props.onLinkSet(set.id)}> add </span>
-        </div>
-      ))
+    const availableSets = _(this.props.availableSets)
+      .map((set) => {
+        const classNames = ["setItem"];
+        if (set.linked) {
+          classNames.push("selected");
+        }
+        if (!this.props.newCard) {
+          classNames.push("disabled");
+        } else {
+          classNames.push("clickable");
+        }
+        return (
+          <div
+            key={set.id}
+            className={classNames.join(" ")}
+            onClick={() =>
+              this.props.newCard
+                ? this.props.onSetLinkChange(set.id, !set.linked)
+                : undefined
+            }
+          >
+            {set.name}
+          </div>
+        );
+      })
       .value();
 
     let validatorMessage: string | null = null;
@@ -152,6 +160,7 @@ class BasicCardEditor extends React.Component<CardEditorProps> {
             onChange={this.props.onAudioChange}
           />
         </div>
+        <div className="setChooser">{availableSets}</div>
         <TagChooser
           allTags={this.props.allTags}
           selectedTags={this.props.selectedTags}
@@ -161,14 +170,6 @@ class BasicCardEditor extends React.Component<CardEditorProps> {
           onTagSave={this.props.onNewTagSave}
           onTagChange={this.props.onSelectedTagsChange}
         />
-        {this.props.newCard ? (
-          <div className="setChooser">
-            <br />
-            Add to: {linkedSetControls}
-            <br />
-            Available sets: {unlinkedSetControls}
-          </div>
-        ) : null}
       </div>
     );
   }
@@ -192,8 +193,7 @@ const mapStateToProps: (state: State) => CardEditorProps = (state: State) => {
       selectedTags: [] as any,
       tagSearchText: "",
 
-      linkedSets: [] as any,
-      unlinkedSets: [] as any,
+      availableSets: [] as any,
       idCollision: false,
       idDefined: true,
       setAssigned: true,
@@ -205,20 +205,17 @@ const mapStateToProps: (state: State) => CardEditorProps = (state: State) => {
     .map((tag) => ({ id: tag.id, name: tag.name }))
     .value();
 
-  // Sets
-  const allSets = _(state.assets.sets)
-    .map((set) => ({ name: set.name, id: set.id }))
+  const availableSets = _(state.assets.sets)
+    .map((set) => {
+      return {
+        name: set.name,
+        id: set.id,
+        linked: set.kanji.includes(
+          (state.cardEditor as PopulatedCardEditorState).kanji
+        ),
+      };
+    })
     .value();
-  const unlinkedSets = _.differenceWith(
-    allSets,
-    (state.cardEditor as PopulatedCardEditorState).sets,
-    (a, b) => a.id === b
-  );
-  const linkedSets = _.intersectionWith(
-    allSets,
-    (state.cardEditor as PopulatedCardEditorState).sets,
-    (a, b) => a.id === b
-  );
 
   // Validation
   let setAssigned = false;
@@ -229,7 +226,8 @@ const mapStateToProps: (state: State) => CardEditorProps = (state: State) => {
   if (state.cardEditor.newCard) {
     idDefined = state.cardEditor.kanji !== "";
     idCollision = state.assets.kanji[state.cardEditor.kanji] !== undefined;
-    setAssigned = linkedSets.length > 0;
+    setAssigned =
+      (state.cardEditor as PopulatedCardEditorState).sets.length > 0;
 
     unsavedChanges =
       state.cardEditor.kanji !== "" ||
@@ -268,8 +266,7 @@ const mapStateToProps: (state: State) => CardEditorProps = (state: State) => {
     selectedTags: state.cardEditor.tags,
     tagSearchText: state.cardEditor.tagSearchText,
 
-    linkedSets,
-    unlinkedSets,
+    availableSets,
     idCollision,
     idDefined,
     setAssigned,
@@ -308,9 +305,12 @@ const mapDispatchToProps: (
     onSelectedTagsChange: (updatedTags: string[]) => {
       dispatch(changeCardBufferTags(updatedTags));
     },
-    onLinkSet: (setID: string) => dispatch(addSetToCardBuffer(setID)),
-    onUnlinkSet: (setID: string) => {
-      dispatch(removeSetFromCardBuffer(setID));
+    onSetLinkChange: (setID: string, link: boolean) => {
+      if (link) {
+        dispatch(addSetToCardBuffer(setID));
+      } else {
+        dispatch(removeSetFromCardBuffer(setID));
+      }
     },
   };
 };

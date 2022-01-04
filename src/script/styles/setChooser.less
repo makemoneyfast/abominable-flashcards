@@ -1,10 +1,23 @@
 .setItem {
-    display: inline-block;
-    border: #333 1px solid;
-    margin: 5px;
-    padding: 3px;
+  display: inline-block;
+  border: #333 1px solid;
+  margin: 5px 5px 0 0;
+  padding: 3px 8px;
+  border-radius: 8px;
+  user-select: none;
 }
 
-.setItem .clickable {
-    cursor: pointer;
+.setItem.disabled {
+  color: #666;
+  border: #999 1px solid;
+}
+
+.setItem.disabled.selected {
+  color: #fff;
+  background-color: #333;
+  border: #333 1px solid;
+}
+
+.setItem.clickable {
+  cursor: pointer;
 }
