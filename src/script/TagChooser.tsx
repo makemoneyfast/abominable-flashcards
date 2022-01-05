@@ -49,7 +49,7 @@ class TagChooser extends React.Component<TagChooserProps> {
         <div
           key={tag.id}
           id={tag.id}
-          className="tagItem"
+          className="tagItem selected"
           onClick={() => onRemoveTag(tag.id)}
         >
           {tag.name}
@@ -90,16 +90,16 @@ class TagChooser extends React.Component<TagChooserProps> {
 
     return (
       <div className="tagChooser">
-        <div className="selectedTags">Tag: {selectedTagControls}</div>
-        <div className="tagSearch">
-          Search for tags:{" "}
+        <div className="selectedTags">{selectedTagControls}</div>
+        <div className="formCaption">Search:</div>
+        <div className="formInput">
           <input
             type="string"
             value={this.props.searchText}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               this.props.onSearchTextChange(e.target.value);
             }}
-          />
+          />{" "}
           {canCreateTag ? (
             <input
               type="button"
