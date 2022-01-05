@@ -109,31 +109,25 @@ interface CardManagerProps {
 const BasicCardManager: React.FunctionComponent<CardManagerProps> = (
   props: CardManagerProps
 ) => {
-  const cardStyle: React.CSSProperties = {
-    display: "inline-block",
-    padding: "3px",
-    margin: "1px",
-    border: "#666 1px solid",
-  };
-
   const onIncludeTagSearchChange = (newText: string) => {};
   const onIncludeTagChange = (newTags: string[]) => {};
   const noop = () => {};
 
   const cards = props.visibleCards.map((card) => {
     const className =
-      props.selectedCards.indexOf(card.id) >= 0 ? "selected" : "";
+      props.selectedCards.indexOf(card.id) >= 0
+        ? "matchItem selected"
+        : "matchItem";
     return (
       <span
         key={card.id}
-        style={cardStyle}
         onClick={() => props.onKanjiSelectToggle(card.id)}
         className={className}
       >
         <strong>{card.kanji}</strong> <em>{card.meaning}</em>{" "}
         <input
           type="button"
-          value="edit"
+          value="編集"
           onClick={(e: React.MouseEvent<HTMLInputElement>) => {
             e.stopPropagation();
             props.onKanjiEdit(card.id);
@@ -141,7 +135,7 @@ const BasicCardManager: React.FunctionComponent<CardManagerProps> = (
         />
         <input
           type="button"
-          value="delete"
+          value="削除"
           onClick={(e: React.MouseEvent<HTMLInputElement>) => {
             e.stopPropagation();
             props.onKanjiDelete(card.id);
