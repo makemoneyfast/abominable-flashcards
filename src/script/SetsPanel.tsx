@@ -25,7 +25,7 @@ const BasicSetsPanel: React.FunctionComponent<SetsPanelProps> = (
     if (set.kanji.length > 0) {
       if (set.id === props.currentSet) {
         quizSelectButtons.push(
-          <div className="set active" key={set.id}>
+          <div className="set selected" key={set.id}>
             {set.name} <strong>{set.kanji.length}</strong>
           </div>
         );
