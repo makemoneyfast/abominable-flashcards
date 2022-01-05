@@ -5,78 +5,43 @@ import _ from "Lodash";
 import "./styles/setChooser.less";
 
 interface SetChooserProps {
-    allSets: { name: string; id: string }[];
-    selectedSets: string[];
+  allSets: { name: string; id: string }[];
+  selectedSets: string[];
 
-    onSetChange: (sets: string[]) => void;
+  onSetChange: (sets: string[]) => void;
 }
 
 class SetChooser extends React.Component<SetChooserProps> {
-    constructor(props: SetChooserProps) {
-        super(props);
-    }
+  constructor(props: SetChooserProps) {
+    super(props);
+  }
 
-    render() {
-        const allSetIDs = this.props.allSets.map(set => set.id);
-        const unselectedSets = _(allSetIDs)
-            .without(...this.props.selectedSets)
-            .value();
-        const setsByID = _(this.props.allSets)
-            .keyBy(set => set.id)
-            .value();
+  render() {
+    const combinedSetControls = this.props.allSets.map((set) => {
+      const selected = this.props.selectedSets.includes(set.id);
+      const classNames = ["setItem", "clickable"];
+      if (selected) {
+        classNames.push("selected");
+      }
+      return (
+        <div
+          key={set.id}
+          className={classNames.join(" ")}
+          onClick={() => {
+            const updatedSelectedItems = selected
+              ? this.props.selectedSets.filter(
+                  (selectedSetID) => selectedSetID !== set.id
+                )
+              : [...this.props.selectedSets, set.id];
+            this.props.onSetChange(updatedSelectedItems);
+          }}
+        >
+          {set.name}
+        </div>
+      );
+    });
 
-        const linkedSetControls = this.props.selectedSets.map(
-            (setID, index) => {
-                const set = setsByID[setID];
-                return (
-                    <div key={set.id} className="setItem">
-                        {set.name}{" "}
-                        <span
-                            onClick={() =>
-                                this.props.onSetChange(
-                                    this.props.selectedSets
-                                        .slice(0, index)
-                                        .concat(
-                                            this.props.selectedSets.slice(
-                                                index + 1
-                                            )
-                                        )
-                                )
-                            }
-                            className="clickable">
-                            {" "}
-                            kill{" "}
-                        </span>
-                    </div>
-                );
-            }
-        );
-
-        const unlinkedSetControls = unselectedSets.map((setID, index) => {
-            const set = setsByID[setID];
-            return (
-                <div key={set.id} className="setItem">
-                    {set.name}{" "}
-                    <span
-                        onClick={() =>
-                            this.props.onSetChange(
-                                this.props.selectedSets.concat(setID).sort()
-                            )
-                        }
-                        className="clickable">
-                        {" "}
-                        add{" "}
-                    </span>
-                </div>
-            );
-        });
-
-        return (
-            <div className="setChooser">
-                <div>Sets: {linkedSetControls}</div>
-                <div>{unlinkedSetControls}</div>
-            </div>
-        );
-    }
+    return <div className="setChooser">{combinedSetControls}</div>;
+  }
 }
 export default SetChooser;

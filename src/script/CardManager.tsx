@@ -211,8 +211,6 @@ const BasicCardManager: React.FunctionComponent<CardManagerProps> = (
           }}
           onTagSave={noop}
         />
-        <br />
-        Contained in these sets:
         <SetChooser
           allSets={props.allSets}
           selectedSets={props.setsToInclude}
@@ -283,8 +281,6 @@ const BasicCardManager: React.FunctionComponent<CardManagerProps> = (
           }}
           onTagSave={noop}
         />
-        <br />
-        Contained in these sets:
         <SetChooser
           allSets={props.allSets}
           selectedSets={props.setsToExclude}
