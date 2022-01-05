@@ -4,6 +4,22 @@
   position: absolute;
   margin: 0;
   padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 2vh 1fr 2vh 1fr 2vh 1fr;
+}
+
+.cardManager .sectionTitle {
+  grid-column: 1 / span 2;
+}
+
+.cardManager .cardMatches {
+  grid-column: 1 / span 2;
+}
+
+.filterIn,
+.filterOut {
+  overflow: auto;
 }
 
 .cardManager .filterOptions {
@@ -74,7 +90,7 @@
   bottom: 0;
 }
 
-.cardManager .cards {
+.cardManager .cardMatches {
   position: absolute;
   left: 0;
   right: 0;
