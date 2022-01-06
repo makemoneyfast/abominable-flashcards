@@ -68,13 +68,10 @@ interface CardManagerProps {
   tagsToExclude: string[];
   setsToExclude: string[];
 
-  addTagToSelectedSearchText: string;
-  tagsToAddToSelected: string[];
+  tagsSelectedForModifySearchText: string;
+  tagsSelectedForModify: string[];
   setsSelectedForModify: string[];
   setOperationForModify: "add" | "remove";
-
-  removeTagFromSelectedSearchText: string;
-  tagsToRemoveFromSelected: string[];
 
   onToggleFilterSelected: (mode: FilterMode) => void;
   onChangeFilterMatchText: (test: string, mode: FilterMode) => void;
@@ -87,7 +84,7 @@ interface CardManagerProps {
   onFilterTagsChange: (newTags: string[], mode: FilterMode) => void;
   onFilterSetsChange: (newSets: string[], mode: FilterMode) => void;
 
-  onTagToModifyOnSelectedSearchTextChange: (
+  onTagToModifySearchTextChange: (
     searchText: string,
     mode: SelectionEditMode
   ) => void;
@@ -293,33 +290,16 @@ const BasicCardManager: React.FunctionComponent<CardManagerProps> = (
       </div>
       <div className="tagModification">
         <div className="tagsOnSelection">
-          Add tag to all
-          <br />
           <TagChooser
             allTags={props.allTags}
-            selectedTags={props.tagsToAddToSelected}
-            searchText={props.addTagToSelectedSearchText}
+            selectedTags={props.tagsSelectedForModify}
+            searchText={props.tagsSelectedForModifySearchText}
             allowNewTagCreation={true}
             onSearchTextChange={(newText: string) => {
-              props.onTagToModifyOnSelectedSearchTextChange(newText, "add");
+              props.onTagToModifySearchTextChange(newText, "add");
             }}
             onTagChange={(newTags: string[]) => {
               props.onTagsToModifyOnSelectedChange(newTags, "add");
-            }}
-            onTagSave={(newTag: string) => props.onSaveNewTag(newTag)}
-          />
-          Remove tag from all
-          <br />
-          <TagChooser
-            allTags={props.allTags}
-            selectedTags={props.tagsToRemoveFromSelected}
-            searchText={props.removeTagFromSelectedSearchText}
-            allowNewTagCreation={true}
-            onSearchTextChange={(newText: string) => {
-              props.onTagToModifyOnSelectedSearchTextChange(newText, "remove");
-            }}
-            onTagChange={(newTags: string[]) => {
-              props.onTagsToModifyOnSelectedChange(newTags, "remove");
             }}
             onTagSave={(newTag: string) => props.onSaveNewTag(newTag)}
           />
@@ -404,13 +384,11 @@ const mapStateToProps: (state: State) => CardManagerProps = (state: State) => {
     tagsToExclude: state.cardManager.tagsForExclude,
     setsToExclude: state.cardManager.setsForExclude,
 
-    addTagToSelectedSearchText: state.cardManager.tagsToAddSearchText,
-    tagsToAddToSelected: state.cardManager.tagsToAdd,
+    tagsSelectedForModifySearchText:
+      state.cardManager.tagsForModificationSearchText,
+    tagsSelectedForModify: state.cardManager.tagsSelectedForModification,
     setsSelectedForModify: state.cardManager.setsSelectedForModification,
     setOperationForModify: state.cardManager.setModificationOperation,
-
-    removeTagFromSelectedSearchText: state.cardManager.tagsToRemoveSearchText,
-    tagsToRemoveFromSelected: state.cardManager.tagsToRemove,
   } as CardManagerProps;
 };
 
@@ -442,10 +420,10 @@ const mapDispatchToProps: (
     onFilterSetsChange: (newSets: string[], mode: FilterMode) =>
       dispatch(changeSetsToMatch(newSets, mode)),
 
-    onTagToModifyOnSelectedSearchTextChange: (
+    onTagToModifySearchTextChange: (
       searchText: string,
       mode: SelectionEditMode
-    ) => dispatch(changeTagsToModifyOnSelectedSearchText(searchText, mode)),
+    ) => dispatch(changeTagsToModifyOnSelectedSearchText(searchText)),
     onTagsToModifyOnSelectedChange: (tags: string[], mode: SelectionEditMode) =>
       dispatch(changeTagsToModifyOnSelected(tags, mode)),
     onSetsSelectedForModifyChange: (sets: string[]) =>

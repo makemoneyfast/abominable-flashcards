@@ -80,10 +80,9 @@ const initialState: CardManagerState = {
 
   setsSelectedForModification: [],
   setModificationOperation: "add",
-  tagsToAdd: [],
-  tagsToRemove: [],
-  tagsToAddSearchText: "",
-  tagsToRemoveSearchText: "",
+  tagsSelectedForModification: [],
+  tagsForModificationSearchText: "",
+  tagModificationOperation: "add",
 };
 // Reducer
 export default function reducer(
@@ -234,29 +233,15 @@ export default function reducer(
         };
       }
     case CHANGE_TAGS_TO_MODIFY_ON_SELECTED_SEARCH_TEXT:
-      if (action.payload.mode === "add") {
-        return {
-          ...state,
-          tagsToAddSearchText: action.payload.searchText,
-        };
-      } else {
-        return {
-          ...state,
-          tagsToRemoveSearchText: action.payload.searchText,
-        };
-      }
+      return {
+        ...state,
+        tagsForModificationSearchText: action.payload.searchText,
+      };
     case CHANGE_TAGS_TO_MODIFY_ON_SELECTED:
-      if (action.payload.mode === "add") {
-        return {
-          ...state,
-          tagsToAdd: action.payload.tags,
-        };
-      } else {
-        return {
-          ...state,
-          tagsToRemove: action.payload.tags,
-        };
-      }
+      return {
+        ...state,
+        tagsSelectedForModification: action.payload.tags,
+      };
     case CHANGE_SETS_TO_MODIFY_ON_SELECTED:
       return {
         ...state,
@@ -434,22 +419,21 @@ export function changeSetsToMatch(
 
 type ChangeTagsToModifyOnSelectedSearchTextAction = Action<
   "MorningThunder/cardManager/CHANGE_TAGS_TO_MODIFY_ON_SELECTED_SEARCH_TEXT",
-  { mode: SelectionEditMode; searchText: string }
+  { searchText: string }
 >;
 
 export function changeTagsToModifyOnSelectedSearchText(
-  searchText: string,
-  mode: SelectionEditMode
+  searchText: string
 ): ChangeTagsToModifyOnSelectedSearchTextAction {
   return {
     type: CHANGE_TAGS_TO_MODIFY_ON_SELECTED_SEARCH_TEXT,
-    payload: { mode, searchText },
+    payload: { searchText },
   };
 }
 
 type ChangeTagsToModifyOnSelectedAction = Action<
   "MorningThunder/cardManager/CHANGE_TAGS_TO_MODIFY_ON_SELECTED",
-  { mode: SelectionEditMode; tags: string[] }
+  { tags: string[] }
 >;
 
 export function changeTagsToModifyOnSelected(
@@ -458,7 +442,7 @@ export function changeTagsToModifyOnSelected(
 ): ChangeTagsToModifyOnSelectedAction {
   return {
     type: CHANGE_TAGS_TO_MODIFY_ON_SELECTED,
-    payload: { mode, tags },
+    payload: { tags },
   };
 }
 
@@ -496,8 +480,8 @@ export type ApplyChangesToFilteredAction = Action<
     cardIDs: string[];
     selectedSets: string[];
     setOperation: "add" | "remove";
-    tagsToAdd: string[];
-    tagsToRemove: string[];
+    selectedTags: string[];
+    tagOperation: "add" | "remove";
   }
 >;
 
@@ -505,8 +489,8 @@ export function applyChangesToFiltered(
   cardIDs: string[],
   selectedSets: string[],
   setOperation: "add" | "remove",
-  tagsToAdd: string[],
-  tagsToRemove: string[]
+  selectedTags: string[],
+  tagOperation: "add" | "remove"
 ): ApplyChangesToFilteredAction {
   return {
     type: APPLY_CHANGES_TO_FILTERED,
@@ -514,8 +498,8 @@ export function applyChangesToFiltered(
       cardIDs,
       selectedSets,
       setOperation,
-      tagsToAdd,
-      tagsToRemove,
+      selectedTags,
+      tagOperation,
     },
   };
 }

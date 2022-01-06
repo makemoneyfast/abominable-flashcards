@@ -184,8 +184,7 @@ export interface CardManagerState {
   // Selection edit properties
   setsSelectedForModification: string[];
   setModificationOperation: "add" | "remove";
-  tagsToAdd: string[];
-  tagsToRemove: string[];
-  tagsToAddSearchText: string;
-  tagsToRemoveSearchText: string;
+  tagsSelectedForModification: string[];
+  tagsForModificationSearchText: string;
+  tagModificationOperation: "add" | "remove";
 }

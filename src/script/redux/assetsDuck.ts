@@ -246,19 +246,19 @@ export default function reducer(
         /// hoooookay
         const newState: AssetsState = { ...state };
         if (
-          action.payload.tagsToAdd.length > 0 ||
-          action.payload.tagsToRemove.length > 0
+          action.payload.selectedTags.length > 0 ||
+          action.payload.tagOperation.length > 0
         ) {
           newState.kanji = { ...state.kanji };
           for (let cardID of action.payload.cardIDs) {
             const updatedKanji = { ...state.kanji[cardID] };
 
-            for (let tag of action.payload.tagsToAdd) {
+            for (let tag of action.payload.selectedTags) {
               if (updatedKanji.tags.indexOf(tag) < 0)
                 updatedKanji.tags = updatedKanji.tags.concat(tag);
             }
 
-            for (let tag of action.payload.tagsToRemove) {
+            for (let tag of action.payload.tagOperation) {
               const tagIndex = updatedKanji.tags.indexOf(tag);
               if (tagIndex >= 0) {
                 updatedKanji.tags = updatedKanji.tags
