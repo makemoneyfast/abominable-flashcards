@@ -26,6 +26,7 @@ const CHANGE_TAGS_TO_MODIFY_ON_SELECTED_SEARCH_TEXT =
   "MorningThunder/cardManager/CHANGE_TAGS_TO_MODIFY_ON_SELECTED_SEARCH_TEXT";
 const CHANGE_TAGS_TO_MODIFY_ON_SELECTED =
   "MorningThunder/cardManager/CHANGE_TAGS_TO_MODIFY_ON_SELECTED";
+const CHANGE_TAG_OPERATION = "MorningThunder/cardManager/CHANGE_TAG_OPERATION";
 export const APPLY_CHANGES_TO_FILTERED =
   "MorningThunder/cardManager/APPLY_CHANGES_TO_FILTERED";
 const RESET_FILTER_PARAMETERS =
@@ -46,6 +47,7 @@ export type CardManagerAction =
   | ChangeSetsToMatchAction
   | ChangeTagsToModifyOnSelectedSearchTextAction
   | ChangeTagsToModifyOnSelectedAction
+  | ChangeTagOperationAction
   | ChangeSetsToModifyOnSelectedAction
   | ChangeSetOperationAction
   | DeleteCardAction
@@ -241,6 +243,11 @@ export default function reducer(
       return {
         ...state,
         tagsSelectedForModification: action.payload.tags,
+      };
+    case CHANGE_TAG_OPERATION:
+      return {
+        ...state,
+        tagModificationOperation: action.payload.operation,
       };
     case CHANGE_SETS_TO_MODIFY_ON_SELECTED:
       return {
@@ -443,6 +450,20 @@ export function changeTagsToModifyOnSelected(
   return {
     type: CHANGE_TAGS_TO_MODIFY_ON_SELECTED,
     payload: { tags },
+  };
+}
+
+type ChangeTagOperationAction = Action<
+  "MorningThunder/cardManager/CHANGE_TAG_OPERATION",
+  { operation: "add" | "remove" }
+>;
+
+export function changeTagOperation(
+  operation: "add" | "remove"
+): ChangeTagOperationAction {
+  return {
+    type: CHANGE_TAG_OPERATION,
+    payload: { operation },
   };
 }
 

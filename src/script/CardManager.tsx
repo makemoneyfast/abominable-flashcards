@@ -18,10 +18,10 @@ import {
   changeTagsToMatch,
   changeSetsToMatch,
   changeSetsToModifyOnSelected,
+  changeSetOperation,
   changeTagsToModifyOnSelected,
   changeTagsToModifyOnSelectedSearchText,
-  applyChangesToFiltered,
-  changeSetOperation,
+  changeTagOperation,
 } from "./redux/cardManagerDuck";
 import { toggleCardSelection } from "./redux/cardManagerDuck";
 import {
@@ -72,6 +72,7 @@ interface CardManagerProps {
   tagsSelectedForModify: string[];
   setsSelectedForModify: string[];
   setOperationForModify: "add" | "remove";
+  tagOperationForModify: "add" | "remove";
 
   onToggleFilterSelected: (mode: FilterMode) => void;
   onChangeFilterMatchText: (test: string, mode: FilterMode) => void;
@@ -88,12 +89,10 @@ interface CardManagerProps {
     searchText: string,
     mode: SelectionEditMode
   ) => void;
-  onTagsToModifyOnSelectedChange: (
-    tags: string[],
-    mode: SelectionEditMode
-  ) => void;
+  onTagsToModifyChange: (tags: string[], mode: SelectionEditMode) => void;
+  onTagOperationChange: (operation: "add" | "remove") => void;
   onSetsSelectedForModifyChange: (sets: string[]) => void;
-  onSetOperationToApplyChange: (operation: "add" | "remove") => void;
+  onSetOperationChange: (operation: "add" | "remove") => void;
   onSaveNewTag: (newTag: string) => void;
   onApplyChangesToFiltered: () => void;
 
@@ -289,21 +288,35 @@ const BasicCardManager: React.FunctionComponent<CardManagerProps> = (
         Modify
       </div>
       <div className="tagModification">
-        <div className="tagsOnSelection">
-          <TagChooser
-            allTags={props.allTags}
-            selectedTags={props.tagsSelectedForModify}
-            searchText={props.tagsSelectedForModifySearchText}
-            allowNewTagCreation={true}
-            onSearchTextChange={(newText: string) => {
-              props.onTagToModifySearchTextChange(newText, "add");
-            }}
-            onTagChange={(newTags: string[]) => {
-              props.onTagsToModifyOnSelectedChange(newTags, "add");
-            }}
-            onTagSave={(newTag: string) => props.onSaveNewTag(newTag)}
-          />
+        <div className="modificationMode">
+          <input
+            type="button"
+            value="add"
+            className={props.tagOperationForModify === "add" ? "selected" : ""}
+            onClick={() => props.onTagOperationChange("add")}
+          ></input>
+          <input
+            type="button"
+            className={
+              props.tagOperationForModify === "remove" ? "selected" : ""
+            }
+            value="remove"
+            onClick={() => props.onTagOperationChange("remove")}
+          ></input>
         </div>
+        <TagChooser
+          allTags={props.allTags}
+          selectedTags={props.tagsSelectedForModify}
+          searchText={props.tagsSelectedForModifySearchText}
+          allowNewTagCreation={true}
+          onSearchTextChange={(newText: string) => {
+            props.onTagToModifySearchTextChange(newText, "add");
+          }}
+          onTagChange={(newTags: string[]) => {
+            props.onTagsToModifyChange(newTags, "add");
+          }}
+          onTagSave={(newTag: string) => props.onSaveNewTag(newTag)}
+        />
       </div>
       <div className="setModification">
         <div className="modificationMode">
@@ -311,7 +324,7 @@ const BasicCardManager: React.FunctionComponent<CardManagerProps> = (
             type="button"
             value="add"
             className={props.setOperationForModify === "add" ? "selected" : ""}
-            onClick={() => props.onSetOperationToApplyChange("add")}
+            onClick={() => props.onSetOperationChange("add")}
           ></input>
           <input
             type="button"
@@ -319,7 +332,7 @@ const BasicCardManager: React.FunctionComponent<CardManagerProps> = (
               props.setOperationForModify === "remove" ? "selected" : ""
             }
             value="remove"
-            onClick={() => props.onSetOperationToApplyChange("remove")}
+            onClick={() => props.onSetOperationChange("remove")}
           ></input>
         </div>
         <SetChooser
@@ -387,6 +400,7 @@ const mapStateToProps: (state: State) => CardManagerProps = (state: State) => {
     tagsSelectedForModifySearchText:
       state.cardManager.tagsForModificationSearchText,
     tagsSelectedForModify: state.cardManager.tagsSelectedForModification,
+    tagOperationForModify: state.cardManager.tagModificationOperation,
     setsSelectedForModify: state.cardManager.setsSelectedForModification,
     setOperationForModify: state.cardManager.setModificationOperation,
   } as CardManagerProps;
@@ -424,14 +438,16 @@ const mapDispatchToProps: (
       searchText: string,
       mode: SelectionEditMode
     ) => dispatch(changeTagsToModifyOnSelectedSearchText(searchText)),
-    onTagsToModifyOnSelectedChange: (tags: string[], mode: SelectionEditMode) =>
+    onTagsToModifyChange: (tags: string[], mode: SelectionEditMode) =>
       dispatch(changeTagsToModifyOnSelected(tags, mode)),
     onSetsSelectedForModifyChange: (sets: string[]) =>
       dispatch(changeSetsToModifyOnSelected(sets)),
-    onSetOperationToApplyChange: (operation: "add" | "remove") =>
+    onSetOperationChange: (operation: "add" | "remove") =>
       dispatch(changeSetOperation(operation)),
     onSaveNewTag: (newTag: string) =>
       dispatch(thunkSaveNewTagAndFlush(newTag) as any),
+    onTagOperationChange: (operation: "add" | "remove") =>
+      dispatch(changeTagOperation(operation)),
     onApplyChangesToFiltered: () =>
       dispatch(thunkApplyChangesToFilteredAndFlush() as any),
   };
