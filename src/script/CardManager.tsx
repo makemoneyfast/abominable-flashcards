@@ -292,7 +292,7 @@ const BasicCardManager: React.FunctionComponent<CardManagerProps> = (
       <div className="sectionTitle" data-name="modify">
         Modify
       </div>
-      <div className="selectionEditing">
+      <div className="tagModification">
         <div className="tagsOnSelection">
           Add tag to all
           <br />
@@ -325,6 +325,8 @@ const BasicCardManager: React.FunctionComponent<CardManagerProps> = (
             onTagSave={(newTag: string) => props.onSaveNewTag(newTag)}
           />
         </div>
+      </div>
+      <div className="setModification">
         <div className="setsOnSelection">
           Add all to set:
           <br />
