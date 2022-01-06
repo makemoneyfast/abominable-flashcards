@@ -21,6 +21,7 @@ import {
   changeTagsToModifyOnSelected,
   changeTagsToModifyOnSelectedSearchText,
   applyChangesToFiltered,
+  changeSetOperation,
 } from "./redux/cardManagerDuck";
 import { toggleCardSelection } from "./redux/cardManagerDuck";
 import {
@@ -69,11 +70,11 @@ interface CardManagerProps {
 
   addTagToSelectedSearchText: string;
   tagsToAddToSelected: string[];
-  setsToAddToSelected: string[];
+  setsSelectedForModify: string[];
+  setOperationForModify: "add" | "remove";
 
   removeTagFromSelectedSearchText: string;
   tagsToRemoveFromSelected: string[];
-  setsToRemoveFromSelected: string[];
 
   onToggleFilterSelected: (mode: FilterMode) => void;
   onChangeFilterMatchText: (test: string, mode: FilterMode) => void;
@@ -94,10 +95,8 @@ interface CardManagerProps {
     tags: string[],
     mode: SelectionEditMode
   ) => void;
-  onSetsToModifyOnSelectedChange: (
-    sets: string[],
-    mode: SelectionEditMode
-  ) => void;
+  onSetsSelectedForModifyChange: (sets: string[]) => void;
+  onSetOperationToApplyChange: (operation: "add" | "remove") => void;
   onSaveNewTag: (newTag: string) => void;
   onApplyChangesToFiltered: () => void;
 
@@ -327,33 +326,36 @@ const BasicCardManager: React.FunctionComponent<CardManagerProps> = (
         </div>
       </div>
       <div className="setModification">
-        <div className="setsOnSelection">
-          Add all to set:
-          <br />
-          <SetChooser
-            allSets={props.allSets}
-            selectedSets={props.setsToAddToSelected}
-            onSetChange={(newSets: string[]) => {
-              props.onSetsToModifyOnSelectedChange(newSets, "add");
-            }}
-          />
-          Remove all from set:
-          <br />
-          <SetChooser
-            allSets={props.allSets}
-            selectedSets={props.setsToRemoveFromSelected}
-            onSetChange={(newSets: string[]) => {
-              props.onSetsToModifyOnSelectedChange(newSets, "remove");
-            }}
-          />
-        </div>
-        <div className="selectionEditingControls">
+        <div className="modificationMode">
           <input
             type="button"
-            value="Apply"
-            onClick={props.onApplyChangesToFiltered}
-          />
+            value="add"
+            className={props.setOperationForModify === "add" ? "selected" : ""}
+            onClick={() => props.onSetOperationToApplyChange("add")}
+          ></input>
+          <input
+            type="button"
+            className={
+              props.setOperationForModify === "remove" ? "selected" : ""
+            }
+            value="remove"
+            onClick={() => props.onSetOperationToApplyChange("remove")}
+          ></input>
         </div>
+        <SetChooser
+          allSets={props.allSets}
+          selectedSets={props.setsSelectedForModify}
+          onSetChange={(newSets: string[]) => {
+            props.onSetsSelectedForModifyChange(newSets);
+          }}
+        />
+      </div>
+      <div className="modificationControls">
+        <input
+          type="button"
+          value="Apply"
+          onClick={props.onApplyChangesToFiltered}
+        />
       </div>
       <div className="sectionTitle" data-name="matches">
         Matches
@@ -404,11 +406,11 @@ const mapStateToProps: (state: State) => CardManagerProps = (state: State) => {
 
     addTagToSelectedSearchText: state.cardManager.tagsToAddSearchText,
     tagsToAddToSelected: state.cardManager.tagsToAdd,
-    setsToAddToSelected: state.cardManager.setsToAdd,
+    setsSelectedForModify: state.cardManager.setsSelectedForModification,
+    setOperationForModify: state.cardManager.setModificationOperation,
 
     removeTagFromSelectedSearchText: state.cardManager.tagsToRemoveSearchText,
     tagsToRemoveFromSelected: state.cardManager.tagsToRemove,
-    setsToRemoveFromSelected: state.cardManager.setsToRemove,
   } as CardManagerProps;
 };
 
@@ -446,8 +448,10 @@ const mapDispatchToProps: (
     ) => dispatch(changeTagsToModifyOnSelectedSearchText(searchText, mode)),
     onTagsToModifyOnSelectedChange: (tags: string[], mode: SelectionEditMode) =>
       dispatch(changeTagsToModifyOnSelected(tags, mode)),
-    onSetsToModifyOnSelectedChange: (sets: string[], mode: SelectionEditMode) =>
-      dispatch(changeSetsToModifyOnSelected(sets, mode)),
+    onSetsSelectedForModifyChange: (sets: string[]) =>
+      dispatch(changeSetsToModifyOnSelected(sets)),
+    onSetOperationToApplyChange: (operation: "add" | "remove") =>
+      dispatch(changeSetOperation(operation)),
     onSaveNewTag: (newTag: string) =>
       dispatch(thunkSaveNewTagAndFlush(newTag) as any),
     onApplyChangesToFiltered: () =>
