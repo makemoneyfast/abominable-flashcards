@@ -6,7 +6,7 @@
   padding: 0;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: 3vh 1fr 3vh 1fr 2vh 3vh 1fr;
+  grid-template-rows: 3vh 1fr 3vh 1fr 3vh 1fr 10%;
 }
 
 .cardManager .sectionTitle[data-name="modify"],
@@ -14,11 +14,9 @@
   grid-column: 1 / span 2;
 }
 
-.cardManager .selectionEditing {
-  grid-column: 1 / span 2;
-}
-
-.cardManager .cardMatches {
+.cardManager .selectionEditing,
+.cardManager .cardMatches,
+.cardManager .modificationControls {
   grid-column: 1 / span 2;
 }
 
@@ -99,6 +97,15 @@
   border-color: #333;
   margin: 0.4vh 0px;
   padding: 3px 6px 3px 4px;
+}
+
+.modificationControls input {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  font-size: 5.5vh;
+  cursor: pointer;
 }
 
 @media screen and (orientation: landscape) {

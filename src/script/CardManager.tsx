@@ -268,17 +268,18 @@ const BasicCardManager: React.FunctionComponent<CardManagerProps> = (
           }}
         />
       </div>
-      <div className="modificationControls">
-        <input
-          type="button"
-          value="Apply"
-          onClick={props.onApplyChangesToFiltered}
-        />
-      </div>
       <div className="sectionTitle" data-name="matches">
         Matches
       </div>
       <div className="cardMatches">{cards}</div>
+      <div className="modificationControls">
+        <input
+          type="button"
+          className="japanese"
+          value="実行"
+          onClick={props.onApplyChangesToFiltered}
+        />
+      </div>
     </div>
   );
 };
