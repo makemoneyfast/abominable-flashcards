@@ -1,3 +1,25 @@
+.tagChooser {
+  display: grid;
+  grid-template-rows: min-content 3vh 1fr;
+  grid-template-columns: 12vh 1fr;
+}
+
+.tagChooser.standalone {
+  display: grid;
+  grid-template-rows: min-content 3vh 1fr;
+  grid-template-columns: 1fr;
+}
+
+.tagChooser .selectedTags,
+.tagChooser .matchedTags {
+  grid-column: 1 / span 2;
+  overflow: auto;
+}
+
+.tagChooser.standalone .formInput [type="text"] {
+  width: 8vh;
+}
+
 .tagItem {
   display: inline-block;
   border: #333 1px solid;
@@ -17,16 +39,5 @@
   background-color: #333;
   border-color: #333;
   color: #c90;
-}
-
-.tagChooser {
-  display: grid;
-  grid-template-rows: 4vh 3vh 1fr;
-  grid-template-columns: 12vh 1fr;
-}
-
-.tagChooser .selectedTags,
-.tagChooser .matchedTags {
-  grid-column: 1 / span 2;
-  overflow: auto;
+  margin: 0.4vh 0.4vh 0.4vh 0;
 }

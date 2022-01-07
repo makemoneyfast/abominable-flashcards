@@ -156,7 +156,7 @@ const BasicCardManager: React.FunctionComponent<CardManagerProps> = (
         <br />
         Find{" "}
         <input
-          type="string"
+          type="text"
           value={props.includeTextToMatch}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
             props.onChangeFilterMatchText(event.target.value, "include");
@@ -199,6 +199,7 @@ const BasicCardManager: React.FunctionComponent<CardManagerProps> = (
           selectedTags={props.tagsToInclude}
           searchText={props.includeTagSearchText}
           allowNewTagCreation={false}
+          standalone={true}
           onSearchTextChange={(newText: string) => {
             props.onTagSearchChange(newText, "include");
           }}
@@ -225,7 +226,7 @@ const BasicCardManager: React.FunctionComponent<CardManagerProps> = (
         <br />
         Find{" "}
         <input
-          type="string"
+          type="text"
           value={props.excludeTextToMatch}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
             props.onChangeFilterMatchText(event.target.value, "exclude");
@@ -268,6 +269,7 @@ const BasicCardManager: React.FunctionComponent<CardManagerProps> = (
           selectedTags={props.tagsToExclude}
           searchText={props.excludeTagSearchText}
           allowNewTagCreation={false}
+          standalone={true}
           onSearchTextChange={(newText: string) => {
             props.onTagSearchChange(newText, "exclude");
           }}
@@ -309,6 +311,7 @@ const BasicCardManager: React.FunctionComponent<CardManagerProps> = (
           selectedTags={props.tagsSelectedForModify}
           searchText={props.tagsSelectedForModifySearchText}
           allowNewTagCreation={true}
+          standalone={true}
           onSearchTextChange={(newText: string) => {
             props.onTagToModifySearchTextChange(newText, "add");
           }}

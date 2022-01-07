@@ -110,7 +110,7 @@ class BasicCardEditor extends React.Component<CardEditorProps> {
         <div className="formCaption">Kanji:</div>
         <div className="formInput">
           <input
-            type="string"
+            type="text"
             value={this.props.character}
             onChange={this.props.onCharacterChange}
             disabled={!this.props.newCard}
@@ -123,7 +123,7 @@ class BasicCardEditor extends React.Component<CardEditorProps> {
         <div className="formCaption">Hint:</div>
         <div className="formInput">
           <input
-            type="string"
+            type="text"
             value={this.props.hint}
             onChange={this.props.onHintChange}
           />
@@ -131,7 +131,7 @@ class BasicCardEditor extends React.Component<CardEditorProps> {
         <div className="formCaption">Answer:</div>
         <div className="formInput">
           <input
-            type="string"
+            type="text"
             value={this.props.answer}
             onChange={this.props.onAnswerChange}
           />
@@ -139,7 +139,7 @@ class BasicCardEditor extends React.Component<CardEditorProps> {
         <div className="formCaption">Kunyomi:</div>
         <div className="formInput">
           <input
-            type="string"
+            type="text"
             value={this.props.kunyomi}
             onChange={this.props.onKunyomiChange}
           />
@@ -147,7 +147,7 @@ class BasicCardEditor extends React.Component<CardEditorProps> {
         <div className="formCaption">Onyomi:</div>
         <div className="formInput">
           <input
-            type="string"
+            type="text"
             value={this.props.onyomi}
             onChange={this.props.onOnyomiChange}
           />
@@ -155,7 +155,7 @@ class BasicCardEditor extends React.Component<CardEditorProps> {
         <div className="formCaption">Audio:</div>
         <div className="formInput">
           <input
-            type="string"
+            type="text"
             value={this.props.audio}
             onChange={this.props.onAudioChange}
           />
@@ -165,10 +165,11 @@ class BasicCardEditor extends React.Component<CardEditorProps> {
           allTags={this.props.allTags}
           selectedTags={this.props.selectedTags}
           searchText={this.props.tagSearchText}
-          allowNewTagCreation={true}
           onSearchTextChange={this.props.onTagSearchTextChange}
           onTagSave={this.props.onNewTagSave}
           onTagChange={this.props.onSelectedTagsChange}
+          allowNewTagCreation={true}
+          standalone={false}
         />
       </div>
     );
