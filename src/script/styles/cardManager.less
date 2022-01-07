@@ -6,7 +6,7 @@
   padding: 0;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: 2vh 1fr 2vh 1fr 2vh 2vh 1fr;
+  grid-template-rows: 3vh 1fr 3vh 1fr 2vh 3vh 1fr;
 }
 
 .cardManager .sectionTitle[data-name="modify"],
@@ -22,23 +22,32 @@
   grid-column: 1 / span 2;
 }
 
+.cardManager .sectionTitle {
+  font-size: 2vh;
+  margin: 0.4vh;
+}
+
 .filterIn,
 .filterOut,
 .tagModification,
 .setModification {
   overflow: auto;
+  padding: 0.3vmin;
 }
 
 .cardManager .filterOptions {
   overflow: auto;
+  padding: 0.3vmin;
 }
 
 .cardManager .selectionEditing {
   overflow: auto;
+  padding: 0.3vmin;
 }
 
 .cardManager .cardMatches {
   overflow: auto;
+  padding: 0.3vmin;
 
   .matchItem {
     display: inline-block;
