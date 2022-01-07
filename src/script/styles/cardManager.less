@@ -4,89 +4,108 @@
   position: absolute;
   margin: 0;
   padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 3vh 1fr 3vh 1fr 3vh 1fr 10%;
+}
+
+.cardManager .sectionTitle[data-name="modify"],
+.cardManager .sectionTitle[data-name="matches"] {
+  grid-column: 1 / span 2;
+}
+
+.cardManager .selectionEditing,
+.cardManager .cardMatches,
+.cardManager .modificationControls {
+  grid-column: 1 / span 2;
+}
+
+.cardManager .sectionTitle {
+  font-size: 2vh;
+  margin: 0.4vh;
+}
+
+.filterIn,
+.filterOut,
+.tagModification,
+.setModification {
+  overflow: auto;
+  padding: 0.3vmin;
 }
 
 .cardManager .filterOptions {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  height: 30%;
   overflow: auto;
-}
-
-.cardManager .filterOptions .filterIn {
-  position: absolute;
-  left: 0;
-  right: 50%;
-  top: 0;
-  bottom: 0;
-}
-
-.cardManager .filterOptions .filterOut {
-  position: absolute;
-  left: 50%;
-  right: 0;
-  top: 0;
-  bottom: 0;
+  padding: 0.3vmin;
 }
 
 .cardManager .selectionEditing {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 30%;
-  height: 35%;
   overflow: auto;
+  padding: 0.3vmin;
 }
 
-.cardManager .selectionEditing h3 {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  height: 20%;
-  margin: 0;
-  padding: 0;
-}
-
-.cardManager .selectionEditing .tagsOnSelection {
-  position: absolute;
-  left: 0;
-  right: 50%;
-  top: 20%;
-  bottom: 20%;
-}
-
-.cardManager .selectionEditing .setsOnSelection {
-  position: absolute;
-  left: 50%;
-  right: 0;
-  top: 20%;
-  bottom: 20%;
-}
-
-.cardManager .selectionEditing .selectionEditingControls {
-  position: absolute;
-  left: 0;
-  right: 0;
-  height: 20%;
-  bottom: 0;
-}
-
-.cardManager .cards {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 35%;
+.cardManager .cardMatches {
   overflow: auto;
+  padding: 0.3vmin;
+
+  .matchItem {
+    display: inline-block;
+    padding: 1px 5px;
+    margin: 1px;
+    border: 1px solid rgb(102, 102, 102);
+    border-radius: 10px;
+    user-select: none;
+    cursor: pointer;
+
+    input {
+      border-radius: 15px;
+      border: 0;
+      padding: 0 4px;
+      margin: 0 0 1px 2px;
+      cursor: pointer;
+    }
+
+    input:hover {
+      color: #000;
+      background-color: #fff;
+    }
+  }
+
+  .matchItem.selected {
+    background-color: #333;
+    border-color: #333;
+    color: #c90;
+  }
 }
 
 .selected {
   background-color: #333;
   border-color: #333;
   color: #c90;
+}
+
+.cardManager .add {
+  border-radius: 9px 0 0 9px;
+  border-width: 1px;
+  border-color: #333;
+  margin: 0.4vh 0px;
+  padding: 3px 4px 3px 6px;
+}
+
+.cardManager .remove {
+  border-radius: 0 9px 9px 0;
+  border-width: 1px;
+  border-color: #333;
+  margin: 0.4vh 0px;
+  padding: 3px 6px 3px 4px;
+}
+
+.modificationControls input {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  font-size: 5.5vh;
+  cursor: pointer;
 }
 
 @media screen and (orientation: landscape) {

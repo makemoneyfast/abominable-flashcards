@@ -246,19 +246,19 @@ export default function reducer(
         /// hoooookay
         const newState: AssetsState = { ...state };
         if (
-          action.payload.tagsToAdd.length > 0 ||
-          action.payload.tagsToRemove.length > 0
+          action.payload.selectedTags.length > 0 ||
+          action.payload.tagOperation.length > 0
         ) {
           newState.kanji = { ...state.kanji };
           for (let cardID of action.payload.cardIDs) {
             const updatedKanji = { ...state.kanji[cardID] };
 
-            for (let tag of action.payload.tagsToAdd) {
+            for (let tag of action.payload.selectedTags) {
               if (updatedKanji.tags.indexOf(tag) < 0)
                 updatedKanji.tags = updatedKanji.tags.concat(tag);
             }
 
-            for (let tag of action.payload.tagsToRemove) {
+            for (let tag of action.payload.tagOperation) {
               const tagIndex = updatedKanji.tags.indexOf(tag);
               if (tagIndex >= 0) {
                 updatedKanji.tags = updatedKanji.tags
@@ -270,44 +270,43 @@ export default function reducer(
             newState.kanji[updatedKanji.character] = updatedKanji;
           }
         }
-        if (
-          action.payload.setsToAdd.length > 0 ||
-          action.payload.setsToRemove.length > 0
-        ) {
+        if (action.payload.selectedSets.length > 0) {
           newState.sets = { ...state.sets };
-          for (let setID of action.payload.setsToAdd) {
-            // clone stuff
-            const updatedSet = { ...newState.sets[setID] };
-            updatedSet.kanji = updatedSet.kanji.slice();
+          if (action.payload.setOperation === "add") {
+            for (let setID of action.payload.selectedSets) {
+              // clone stuff
+              const updatedSet = { ...newState.sets[setID] };
+              updatedSet.kanji = updatedSet.kanji.slice();
 
-            // insert cards
-            for (let cardID of action.payload.cardIDs) {
-              if (updatedSet.kanji.indexOf(cardID) < 0) {
-                updatedSet.kanji = updatedSet.kanji.concat(cardID);
+              // insert cards
+              for (let cardID of action.payload.cardIDs) {
+                if (updatedSet.kanji.indexOf(cardID) < 0) {
+                  updatedSet.kanji = updatedSet.kanji.concat(cardID);
+                }
               }
+
+              // Write back the new set
+              newState.sets[updatedSet.id] = updatedSet;
             }
+          } else {
+            for (let setID of action.payload.selectedSets) {
+              // clone stuff
+              const updatedSet = { ...newState.sets[setID] };
+              updatedSet.kanji = updatedSet.kanji.slice();
 
-            // Write back the new set
-            newState.sets[updatedSet.id] = updatedSet;
-          }
-
-          for (let setID of action.payload.setsToRemove) {
-            // clone stuff
-            const updatedSet = { ...newState.sets[setID] };
-            updatedSet.kanji = updatedSet.kanji.slice();
-
-            // remove cards
-            for (let cardID of action.payload.cardIDs) {
-              const cardIDIndex = updatedSet.kanji.indexOf(cardID);
-              if (cardIDIndex >= 0) {
-                updatedSet.kanji = updatedSet.kanji
-                  .slice(0, cardIDIndex)
-                  .concat(updatedSet.kanji.slice(0, cardIDIndex + 1));
+              // remove cards
+              for (let cardID of action.payload.cardIDs) {
+                const cardIDIndex = updatedSet.kanji.indexOf(cardID);
+                if (cardIDIndex >= 0) {
+                  updatedSet.kanji = updatedSet.kanji
+                    .slice(0, cardIDIndex)
+                    .concat(updatedSet.kanji.slice(0, cardIDIndex + 1));
+                }
               }
-            }
 
-            // And write set back to state
-            newState.sets[updatedSet.id] = updatedSet;
+              // And write set back to state
+              newState.sets[updatedSet.id] = updatedSet;
+            }
           }
         }
         return newState;

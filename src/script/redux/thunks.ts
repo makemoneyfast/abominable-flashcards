@@ -432,10 +432,10 @@ export function thunkApplyChangesToFilteredAndFlush() {
     dispatch(
       applyChangesToFiltered(
         getFilteredCardsFromState(state),
-        state.cardManager.setsToAdd,
-        state.cardManager.setsToRemove,
-        state.cardManager.tagsToAdd,
-        state.cardManager.tagsToRemove
+        state.cardManager.setsSelectedForModification,
+        state.cardManager.setModificationOperation,
+        state.cardManager.tagsSelectedForModification,
+        state.cardManager.tagModificationOperation
       )
     );
 

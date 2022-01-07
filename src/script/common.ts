@@ -182,10 +182,9 @@ export interface CardManagerState {
   setsForExclude: string[];
 
   // Selection edit properties
-  setsToAdd: string[];
-  setsToRemove: string[];
-  tagsToAdd: string[];
-  tagsToRemove: string[];
-  tagsToAddSearchText: string;
-  tagsToRemoveSearchText: string;
+  setsSelectedForModification: string[];
+  setModificationOperation: "add" | "remove";
+  tagsSelectedForModification: string[];
+  tagsForModificationSearchText: string;
+  tagModificationOperation: "add" | "remove";
 }

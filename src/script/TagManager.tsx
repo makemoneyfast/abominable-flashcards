@@ -21,11 +21,10 @@ const BasicTagManager: React.FunctionComponent<TagManagerProps> = (
     .sortBy((tag) => tag.id)
     .map((tag) => (
       <div key={tag.id} className="tag">
-        {tag.name}
-        <input type="button" value="edit" />
+        {tag.name} <input type="button" value="編集" />
         <input
           type="button"
-          value="delete"
+          value="削除"
           onClick={() => props.onTagDelete(tag.id)}
         />
       </div>

@@ -4,31 +4,32 @@
   position: absolute;
   margin: 0;
   padding: 0;
-}
+  overflow: auto;
 
-.tagsPanel .tag {
-  display: inline-block;
-  padding: 2px;
-  margin: 3px;
-  border: #333 1px solid;
-  border-radius: 5px;
-  cursor: pointer;
-}
+  .tag {
+    display: inline-block;
+    padding: 2px 5px;
+    margin: 2px;
+    border: #333 1px solid;
+    border-radius: 8px;
+    cursor: pointer;
 
-.tagsPanel .tag:hover {
-  color: #fff;
-  background-color: #333;
-}
+    .active {
+      background-color: #666;
+      color: #ccc;
+      cursor: default;
+    }
 
-.tagsPanel .tag.active {
-  background-color: #666;
-  color: #ccc;
-  cursor: default;
-}
+    .empty {
+      color: #666;
+      cursor: default;
+    }
+  }
 
-.tagsPanel .tag.empty {
-  color: #666;
-  cursor: default;
+  .tag:hover {
+    color: #fff;
+    background-color: #333;
+  }
 }
 
 @media screen and (orientation: landscape) {

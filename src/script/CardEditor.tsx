@@ -110,7 +110,7 @@ class BasicCardEditor extends React.Component<CardEditorProps> {
         <div className="formCaption">Kanji:</div>
         <div className="formInput">
           <input
-            type="string"
+            type="text"
             value={this.props.character}
             onChange={this.props.onCharacterChange}
             disabled={!this.props.newCard}
@@ -123,7 +123,7 @@ class BasicCardEditor extends React.Component<CardEditorProps> {
         <div className="formCaption">Hint:</div>
         <div className="formInput">
           <input
-            type="string"
+            type="text"
             value={this.props.hint}
             onChange={this.props.onHintChange}
           />
@@ -131,7 +131,7 @@ class BasicCardEditor extends React.Component<CardEditorProps> {
         <div className="formCaption">Answer:</div>
         <div className="formInput">
           <input
-            type="string"
+            type="text"
             value={this.props.answer}
             onChange={this.props.onAnswerChange}
           />
@@ -139,7 +139,7 @@ class BasicCardEditor extends React.Component<CardEditorProps> {
         <div className="formCaption">Kunyomi:</div>
         <div className="formInput">
           <input
-            type="string"
+            type="text"
             value={this.props.kunyomi}
             onChange={this.props.onKunyomiChange}
           />
@@ -147,7 +147,7 @@ class BasicCardEditor extends React.Component<CardEditorProps> {
         <div className="formCaption">Onyomi:</div>
         <div className="formInput">
           <input
-            type="string"
+            type="text"
             value={this.props.onyomi}
             onChange={this.props.onOnyomiChange}
           />
@@ -155,20 +155,23 @@ class BasicCardEditor extends React.Component<CardEditorProps> {
         <div className="formCaption">Audio:</div>
         <div className="formInput">
           <input
-            type="string"
+            type="text"
             value={this.props.audio}
             onChange={this.props.onAudioChange}
           />
         </div>
+        <h3>Sets</h3>
         <div className="setChooser">{availableSets}</div>
+        <h3>Tags</h3>
         <TagChooser
           allTags={this.props.allTags}
           selectedTags={this.props.selectedTags}
           searchText={this.props.tagSearchText}
-          allowNewTagCreation={true}
           onSearchTextChange={this.props.onTagSearchTextChange}
           onTagSave={this.props.onNewTagSave}
           onTagChange={this.props.onSelectedTagsChange}
+          allowNewTagCreation={true}
+          standalone={false}
         />
       </div>
     );
@@ -207,12 +210,20 @@ const mapStateToProps: (state: State) => CardEditorProps = (state: State) => {
 
   const availableSets = _(state.assets.sets)
     .map((set) => {
+      const linked = state.cardEditor.newCard
+        ? // If it's a new card, links haven't been made yet so we check against the set list
+          // in the buffer
+          (state.cardEditor as PopulatedCardEditorState).sets.includes(set.id)
+        : // And if it's not a new card, we see if the set itself contains the card kanji.
+          // In the case of a new card the links aren't made yet and the kanji can change so
+          // we can't do this.
+          set.kanji.includes(
+            (state.cardEditor as PopulatedCardEditorState).kanji
+          );
       return {
         name: set.name,
         id: set.id,
-        linked: set.kanji.includes(
-          (state.cardEditor as PopulatedCardEditorState).kanji
-        ),
+        linked,
       };
     })
     .value();

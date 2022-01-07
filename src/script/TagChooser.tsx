@@ -9,6 +9,7 @@ interface TagChooserProps {
   selectedTags: string[]; // Should be IDs.
   searchText: string;
   allowNewTagCreation: boolean;
+  standalone: boolean;
 
   onSearchTextChange: (newText: string) => void;
   onTagSave: (tag: string) => void;
@@ -21,7 +22,7 @@ class TagChooser extends React.Component<TagChooserProps> {
   }
 
   render() {
-    const lolol = _(this.props.allTags).keyBy("id").value();
+    const tagIdByName = _(this.props.allTags).keyBy("id").value();
     const onAddTag = (tag: string) => {
       if (this.props.selectedTags.indexOf(tag) < 0) {
         this.props.onTagChange(this.props.selectedTags.concat(tag));
@@ -39,12 +40,12 @@ class TagChooser extends React.Component<TagChooserProps> {
       }
     };
 
-    const somethingElse = _(this.props.selectedTags)
+    const nameById = _(this.props.selectedTags)
       .sort()
-      .map((tagID) => lolol[tagID])
+      .map((tagID) => tagIdByName[tagID])
       .value();
 
-    const selectedTagControls = _(somethingElse)
+    const selectedTagControls = _(nameById)
       .map((tag) => (
         <div
           key={tag.id}
@@ -88,31 +89,59 @@ class TagChooser extends React.Component<TagChooserProps> {
         (item) => item.id === this.props.searchText.toLowerCase()
       );
 
-    return (
-      <div className="tagChooser">
-        <div className="selectedTags">{selectedTagControls}</div>
-        <div className="formCaption">Search:</div>
-        <div className="formInput">
-          <input
-            type="string"
-            value={this.props.searchText}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              this.props.onSearchTextChange(e.target.value);
-            }}
-          />{" "}
-          {canCreateTag ? (
+    if (this.props.standalone) {
+      return (
+        <div className="tagChooser standalone">
+          <div className="selectedTags">{selectedTagControls}</div>
+          <div className="formInput">
+            Tag search:{" "}
             <input
-              type="button"
-              value="Create this tag"
-              onClick={() => {
-                this.props.onTagSave(this.props.searchText);
+              type="text"
+              value={this.props.searchText}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                this.props.onSearchTextChange(e.target.value);
               }}
-            />
-          ) : null}
+            />{" "}
+            {canCreateTag ? (
+              <input
+                type="button"
+                value="作成"
+                onClick={() => {
+                  this.props.onTagSave(this.props.searchText);
+                }}
+              />
+            ) : null}
+          </div>
+          <div className="matchedTags">{matchedTagControls}</div>
         </div>
-        <div className="matchedTags">{matchedTagControls}</div>
-      </div>
-    );
+      );
+    } else {
+      return (
+        <div className="tagChooser">
+          <div className="selectedTags">{selectedTagControls}</div>
+          <div className="formCaption">Tag search:</div>
+          <div className="formInput">
+            <input
+              type="text"
+              value={this.props.searchText}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                this.props.onSearchTextChange(e.target.value);
+              }}
+            />{" "}
+            {canCreateTag ? (
+              <input
+                type="button"
+                value="作成"
+                onClick={() => {
+                  this.props.onTagSave(this.props.searchText);
+                }}
+              />
+            ) : null}
+          </div>
+          <div className="matchedTags">{matchedTagControls}</div>
+        </div>
+      );
+    }
   }
 }
 export default TagChooser;
