@@ -2,17 +2,13 @@ import * as React from "React";
 import { Action, Dispatch } from "redux";
 import { connect } from "react-redux";
 
-import { State, KanjiAsset } from "./common";
+import { State } from "./common";
 import {
   FilterMode,
   SelectionEditMode,
   toggleFilterSelected,
   changeFilterTextToMatch,
-  toggleMatchKanji,
-  toggleMatchHint,
-  toggleMatchMeaning,
-  toggleMatchKunyomi,
-  toggleMatchOnyomi,
+  toggleMatchField,
   changeTagSearchText,
   changeTagsToMatch,
   changeSetsToMatch,
@@ -21,6 +17,7 @@ import {
   changeTagsToModifyOnSelected,
   changeTagsToModifyOnSelectedSearchText,
   changeTagOperation,
+  FilterField,
 } from "./redux/cardManagerDuck";
 import { toggleCardSelection } from "./redux/cardManagerDuck";
 import {
@@ -32,6 +29,7 @@ import {
 
 import { getFilteredCardsFromState } from "./redux/utility";
 
+import CardFilter from "./CardFilter";
 import TagChooser from "./TagChooser";
 import SetChooser from "./SetChooser";
 
@@ -75,11 +73,7 @@ interface CardManagerProps {
 
   onToggleFilterSelected: (mode: FilterMode) => void;
   onChangeFilterMatchText: (test: string, mode: FilterMode) => void;
-  onToggleMatchKanji: (mode: FilterMode) => void;
-  onToggleMatchHint: (mode: FilterMode) => void;
-  onToggleMatchMeaning: (mode: FilterMode) => void;
-  onToggleMatchKunyomi: (mode: FilterMode) => void;
-  onToggleMatchOnyomi: (mode: FilterMode) => void;
+  onToggleMatchField: (mode: FilterMode, field: FilterField) => void;
   onTagSearchChange: (newText: string, mode: FilterMode) => void;
   onFilterTagsChange: (newTags: string[], mode: FilterMode) => void;
   onFilterSetsChange: (newSets: string[], mode: FilterMode) => void;
@@ -147,144 +141,64 @@ const BasicCardManager: React.FunctionComponent<CardManagerProps> = (
         Exclude
       </div>
       <div className="filterIn">
-        <input
-          type="checkbox"
-          checked={props.includeSelected}
-          onChange={() => props.onToggleFilterSelected("include")}
-        />{" "}
-        Include selected
-        <br />
-        Find{" "}
-        <input
-          type="text"
-          value={props.includeTextToMatch}
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-            props.onChangeFilterMatchText(event.target.value, "include");
-          }}
-        />
-        <br /> in{" "}
-        <input
-          type="checkbox"
-          checked={props.includeMatchedKanji}
-          onChange={() => props.onToggleMatchKanji("include")}
-        />{" "}
-        kanji{" "}
-        <input
-          type="checkbox"
-          checked={props.includeMatchedHint}
-          onChange={() => props.onToggleMatchHint("include")}
-        />{" "}
-        hint{" "}
-        <input
-          type="checkbox"
-          checked={props.includeMatchedMeaning}
-          onChange={() => props.onToggleMatchMeaning("include")}
-        />{" "}
-        meaning{" "}
-        <input
-          type="checkbox"
-          checked={props.includeMatchedKunyomi}
-          onChange={() => props.onToggleMatchKunyomi("include")}
-        />{" "}
-        kunyomi
-        <input
-          type="checkbox"
-          checked={props.includeMatchedOnyomi}
-          onChange={() => props.onToggleMatchOnyomi("include")}
-        />{" "}
-        onyomi
-        <br />
-        <TagChooser
+        <CardFilter
+          textToMatch={props.includeTextToMatch}
+          matchKanji={props.includeMatchedKanji}
+          matchHint={props.includeMatchedHint}
+          matchMeaning={props.includeMatchedMeaning}
+          matchKunyomi={props.includeMatchedKunyomi}
+          matchOnyomi={props.includeMatchedOnyomi}
+          tagSearchText={props.includeTagSearchText}
           allTags={props.allTags}
-          selectedTags={props.tagsToInclude}
-          searchText={props.includeTagSearchText}
-          allowNewTagCreation={false}
-          standalone={true}
-          onSearchTextChange={(newText: string) => {
-            props.onTagSearchChange(newText, "include");
-          }}
-          onTagChange={(newTags: string[]) => {
-            props.onFilterTagsChange(newTags, "include");
-          }}
-          onTagSave={noop}
-        />
-        <SetChooser
+          tagsToInclude={props.tagsToInclude}
           allSets={props.allSets}
-          selectedSets={props.setsToInclude}
-          onSetChange={(newSets: string[]) => {
-            props.onFilterSetsChange(newSets, "include");
-          }}
-        />
+          setsToInclude={props.setsToInclude}
+          onChangeSearchText={(searchText: string) =>
+            props.onChangeFilterMatchText(searchText, "include")
+          }
+          onToggleMatch={(field: FilterField) =>
+            props.onToggleMatchField("include", field)
+          }
+          onTagSearchChange={(tagSearchText: string) =>
+            props.onTagSearchChange(tagSearchText, "include")
+          }
+          onFilterTagsChange={(filterTags: string[]) =>
+            props.onFilterTagsChange(filterTags, "include")
+          }
+          onFilterSetsChange={(filterSets: string[]) =>
+            props.onFilterSetsChange(filterSets, "include")
+          }
+        ></CardFilter>
       </div>
       <div className="filterOut">
-        <input
-          type="checkbox"
-          checked={props.excludeSelected}
-          onChange={() => props.onToggleFilterSelected("exclude")}
-        />{" "}
-        Include selected
-        <br />
-        Find{" "}
-        <input
-          type="text"
-          value={props.excludeTextToMatch}
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-            props.onChangeFilterMatchText(event.target.value, "exclude");
-          }}
-        />
-        <br /> in{" "}
-        <input
-          type="checkbox"
-          checked={props.excludeMatchedKanji}
-          onChange={() => props.onToggleMatchKanji("exclude")}
-        />{" "}
-        kanji{" "}
-        <input
-          type="checkbox"
-          checked={props.excludeMatchedHint}
-          onChange={() => props.onToggleMatchHint("exclude")}
-        />{" "}
-        hint{" "}
-        <input
-          type="checkbox"
-          checked={props.excludeMatchedMeaning}
-          onChange={() => props.onToggleMatchMeaning("exclude")}
-        />{" "}
-        meaning{" "}
-        <input
-          type="checkbox"
-          checked={props.excludeMatchedKunyomi}
-          onChange={() => props.onToggleMatchKunyomi("exclude")}
-        />{" "}
-        kunyomi
-        <input
-          type="checkbox"
-          checked={props.excludeMatchedOnyomi}
-          onChange={() => props.onToggleMatchOnyomi("exclude")}
-        />{" "}
-        onyomi
-        <br />
-        <TagChooser
+        <CardFilter
+          textToMatch={props.excludeTextToMatch}
+          matchKanji={props.excludeMatchedKanji}
+          matchHint={props.excludeMatchedHint}
+          matchMeaning={props.excludeMatchedMeaning}
+          matchKunyomi={props.excludeMatchedKunyomi}
+          matchOnyomi={props.excludeMatchedOnyomi}
+          tagSearchText={props.excludeTagSearchText}
           allTags={props.allTags}
-          selectedTags={props.tagsToExclude}
-          searchText={props.excludeTagSearchText}
-          allowNewTagCreation={false}
-          standalone={true}
-          onSearchTextChange={(newText: string) => {
-            props.onTagSearchChange(newText, "exclude");
-          }}
-          onTagChange={(newTags: string[]) => {
-            props.onFilterTagsChange(newTags, "exclude");
-          }}
-          onTagSave={noop}
-        />
-        <SetChooser
+          tagsToInclude={props.tagsToExclude}
           allSets={props.allSets}
-          selectedSets={props.setsToExclude}
-          onSetChange={(newSets: string[]) => {
-            props.onFilterSetsChange(newSets, "exclude");
-          }}
-        />
+          setsToInclude={props.setsToExclude}
+          onChangeSearchText={(searchText: string) =>
+            props.onChangeFilterMatchText(searchText, "exclude")
+          }
+          onToggleMatch={(field: FilterField) =>
+            props.onToggleMatchField("exclude", field)
+          }
+          onTagSearchChange={(tagSearchText: string) =>
+            props.onTagSearchChange(tagSearchText, "exclude")
+          }
+          onFilterTagsChange={(filterTags: string[]) =>
+            props.onFilterTagsChange(filterTags, "exclude")
+          }
+          onFilterSetsChange={(filterSets: string[]) =>
+            props.onFilterSetsChange(filterSets, "exclude")
+          }
+        ></CardFilter>
       </div>
       <div className="sectionTitle" data-name="modify">
         Modify
@@ -430,14 +344,8 @@ const mapDispatchToProps: (
       dispatch(toggleFilterSelected(mode)),
     onChangeFilterMatchText: (text: string, mode: FilterMode) =>
       dispatch(changeFilterTextToMatch(text, mode)),
-    onToggleMatchKanji: (mode: FilterMode) => dispatch(toggleMatchKanji(mode)),
-    onToggleMatchHint: (mode: FilterMode) => dispatch(toggleMatchHint(mode)),
-    onToggleMatchMeaning: (mode: FilterMode) =>
-      dispatch(toggleMatchMeaning(mode)),
-    onToggleMatchKunyomi: (mode: FilterMode) =>
-      dispatch(toggleMatchKunyomi(mode)),
-    onToggleMatchOnyomi: (mode: FilterMode) =>
-      dispatch(toggleMatchOnyomi(mode)),
+    onToggleMatchField: (mode: FilterMode, field: FilterField) =>
+      dispatch(toggleMatchField(mode, field)),
     onTagSearchChange: (newText: string, mode: FilterMode) =>
       dispatch(changeTagSearchText(newText, mode)),
     onFilterTagsChange: (newTags: string[], mode: FilterMode) =>

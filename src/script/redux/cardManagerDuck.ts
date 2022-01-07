@@ -8,11 +8,7 @@ export const TOGGLE_CARD_SELECTION =
   "MorningThunder/cardManager/TOGGLE_CARD_SELECTION";
 const TOGGLE_FILTER_SELECTED =
   "MorningThunder/cardManager/TOGGLE_FILTER_SELECTED";
-const TOGGLE_MATCH_KANJI = "MorningThunder/cardManager/TOGGLE_MATCH_KANJI";
-const TOGGLE_MATCH_HINT = "MorningThunder/cardManager/TOGGLE_MATCH_HINT";
-const TOGGLE_MATCH_MEANING = "MorningThunder/cardManager/TOGGLE_MATCH_MEANING";
-const TOGGLE_MATCH_KUNYOMI = "MorningThunder/cardManager/TOGGLE_MATCH_KUNYOMI";
-const TOGGLE_MATCH_ONYOMI = "MorningThunder/cardManager/TOGGLE_MATCH_ONYOMI";
+const TOGGLE_MATCH_FIELD = "MorningThunder/cardManager/TOGGLE_MATCH_FIELD";
 const CHANGE_FILTER_TEXT_TO_MATCH =
   "MorningThunder/cardManager/CHANGE_FILTER_TEXT_TO_MATCH";
 const CHANGE_TAG_SEARCH_TEXT =
@@ -37,11 +33,7 @@ export type CardManagerAction =
   | ToggleCardSelectAction
   | ToggleFilterSelectedAction
   | ChangeFilterTextToMatchAction
-  | ToggleMatchKanjiAction
-  | ToggleMatchHintAction
-  | ToggleMatchMeaningAction
-  | ToggleMatchKunyomiAction
-  | ToggleMatchOnyomiAction
+  | ToggleMatchFieldAction
   | ChangeTagSearchTextAction
   | ChangeTagsToMatchAction
   | ChangeSetsToMatchAction
@@ -138,65 +130,73 @@ export default function reducer(
           searchTextForExclude: action.payload.text,
         };
       }
-    case TOGGLE_MATCH_KANJI:
-      if (action.payload === "include") {
-        return {
-          ...state,
-          matchKanjiForInclude: !state.matchKanjiForInclude,
-        };
-      } else {
-        return {
-          ...state,
-          matchKanjiForExclude: !state.matchKanjiForExclude,
-        };
-      }
-    case TOGGLE_MATCH_HINT:
-      if (action.payload === "include") {
-        return {
-          ...state,
-          matchHintForInclude: !state.matchHintForInclude,
-        };
-      } else {
-        return {
-          ...state,
-          matchHintForExclude: !state.matchHintForExclude,
-        };
-      }
-    case TOGGLE_MATCH_MEANING:
-      if (action.payload === "include") {
-        return {
-          ...state,
-          matchMeaningForInclude: !state.matchMeaningForInclude,
-        };
-      } else {
-        return {
-          ...state,
-          matchMeaningForExclude: !state.matchMeaningForExclude,
-        };
-      }
-    case TOGGLE_MATCH_KUNYOMI:
-      if (action.payload === "include") {
-        return {
-          ...state,
-          matchKunyomiForInclude: !state.matchKunyomiForInclude,
-        };
-      } else {
-        return {
-          ...state,
-          matchKunyomiForExclude: !state.matchKunyomiForExclude,
-        };
-      }
-    case TOGGLE_MATCH_ONYOMI:
-      if (action.payload === "include") {
-        return {
-          ...state,
-          matchOnyomiForInclude: !state.matchOnyomiForInclude,
-        };
-      } else {
-        return {
-          ...state,
-          matchOnyomiForExclude: !state.matchOnyomiForExclude,
-        };
+    case TOGGLE_MATCH_FIELD:
+      switch (action.payload.field) {
+        case "kanji":
+          if (action.payload.mode === "include") {
+            return {
+              ...state,
+              matchKanjiForInclude: !state.matchKanjiForInclude,
+            };
+          } else {
+            return {
+              ...state,
+              matchKanjiForExclude: !state.matchKanjiForExclude,
+            };
+          }
+          break;
+        case "hint":
+          if (action.payload.mode === "include") {
+            return {
+              ...state,
+              matchHintForInclude: !state.matchHintForInclude,
+            };
+          } else {
+            return {
+              ...state,
+              matchHintForExclude: !state.matchHintForExclude,
+            };
+          }
+          break;
+        case "meaning":
+          if (action.payload.mode === "include") {
+            return {
+              ...state,
+              matchMeaningForInclude: !state.matchMeaningForInclude,
+            };
+          } else {
+            return {
+              ...state,
+              matchMeaningForExclude: !state.matchMeaningForExclude,
+            };
+          }
+          break;
+        case "kunyomi":
+          if (action.payload.mode === "include") {
+            return {
+              ...state,
+              matchKunyomiForInclude: !state.matchKunyomiForInclude,
+            };
+          } else {
+            return {
+              ...state,
+              matchKunyomiForExclude: !state.matchKunyomiForExclude,
+            };
+          }
+          break;
+        case "onyomi":
+          if (action.payload.mode === "include") {
+            return {
+              ...state,
+              matchOnyomiForInclude: !state.matchOnyomiForInclude,
+            };
+          } else {
+            return {
+              ...state,
+              matchOnyomiForExclude: !state.matchOnyomiForExclude,
+            };
+          }
+          break;
       }
     case CHANGE_TAG_SEARCH_TEXT:
       if (action.payload.mode === "include") {
@@ -277,6 +277,7 @@ export default function reducer(
 
 export type FilterMode = "include" | "exclude";
 export type SelectionEditMode = "add" | "remove";
+export type FilterField = "kanji" | "hint" | "meaning" | "kunyomi" | "onyomi";
 
 type ToggleCardSelectAction = Action<
   "MorningThunder/cardManager/TOGGLE_CARD_SELECTION",
@@ -319,63 +320,24 @@ export function changeFilterTextToMatch(
   };
 }
 
-type ToggleMatchKanjiAction = Action<
-  "MorningThunder/cardManager/TOGGLE_MATCH_KANJI",
-  FilterMode
+type ToggleMatchFieldAction = Action<
+  "MorningThunder/cardManager/TOGGLE_MATCH_FIELD",
+  {
+    mode: FilterMode;
+    field: FilterField;
+  }
 >;
 
-export function toggleMatchKanji(mode: FilterMode): ToggleMatchKanjiAction {
+export function toggleMatchField(
+  mode: FilterMode,
+  field: FilterField
+): ToggleMatchFieldAction {
   return {
-    type: TOGGLE_MATCH_KANJI,
-    payload: mode,
-  };
-}
-
-type ToggleMatchHintAction = Action<
-  "MorningThunder/cardManager/TOGGLE_MATCH_HINT",
-  FilterMode
->;
-
-export function toggleMatchHint(mode: FilterMode): ToggleMatchHintAction {
-  return {
-    type: TOGGLE_MATCH_HINT,
-    payload: mode,
-  };
-}
-
-type ToggleMatchMeaningAction = Action<
-  "MorningThunder/cardManager/TOGGLE_MATCH_MEANING",
-  FilterMode
->;
-
-export function toggleMatchMeaning(mode: FilterMode): ToggleMatchMeaningAction {
-  return {
-    type: TOGGLE_MATCH_MEANING,
-    payload: mode,
-  };
-}
-
-type ToggleMatchKunyomiAction = Action<
-  "MorningThunder/cardManager/TOGGLE_MATCH_KUNYOMI",
-  FilterMode
->;
-
-export function toggleMatchKunyomi(mode: FilterMode): ToggleMatchKunyomiAction {
-  return {
-    type: TOGGLE_MATCH_KUNYOMI,
-    payload: mode,
-  };
-}
-
-type ToggleMatchOnyomiAction = Action<
-  "MorningThunder/cardManager/TOGGLE_MATCH_ONYOMI",
-  FilterMode
->;
-
-export function toggleMatchOnyomi(mode: FilterMode): ToggleMatchOnyomiAction {
-  return {
-    type: TOGGLE_MATCH_ONYOMI,
-    payload: mode,
+    type: TOGGLE_MATCH_FIELD,
+    payload: {
+      mode,
+      field,
+    },
   };
 }
 
