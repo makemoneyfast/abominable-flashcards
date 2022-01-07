@@ -127,6 +127,7 @@ const BasicCard: React.FunctionComponent<
   let questionLanguage: string;
   let vocabularyType: " character" | " compound";
   let answerLanguage: string;
+  let questionFontSize: string;
 
   switch (props.quizType) {
     case eQuizMode.character:
@@ -169,6 +170,22 @@ const BasicCard: React.FunctionComponent<
       answerLanguage = " japanese";
       break;
   }
+
+  switch (props.quizType) {
+    case eQuizMode.meaning:
+      questionFontSize = `${computeFontSize(props.kunyomi, props.onyomi)}vw`;
+      break;
+    case eQuizMode.character:
+    case eQuizMode.kunyomi:
+    case eQuizMode.onyomi:
+      questionFontSize = `${computeFontSize(props.character)}vw`;
+      break;
+  }
+
+  const questionFontStyle: React.CSSProperties = {
+    fontSize: questionFontSize,
+    lineHeight: questionFontSize,
+  };
 
   // Handle missing fields
 
@@ -229,8 +246,6 @@ const BasicCard: React.FunctionComponent<
     }
   }
 
-  const style = { fontSize: `${computeFontSize(question[0])}vw` };
-
   switch (props.cardState) {
     case eCardState.question:
       return (
@@ -243,7 +258,7 @@ const BasicCard: React.FunctionComponent<
           <div className="status japanese">{statusMessage}</div>
           <div
             className={"question" + questionLanguage + vocabularyType}
-            style={style}
+            style={questionFontStyle}
           >
             {question}
           </div>
@@ -259,7 +274,7 @@ const BasicCard: React.FunctionComponent<
           <div className="status japanese">{statusMessage}</div>
           <div
             className={"question" + questionLanguage + vocabularyType}
-            style={style}
+            style={questionFontStyle}
           >
             {question}
           </div>
@@ -309,7 +324,7 @@ const BasicCard: React.FunctionComponent<
           {props.audio && <div className="audioIndicator">耳</div>}
           <div
             className={"question" + questionLanguage + vocabularyType}
-            style={style}
+            style={questionFontStyle}
             onClick={props.audio !== "" ? playAudio : () => undefined}
           >
             {question}

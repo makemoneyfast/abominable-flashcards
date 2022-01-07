@@ -1,5 +1,4 @@
 import * as React from "React";
-import * as ReactDom from "react-dom";
 import { Action, Dispatch } from "redux";
 import { connect } from "react-redux";
 
@@ -141,11 +140,13 @@ const BasicCardManager: React.FunctionComponent<CardManagerProps> = (
   });
   return (
     <div className="cardManager">
-      <div className="sectionTitle" data-name="filter">
-        Filter
+      <div className="sectionTitle" data-name="include">
+        Include
+      </div>
+      <div className="sectionTitle" data-name="exclude">
+        Exclude
       </div>
       <div className="filterIn">
-        <h3>Include</h3>
         <input
           type="checkbox"
           checked={props.includeSelected}
@@ -215,7 +216,6 @@ const BasicCardManager: React.FunctionComponent<CardManagerProps> = (
         />
       </div>
       <div className="filterOut">
-        <h3>Exclude</h3>
         <input
           type="checkbox"
           checked={props.excludeSelected}
