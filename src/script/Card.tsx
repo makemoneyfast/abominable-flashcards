@@ -130,7 +130,7 @@ const BasicCard: React.FunctionComponent<
   let questionFontSize: string;
 
   switch (props.quizType) {
-    case eQuizMode.character:
+    case eQuizMode.meaning:
       question = [props.character];
       hint = [props.hint];
       answer = props.meaning;
@@ -139,7 +139,7 @@ const BasicCard: React.FunctionComponent<
         props.character.length === 1 ? " character" : " compound";
       answerLanguage = " english";
       break;
-    case eQuizMode.meaning:
+    case eQuizMode.character:
       question = [props.kunyomi, <br></br>, mapToKatakana(props.onyomi)];
       hint = [
         props.meaning,
@@ -172,10 +172,10 @@ const BasicCard: React.FunctionComponent<
   }
 
   switch (props.quizType) {
-    case eQuizMode.meaning:
+    case eQuizMode.character:
       questionFontSize = `${computeFontSize(props.kunyomi, props.onyomi)}vw`;
       break;
-    case eQuizMode.character:
+    case eQuizMode.meaning:
     case eQuizMode.kunyomi:
     case eQuizMode.onyomi:
       questionFontSize = `${computeFontSize(props.character)}vw`;
