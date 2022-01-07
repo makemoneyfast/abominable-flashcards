@@ -294,13 +294,17 @@ const BasicCardManager: React.FunctionComponent<CardManagerProps> = (
           <input
             type="button"
             value="add"
-            className={props.tagOperationForModify === "add" ? "selected" : ""}
+            className={
+              props.tagOperationForModify === "add" ? "add selected" : "add"
+            }
             onClick={() => props.onTagOperationChange("add")}
           ></input>
           <input
             type="button"
             className={
-              props.tagOperationForModify === "remove" ? "selected" : ""
+              props.tagOperationForModify === "remove"
+                ? "remove selected"
+                : "remove"
             }
             value="remove"
             onClick={() => props.onTagOperationChange("remove")}
@@ -326,13 +330,17 @@ const BasicCardManager: React.FunctionComponent<CardManagerProps> = (
           <input
             type="button"
             value="add"
-            className={props.setOperationForModify === "add" ? "selected" : ""}
+            className={
+              props.setOperationForModify === "add" ? "add selected" : "add"
+            }
             onClick={() => props.onSetOperationChange("add")}
           ></input>
           <input
             type="button"
             className={
-              props.setOperationForModify === "remove" ? "selected" : ""
+              props.setOperationForModify === "remove"
+                ? "remove selected"
+                : "remove"
             }
             value="remove"
             onClick={() => props.onSetOperationChange("remove")}
