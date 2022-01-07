@@ -5,7 +5,7 @@ import _ from "Lodash";
 import TagChooser from "./TagChooser";
 import SetChooser from "./SetChooser";
 
-import "./styles/tagChooser.less";
+import "./styles/cardFilter.less";
 
 interface CardFilterProps {
   textToMatch: string;
@@ -36,57 +36,61 @@ class CardFilter extends React.Component<CardFilterProps> {
   render() {
     return (
       <div className="cardFilter">
-        <label>
-          Find{" "}
-          <input
-            type="text"
-            value={this.props.textToMatch}
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-              this.props.onChangeSearchText(event.target.value);
-            }}
-          />
-        </label>
-        <br />
-        <label>
-          <input
-            type="checkbox"
-            checked={this.props.matchKanji}
-            onChange={() => this.props.onToggleMatch("kanji")}
-          />{" "}
-          kanji{" "}
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            checked={this.props.matchHint}
-            onChange={() => this.props.onToggleMatch("hint")}
-          />{" "}
-          hint{" "}
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            checked={this.props.matchMeaning}
-            onChange={() => this.props.onToggleMatch("meaning")}
-          />{" "}
-          meaning{" "}
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            checked={this.props.matchKunyomi}
-            onChange={() => this.props.onToggleMatch("kunyomi")}
-          />{" "}
-          kunyomi
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            checked={this.props.matchOnyomi}
-            onChange={() => this.props.onToggleMatch("onyomi")}
-          />{" "}
-          onyomi
-        </label>
+        <h3>Filter</h3>
+        <div className="filterControls">
+          <label>
+            Find{" "}
+            <input
+              type="text"
+              value={this.props.textToMatch}
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                this.props.onChangeSearchText(event.target.value);
+              }}
+            />
+          </label>
+          <br />
+          <label>
+            <input
+              type="checkbox"
+              checked={this.props.matchKanji}
+              onChange={() => this.props.onToggleMatch("kanji")}
+            />{" "}
+            kanji{" "}
+          </label>
+          <label>
+            <input
+              type="checkbox"
+              checked={this.props.matchHint}
+              onChange={() => this.props.onToggleMatch("hint")}
+            />{" "}
+            hint{" "}
+          </label>
+          <label>
+            <input
+              type="checkbox"
+              checked={this.props.matchMeaning}
+              onChange={() => this.props.onToggleMatch("meaning")}
+            />{" "}
+            meaning{" "}
+          </label>
+          <label>
+            <input
+              type="checkbox"
+              checked={this.props.matchKunyomi}
+              onChange={() => this.props.onToggleMatch("kunyomi")}
+            />{" "}
+            kunyomi
+          </label>
+          <label>
+            <input
+              type="checkbox"
+              checked={this.props.matchOnyomi}
+              onChange={() => this.props.onToggleMatch("onyomi")}
+            />{" "}
+            onyomi
+          </label>
+        </div>
+        <h3>Tags</h3>
         <TagChooser
           allTags={this.props.allTags}
           selectedTags={this.props.tagsToInclude}
@@ -101,6 +105,7 @@ class CardFilter extends React.Component<CardFilterProps> {
           }}
           onTagSave={() => undefined}
         />
+        <h3>Sets</h3>
         <SetChooser
           allSets={this.props.allSets}
           selectedSets={this.props.setsToInclude}
