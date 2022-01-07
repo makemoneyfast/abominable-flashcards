@@ -5,7 +5,7 @@
   margin: 0;
   padding: 0;
   display: grid;
-  grid-template-rows: 2vh 2vh 2vh 2vh 2vh 2vh 2vh 12vh 1fr;
+  grid-template-rows: min-content 2vh 2vh 2vh 2vh 2vh 2vh min-content 12vh min-content 1fr;
   grid-template-columns: 12vh 1fr;
   gap: 1vmin;
   padding: 1vmin;
@@ -18,9 +18,16 @@
 
 .cardEditor .validation,
 .cardEditor .tagChooser,
-.cardEditor .setChooser {
+.cardEditor .setChooser,
+.cardEditor h3 {
   grid-column: 1 / span 2;
   overflow: auto;
+}
+
+.cardEditor .validation {
+  text-align: center;
+  font-style: italic;
+  background-color: #fff;
 }
 
 @media screen and (orientation: landscape) {

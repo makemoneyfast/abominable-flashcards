@@ -160,7 +160,9 @@ class BasicCardEditor extends React.Component<CardEditorProps> {
             onChange={this.props.onAudioChange}
           />
         </div>
+        <h3>Sets</h3>
         <div className="setChooser">{availableSets}</div>
+        <h3>Tags</h3>
         <TagChooser
           allTags={this.props.allTags}
           selectedTags={this.props.selectedTags}
