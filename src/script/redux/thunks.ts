@@ -345,6 +345,16 @@ export function thunkSaveSetBufferContentsAndExit() {
 export function thunkSaveCardBufferContentsAndExit() {
   return (dispatch: Dispatch<SupportedAction>, getState: () => State) => {
     const state = getState();
+    const enforceAccentRange = (text: string, accentIndex: number) => {
+      if (accentIndex < 0) {
+        return -1;
+      }
+      if (accentIndex > text.length - 1) {
+        return -1;
+      }
+      return accentIndex;
+    };
+
     if (state.cardEditor.newCard) {
       dispatch(
         saveNewCard({
@@ -352,9 +362,15 @@ export function thunkSaveCardBufferContentsAndExit() {
           hint: state.cardEditor.hint,
           meaning: state.cardEditor.meaning,
           kunyomi: state.cardEditor.kunyomi,
-          kunyomiAccent: state.cardEditor.kunyomiAccent,
+          kunyomiAccent: enforceAccentRange(
+            state.cardEditor.kunyomi,
+            state.cardEditor.kunyomiAccent
+          ),
           onyomi: state.cardEditor.onyomi,
-          onyomiAccent: state.cardEditor.onyomiAccent,
+          onyomiAccent: enforceAccentRange(
+            state.cardEditor.onyomi,
+            state.cardEditor.onyomiAccent
+          ),
           audio: state.cardEditor.audio,
           tags: state.cardEditor.tags,
           sets: state.cardEditor.sets,
@@ -372,9 +388,15 @@ export function thunkSaveCardBufferContentsAndExit() {
             hint: state.cardEditor.hint,
             meaning: state.cardEditor.meaning,
             kunyomi: state.cardEditor.kunyomi,
-            kunyomiAccent: state.cardEditor.kunyomiAccent,
+            kunyomiAccent: enforceAccentRange(
+              state.cardEditor.kunyomi,
+              state.cardEditor.kunyomiAccent
+            ),
             onyomi: state.cardEditor.onyomi,
-            onyomiAccent: state.cardEditor.onyomiAccent,
+            onyomiAccent: enforceAccentRange(
+              state.cardEditor.onyomi,
+              state.cardEditor.onyomiAccent
+            ),
             audio: state.cardEditor.audio,
             tags: state.cardEditor.tags,
             sets: state.cardEditor.sets,
