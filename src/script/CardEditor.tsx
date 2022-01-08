@@ -144,6 +144,8 @@ class BasicCardEditor extends React.Component<CardEditorProps> {
             onChange={this.props.onKunyomiChange}
           />
         </div>
+        <div className="formCaption">Kunyomi accent:</div>
+        <div className="formInput">{this.props.kunyomi}</div>
         <div className="formCaption">Onyomi:</div>
         <div className="formInput">
           <input
@@ -152,6 +154,8 @@ class BasicCardEditor extends React.Component<CardEditorProps> {
             onChange={this.props.onOnyomiChange}
           />
         </div>
+        <div className="formCaption">Onyomi accent:</div>
+        <div className="formInput">{this.props.onOnyomiChange}</div>
         <div className="formCaption">Audio:</div>
         <div className="formInput">
           <input
