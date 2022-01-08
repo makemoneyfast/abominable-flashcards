@@ -32,7 +32,9 @@ interface CardEditorProps {
   hint: string;
   answer: string;
   kunyomi: string;
+  kunyomiAccent: number;
   onyomi: string;
+  onyomiAccent: number;
   audio: string;
 
   allTags: { name: string; id: string }[];
@@ -145,7 +147,9 @@ class BasicCardEditor extends React.Component<CardEditorProps> {
           />
         </div>
         <div className="formCaption">Kunyomi accent:</div>
-        <div className="formInput">{this.props.kunyomi}</div>
+        <div className="formInput">
+          {this.props.kunyomi} | {this.props.kunyomiAccent}
+        </div>
         <div className="formCaption">Onyomi:</div>
         <div className="formInput">
           <input
@@ -155,7 +159,9 @@ class BasicCardEditor extends React.Component<CardEditorProps> {
           />
         </div>
         <div className="formCaption">Onyomi accent:</div>
-        <div className="formInput">{this.props.onOnyomiChange}</div>
+        <div className="formInput">
+          {this.props.onyomi} | {this.props.onyomiAccent}
+        </div>
         <div className="formCaption">Audio:</div>
         <div className="formInput">
           <input
@@ -193,7 +199,9 @@ const mapStateToProps: (state: State) => CardEditorProps = (state: State) => {
       hint: "",
       answer: "",
       kunyomi: "",
+      kunyomiAccent: -1,
       onyomi: "",
+      onyomiAccent: -1,
       audio: "",
 
       allTags: [] as any,
@@ -249,7 +257,9 @@ const mapStateToProps: (state: State) => CardEditorProps = (state: State) => {
       state.cardEditor.hint !== "" ||
       state.cardEditor.meaning !== "" ||
       state.cardEditor.kunyomi !== "" ||
+      state.cardEditor.kunyomiAccent !== -1 ||
       state.cardEditor.onyomi !== "" ||
+      state.cardEditor.onyomiAccent !== -1 ||
       state.cardEditor.audio !== "" ||
       state.cardEditor.tags.length !== 0; /// O MY GOD HAVE TO FIX THIS OM
   } else {
@@ -262,7 +272,9 @@ const mapStateToProps: (state: State) => CardEditorProps = (state: State) => {
       state.cardEditor.hint !== currentCard.notes ||
       state.cardEditor.meaning !== currentCard.meaning ||
       state.cardEditor.kunyomi !== currentCard.kunyomi ||
+      state.cardEditor.kunyomiAccent !== currentCard.kunyomiAccent ||
       state.cardEditor.onyomi !== currentCard.onyomi ||
+      state.cardEditor.onyomiAccent !== currentCard.onyomiAccent ||
       state.cardEditor.audio !== currentCard.audio ||
       state.cardEditor.tags.toString() !==
         (currentCard.tags ? currentCard.tags.toString() : "");
@@ -274,7 +286,9 @@ const mapStateToProps: (state: State) => CardEditorProps = (state: State) => {
     hint: state.cardEditor.hint,
     answer: state.cardEditor.meaning,
     kunyomi: state.cardEditor.kunyomi,
+    kunyomiAccent: state.cardEditor.kunyomiAccent,
     onyomi: state.cardEditor.onyomi,
+    onyomiAccent: state.cardEditor.onyomiAccent,
     audio: state.cardEditor.audio,
 
     allTags: allTags,

@@ -75,7 +75,9 @@ const initialState: EmptyCardEditorState = {
   meaning: null,
   hint: null,
   kunyomi: null,
+  kunyomiAccent: null,
   onyomi: null,
+  onyomiAccent: null,
   audio: null,
   tags: null,
   sets: null,
@@ -121,7 +123,9 @@ export default function reducer(
         hint: "",
         meaning: "",
         kunyomi: "",
+        kunyomiAccent: -1,
         onyomi: "",
+        onyomiAccent: -1,
         audio: "",
         tags: [],
         sets: [],
@@ -136,7 +140,9 @@ export default function reducer(
         hint: action.payload.buffer.hint,
         meaning: action.payload.buffer.meaning,
         kunyomi: action.payload.buffer.kunyomi,
+        kunyomiAccent: action.payload.buffer.kunyomiAccent,
         onyomi: action.payload.buffer.onyomi,
+        onyomiAccent: action.payload.buffer.onyomiAccent,
         audio: action.payload.buffer.audio,
         tags: action.payload.buffer.tags,
         tagSearchText: "",
@@ -260,7 +266,9 @@ export interface CardEditBuffer {
   hint: string;
   meaning: string;
   kunyomi: string;
+  kunyomiAccent: number;
   onyomi: string;
+  onyomiAccent: number;
   audio: string;
   tags: string[];
   sets: string[];
