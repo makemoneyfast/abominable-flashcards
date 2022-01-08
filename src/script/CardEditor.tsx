@@ -27,6 +27,7 @@ import { thunkSaveNewTagAndFlush } from "./redux/thunks";
 import _ from "Lodash";
 
 import "./styles/cardEditor.less";
+import AccentControl from "./AccentControl";
 
 interface CardEditorProps {
   newCard: boolean;
@@ -152,7 +153,11 @@ class BasicCardEditor extends React.Component<CardEditorProps> {
         </div>
         <div className="formCaption">Kunyomi accent:</div>
         <div className="formInput">
-          {this.props.kunyomi} | {this.props.kunyomiAccent}
+          <AccentControl
+            text={this.props.kunyomi}
+            accentIndex={this.props.kunyomiAccent}
+            onAccentIndexChange={this.props.onKunyomiAccentChange}
+          ></AccentControl>
         </div>
         <div className="formCaption">Onyomi:</div>
         <div className="formInput">
@@ -164,7 +169,11 @@ class BasicCardEditor extends React.Component<CardEditorProps> {
         </div>
         <div className="formCaption">Onyomi accent:</div>
         <div className="formInput">
-          {this.props.onyomi} | {this.props.onyomiAccent}
+          <AccentControl
+            text={this.props.onyomi}
+            accentIndex={this.props.onyomiAccent}
+            onAccentIndexChange={this.props.onOnyomiAccentChange}
+          ></AccentControl>
         </div>
         <div className="formCaption">Audio:</div>
         <div className="formInput">
