@@ -30,11 +30,7 @@ const BasicTagManager: React.FunctionComponent<TagManagerProps> = (
       </div>
     ))
     .value();
-  return (
-    <div className="tagManager">
-      <div className="tags">{tags}</div>
-    </div>
-  );
+  return <div className="tagManager">{tags}</div>;
 };
 
 const mapStateToProps: (state: State) => TagManagerProps = (state: State) => {
