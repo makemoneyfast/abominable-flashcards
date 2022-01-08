@@ -18,6 +18,8 @@ import {
   changeCardBufferTags,
   addSetToCardBuffer,
   removeSetFromCardBuffer,
+  updateCardBufferKunyomiAccent,
+  updateCardBufferOnyomiAccent,
 } from "./redux/cardEditorDuck";
 
 import { thunkSaveNewTagAndFlush } from "./redux/thunks";
@@ -57,7 +59,9 @@ interface CardEditorProps {
   onHintChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onAnswerChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onKunyomiChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onKunyomiAccentChange: (accentIndex: number) => void;
   onOnyomiChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onOnyomiAccentChange: (accentIndex: number) => void;
   onAudioChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onSetLinkChange: (setID: string, link: boolean) => void;
 }
@@ -319,9 +323,13 @@ const mapDispatchToProps: (
     onKunyomiChange: (event: React.ChangeEvent<HTMLInputElement>) => {
       dispatch(updateCardBufferKunyomi(event.target.value));
     },
+    onKunyomiAccentChange: (accentIndex: number) =>
+      dispatch(updateCardBufferKunyomiAccent(accentIndex)),
     onOnyomiChange: (event: React.ChangeEvent<HTMLInputElement>) => {
       dispatch(updateCardBufferOnyomi(event.target.value));
     },
+    onOnyomiAccentChange: (accentIndex: number) =>
+      dispatch(updateCardBufferOnyomiAccent(accentIndex)),
     onAudioChange: (event: React.ChangeEvent<HTMLInputElement>) => {
       dispatch(updateCardBufferAudio(event.target.value));
     },
