@@ -3,14 +3,39 @@
   border: #333 1px solid;
   position: absolute;
   margin: 0;
-  padding: 0;
+  display: grid;
+  grid-template-rows: min-content 2vh 2vh 2vh 2vh 2vh 2vh min-content 12vh min-content 1fr;
+  grid-template-columns: 12vh 1fr;
+  gap: 1vmin;
+  padding: 1vmin;
+  box-sizing: border-box;
+}
+
+.setEditor .kanjiItems {
+  grid-column: 1 / span 2;
 }
 
 .setEditor .kanji {
   display: inline-block;
-  margin: 3px;
-  padding: 2px;
-  border: #333 1px solid;
+  padding: 1px 5px;
+  margin: 5px 5px 0 0;
+  border: 1px solid #333;
+  border-radius: 10px;
+  user-select: none;
+  cursor: pointer;
+
+  input {
+    border-radius: 15px;
+    border: 0;
+    padding: 0 4px;
+    margin: 0 0 1px 2px;
+    cursor: pointer;
+  }
+
+  input:hover {
+    color: #000;
+    background-color: #fff;
+  }
 }
 
 @media screen and (orientation: landscape) {

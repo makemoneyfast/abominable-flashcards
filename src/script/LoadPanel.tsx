@@ -112,11 +112,15 @@ class BasicLoadPanel extends React.Component<
     // In this case the loader is all we render.
     return (
       <div className="loadPanel">
-        <div>
-          <div>{status}</div>
+        <h3>Export</h3>
+        <div className="validation">{status}</div>
+        <div className="formSubmit">
           <input type="button" value="Export" onClick={this.props.onExport} />
         </div>
-        <div>
+        <h3>Import</h3>
+        <div className="validation">{selectedFileStatus}</div>
+        <div className="formCaption">File to load:</div>
+        <div className="formInput">
           <input
             type="file"
             onChange={(event) => {
@@ -139,11 +143,11 @@ class BasicLoadPanel extends React.Component<
               });
             }}
           />
+        </div>
+        <div className="formSubmit">
           <button disabled={!this.props.fileSelected} onClick={onLoadSelected}>
-            Load
+            Import
           </button>
-          <br />
-          {selectedFileStatus}
         </div>
       </div>
     );

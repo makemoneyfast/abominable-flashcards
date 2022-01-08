@@ -41,16 +41,17 @@ const BasicSetEditor: React.FunctionComponent<SetEditorProps> = (
   }
   return (
     <div className="setEditor">
-      Set name:{" "}
-      <input
-        type="text"
-        value={props.name}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-          props.onNameChange(e.target.value)
-        }
-      />
-      <br />
-      Kanji: {kanjiElements}
+      <div className="formCaption">Set name:</div>
+      <div className="formInput">
+        <input
+          type="text"
+          value={props.name}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            props.onNameChange(e.target.value)
+          }
+        />
+      </div>
+      <div className="kanjiItems">{kanjiElements}</div>
     </div>
   );
 };
