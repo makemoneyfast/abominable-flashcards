@@ -28,7 +28,9 @@ interface CardPropsFromState {
   hint: string;
   meaning: string;
   kunyomi: string;
+  kunyomiAccent: number;
   onyomi: string;
+  onyomiAccent: number;
   audio: string;
 
   retest: boolean;
@@ -87,7 +89,9 @@ const mapStateToProps: (state: State) => CardPropsFromState = (
           hint: currentCard.notes,
           meaning: currentCard.meaning,
           kunyomi: currentCard.kunyomi,
+          kunyomiAccent: currentCard.kunyomiAccent,
           onyomi: currentCard.onyomi,
+          onyomiAccent: currentCard.onyomiAccent,
           audio: currentCard.audio,
 
           retest: currentCard.retest,
@@ -123,30 +127,61 @@ const BasicCard: React.FunctionComponent<
 > = (props: CardPropsFromState & CardPropsFromDispatch) => {
   let question: any[];
   let hint: any[];
-  let answer: string;
+  let answer: any[];
   let questionLanguage: string;
   let vocabularyType: " character" | " compound";
   let answerLanguage: string;
   let questionFontSize: string;
 
+  const formatWithAccent = (text: string, accentIndex: number) => {
+    if (
+      accentIndex == undefined ||
+      accentIndex < 0 ||
+      accentIndex >= text.length
+    ) {
+      return [text];
+    } else {
+      const returnValue = [];
+      if (accentIndex > 0) {
+        returnValue.push(text.slice(0, accentIndex));
+      }
+      returnValue.push(
+        <span className="accent">
+          {text.slice(accentIndex, accentIndex + 1)}
+        </span>
+      );
+      if (accentIndex < text.length - 1) {
+        returnValue.push(text.slice(accentIndex + 1));
+      }
+      return returnValue;
+    }
+  };
+
+  const formattedKunyomi = formatWithAccent(props.kunyomi, props.kunyomiAccent);
+  const formattedOnyomi = formatWithAccent(
+    mapToKatakana(props.onyomi),
+    props.onyomiAccent
+  );
+
   switch (props.quizType) {
     case eQuizMode.meaning:
       question = [props.character];
       hint = [props.hint];
-      answer = props.meaning;
+      answer = [props.meaning];
       questionLanguage = " japanese";
       vocabularyType =
         props.character.length === 1 ? " character" : " compound";
       answerLanguage = " english";
       break;
     case eQuizMode.character:
-      question = [props.kunyomi, <br></br>, mapToKatakana(props.onyomi)];
+      // Need to apply the formatting here!!!
+      question = [...formattedKunyomi, <br></br>, ...formattedOnyomi];
       hint = [
         props.meaning,
         <br></br>,
         <span className="subsidiary">{props.hint}</span>,
       ];
-      answer = props.character;
+      answer = [props.character];
       questionLanguage = " japanese";
       vocabularyType = " compound";
       answerLanguage = " japanese";
@@ -154,7 +189,7 @@ const BasicCard: React.FunctionComponent<
     case eQuizMode.kunyomi:
       question = [props.character];
       hint = [props.meaning];
-      answer = props.kunyomi;
+      answer = formattedKunyomi;
       questionLanguage = " japanese";
       vocabularyType =
         props.character.length === 1 ? " character" : " compound";
@@ -163,7 +198,7 @@ const BasicCard: React.FunctionComponent<
     case eQuizMode.onyomi:
       question = [props.character];
       hint = [props.meaning];
-      answer = props.onyomi;
+      answer = formattedOnyomi;
       questionLanguage = " japanese";
       vocabularyType =
         props.character.length === 1 ? " character" : " compound";
@@ -190,7 +225,7 @@ const BasicCard: React.FunctionComponent<
   // Handle missing fields
 
   hint = hint.map((item) => (item ? item : "✕"));
-  answer = answer || "✕";
+  answer = answer || ["✕"];
 
   const flipHandler = props.canFlip ? props.onFlip : () => undefined;
 

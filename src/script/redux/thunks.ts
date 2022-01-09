@@ -108,9 +108,12 @@ export function thunkAttemptToLoadFromJSON(
         output.assets.kanji = _(output.assets.kanji)
           .map((asset) =>
             _.assign(
+              // default values for fields that are not stored in the JSON when empty.
               {
-                onyomi: "",
                 kunyomi: "",
+                kunyomiAccent: -1,
+                onyomi: "",
+                onyomiAccent: -1,
                 tags: [],
                 retest: false,
                 audio: "",
@@ -272,7 +275,9 @@ export function thunkEditNominatedCard(id: string, modeOnExit: AppMode) {
           hint: kanji.notes,
           meaning: kanji.meaning,
           kunyomi: kanji.kunyomi,
+          kunyomiAccent: kanji.kunyomiAccent,
           onyomi: kanji.onyomi,
+          onyomiAccent: kanji.onyomiAccent,
           audio: kanji.audio,
           tags: kanji.tags ? kanji.tags : [],
           sets: [],
@@ -340,6 +345,16 @@ export function thunkSaveSetBufferContentsAndExit() {
 export function thunkSaveCardBufferContentsAndExit() {
   return (dispatch: Dispatch<SupportedAction>, getState: () => State) => {
     const state = getState();
+    const enforceAccentRange = (text: string, accentIndex: number) => {
+      if (accentIndex < 0) {
+        return -1;
+      }
+      if (accentIndex > text.length - 1) {
+        return -1;
+      }
+      return accentIndex;
+    };
+
     if (state.cardEditor.newCard) {
       dispatch(
         saveNewCard({
@@ -347,7 +362,15 @@ export function thunkSaveCardBufferContentsAndExit() {
           hint: state.cardEditor.hint,
           meaning: state.cardEditor.meaning,
           kunyomi: state.cardEditor.kunyomi,
+          kunyomiAccent: enforceAccentRange(
+            state.cardEditor.kunyomi,
+            state.cardEditor.kunyomiAccent
+          ),
           onyomi: state.cardEditor.onyomi,
+          onyomiAccent: enforceAccentRange(
+            state.cardEditor.onyomi,
+            state.cardEditor.onyomiAccent
+          ),
           audio: state.cardEditor.audio,
           tags: state.cardEditor.tags,
           sets: state.cardEditor.sets,
@@ -365,7 +388,15 @@ export function thunkSaveCardBufferContentsAndExit() {
             hint: state.cardEditor.hint,
             meaning: state.cardEditor.meaning,
             kunyomi: state.cardEditor.kunyomi,
+            kunyomiAccent: enforceAccentRange(
+              state.cardEditor.kunyomi,
+              state.cardEditor.kunyomiAccent
+            ),
             onyomi: state.cardEditor.onyomi,
+            onyomiAccent: enforceAccentRange(
+              state.cardEditor.onyomi,
+              state.cardEditor.onyomiAccent
+            ),
             audio: state.cardEditor.audio,
             tags: state.cardEditor.tags,
             sets: state.cardEditor.sets,

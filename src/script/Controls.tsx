@@ -117,8 +117,10 @@ const mapStateToProps = (state: State): ControlsProps => {
       state.cardEditor.kanji !== "" ||
       state.cardEditor.hint !== "" ||
       state.cardEditor.meaning !== "" ||
-      state.cardEditor.onyomi !== "" ||
       state.cardEditor.kunyomi !== "" ||
+      state.cardEditor.kunyomiAccent !== -1 ||
+      state.cardEditor.onyomi !== "" ||
+      state.cardEditor.onyomiAccent !== -1 ||
       state.cardEditor.tags.length !== 0;
 
     okToSaveCard = true;
@@ -140,8 +142,10 @@ const mapStateToProps = (state: State): ControlsProps => {
         state.cardEditor.kanji !== original.character ||
         state.cardEditor.hint !== original.notes ||
         state.cardEditor.meaning !== original.meaning ||
+        state.cardEditor.kunyomiAccent !== original.kunyomiAccent ||
         state.cardEditor.kunyomi !== original.kunyomi ||
         state.cardEditor.onyomi !== original.onyomi ||
+        state.cardEditor.onyomiAccent !== original.onyomiAccent ||
         state.cardEditor.audio !== original.audio ||
         state.cardEditor.tags.toString() !== original.tags.toString()
       ) {

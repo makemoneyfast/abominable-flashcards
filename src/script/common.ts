@@ -24,7 +24,9 @@ export interface KanjiAsset {
   meaning: string;
   notes: string;
   onyomi: string;
+  onyomiAccent: number;
   kunyomi: string;
+  kunyomiAccent: number;
   tags: string[]; // radicals. Maybe separate tag list for themes?
   retest: boolean; // Not defined in data but added on import.
   audio: string;
@@ -115,7 +117,9 @@ export interface PopulatedCardEditorState {
   hint: string;
   meaning: string;
   kunyomi: string;
+  kunyomiAccent: number;
   onyomi: string;
+  onyomiAccent: number;
   audio: string;
   tags: string[];
   sets: string[];
@@ -132,7 +136,9 @@ export interface EmptyCardEditorState {
   hint: null;
   meaning: null;
   kunyomi: null;
+  kunyomiAccent: null;
   onyomi: null;
+  onyomiAccent: null;
   audio: null;
   tags: null;
   sets: null;

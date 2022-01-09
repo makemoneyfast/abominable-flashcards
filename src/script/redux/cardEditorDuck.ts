@@ -25,8 +25,12 @@ const UPDATE_CARD_BUFFER_NEW_TAG =
   "MorningThunder/cardEditor/UPDATE_CARD_BUFFER_NEW_TAG";
 const UPDATE_CARD_BUFFER_KUNYOMI =
   "MorningThunder/cardEditor/UPDATE_CARD_BUFFER_KUNYOMI";
+const UPDATE_CARD_BUFFER_KUNYOMI_ACCENT =
+  "MorningThunder/cardEditor/UPDATE_CARD_BUFFER_KUNYOMI_ACCENT";
 const UPDATE_CARD_BUFFER_ONYOMI =
   "MorningThunder/cardEditor/UPDATE_CARD_BUFFER_ONYOMI";
+const UPDATE_CARD_BUFFER_ONYOMI_ACCENT =
+  "MorningThunder/cardEditor/UPDATE_CARD_BUFFER_ONYOMI_ACCENT";
 const UPDATE_CARD_BUFFER_AUDIO =
   "MorningThunder/cardEditor/UPDATE_CARD_BUFFER_AUDIO";
 export const SAVE_NEW_CARD = "MorningThunder/cardEditor/SAVE_NEW_CARD";
@@ -56,7 +60,9 @@ export type CardEditorAction =
   | UpdateBufferNotesAction
   | UpdateBufferNewTagAction
   | UpdateBufferKunyomiAction
+  | UpdateBufferKunyomiAccentAction
   | UpdateBufferOnyomiAction
+  | UpdateBufferOnyomiAccentAction
   | UpdateBufferAudioAction
   | SaveNewTagAction
   | ChangeCardBufferTagsAction
@@ -75,7 +81,9 @@ const initialState: EmptyCardEditorState = {
   meaning: null,
   hint: null,
   kunyomi: null,
+  kunyomiAccent: null,
   onyomi: null,
+  onyomiAccent: null,
   audio: null,
   tags: null,
   sets: null,
@@ -121,7 +129,9 @@ export default function reducer(
         hint: "",
         meaning: "",
         kunyomi: "",
+        kunyomiAccent: -1,
         onyomi: "",
+        onyomiAccent: -1,
         audio: "",
         tags: [],
         sets: [],
@@ -136,7 +146,9 @@ export default function reducer(
         hint: action.payload.buffer.hint,
         meaning: action.payload.buffer.meaning,
         kunyomi: action.payload.buffer.kunyomi,
+        kunyomiAccent: action.payload.buffer.kunyomiAccent,
         onyomi: action.payload.buffer.onyomi,
+        onyomiAccent: action.payload.buffer.onyomiAccent,
         audio: action.payload.buffer.audio,
         tags: action.payload.buffer.tags,
         tagSearchText: "",
@@ -165,10 +177,20 @@ export default function reducer(
         ...state,
         kunyomi: action.payload,
       } as PopulatedCardEditorState;
+    case UPDATE_CARD_BUFFER_KUNYOMI_ACCENT:
+      return {
+        ...state,
+        kunyomiAccent: action.payload,
+      } as PopulatedCardEditorState;
     case UPDATE_CARD_BUFFER_ONYOMI:
       return {
         ...state,
         onyomi: action.payload,
+      } as PopulatedCardEditorState;
+    case UPDATE_CARD_BUFFER_ONYOMI_ACCENT:
+      return {
+        ...state,
+        onyomiAccent: action.payload,
       } as PopulatedCardEditorState;
     case UPDATE_CARD_BUFFER_AUDIO:
       return {
@@ -260,7 +282,9 @@ export interface CardEditBuffer {
   hint: string;
   meaning: string;
   kunyomi: string;
+  kunyomiAccent: number;
   onyomi: string;
+  onyomiAccent: number;
   audio: string;
   tags: string[];
   sets: string[];
@@ -409,6 +433,17 @@ export function updateCardBufferKunyomi(
   return { type: UPDATE_CARD_BUFFER_KUNYOMI, payload: kunyomi };
 }
 
+type UpdateBufferKunyomiAccentAction = Action<
+  "MorningThunder/cardEditor/UPDATE_CARD_BUFFER_KUNYOMI_ACCENT",
+  number
+>;
+
+export function updateCardBufferKunyomiAccent(
+  kunyomiAccent: number
+): UpdateBufferKunyomiAccentAction {
+  return { type: UPDATE_CARD_BUFFER_KUNYOMI_ACCENT, payload: kunyomiAccent };
+}
+
 type UpdateBufferOnyomiAction = Action<
   "MorningThunder/cardEditor/UPDATE_CARD_BUFFER_ONYOMI",
   string
@@ -418,6 +453,17 @@ export function updateCardBufferOnyomi(
   onyomi: string
 ): UpdateBufferOnyomiAction {
   return { type: UPDATE_CARD_BUFFER_ONYOMI, payload: onyomi };
+}
+
+type UpdateBufferOnyomiAccentAction = Action<
+  "MorningThunder/cardEditor/UPDATE_CARD_BUFFER_ONYOMI_ACCENT",
+  number
+>;
+
+export function updateCardBufferOnyomiAccent(
+  onyomiAccent: number
+): UpdateBufferOnyomiAccentAction {
+  return { type: UPDATE_CARD_BUFFER_ONYOMI_ACCENT, payload: onyomiAccent };
 }
 
 type UpdateBufferAudioAction = Action<

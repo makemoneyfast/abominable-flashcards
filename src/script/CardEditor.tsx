@@ -18,6 +18,8 @@ import {
   changeCardBufferTags,
   addSetToCardBuffer,
   removeSetFromCardBuffer,
+  updateCardBufferKunyomiAccent,
+  updateCardBufferOnyomiAccent,
 } from "./redux/cardEditorDuck";
 
 import { thunkSaveNewTagAndFlush } from "./redux/thunks";
@@ -25,6 +27,7 @@ import { thunkSaveNewTagAndFlush } from "./redux/thunks";
 import _ from "Lodash";
 
 import "./styles/cardEditor.less";
+import AccentControl from "./AccentControl";
 
 interface CardEditorProps {
   newCard: boolean;
@@ -32,7 +35,9 @@ interface CardEditorProps {
   hint: string;
   answer: string;
   kunyomi: string;
+  kunyomiAccent: number;
   onyomi: string;
+  onyomiAccent: number;
   audio: string;
 
   allTags: { name: string; id: string }[];
@@ -55,7 +60,9 @@ interface CardEditorProps {
   onHintChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onAnswerChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onKunyomiChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onKunyomiAccentChange: (accentIndex: number) => void;
   onOnyomiChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onOnyomiAccentChange: (accentIndex: number) => void;
   onAudioChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onSetLinkChange: (setID: string, link: boolean) => void;
 }
@@ -144,6 +151,14 @@ class BasicCardEditor extends React.Component<CardEditorProps> {
             onChange={this.props.onKunyomiChange}
           />
         </div>
+        <div className="formCaption">Kunyomi accent:</div>
+        <div className="formInput">
+          <AccentControl
+            text={this.props.kunyomi}
+            accentIndex={this.props.kunyomiAccent}
+            onAccentIndexChange={this.props.onKunyomiAccentChange}
+          ></AccentControl>
+        </div>
         <div className="formCaption">Onyomi:</div>
         <div className="formInput">
           <input
@@ -151,6 +166,14 @@ class BasicCardEditor extends React.Component<CardEditorProps> {
             value={this.props.onyomi}
             onChange={this.props.onOnyomiChange}
           />
+        </div>
+        <div className="formCaption">Onyomi accent:</div>
+        <div className="formInput">
+          <AccentControl
+            text={this.props.onyomi}
+            accentIndex={this.props.onyomiAccent}
+            onAccentIndexChange={this.props.onOnyomiAccentChange}
+          ></AccentControl>
         </div>
         <div className="formCaption">Audio:</div>
         <div className="formInput">
@@ -189,7 +212,9 @@ const mapStateToProps: (state: State) => CardEditorProps = (state: State) => {
       hint: "",
       answer: "",
       kunyomi: "",
+      kunyomiAccent: -1,
       onyomi: "",
+      onyomiAccent: -1,
       audio: "",
 
       allTags: [] as any,
@@ -245,7 +270,9 @@ const mapStateToProps: (state: State) => CardEditorProps = (state: State) => {
       state.cardEditor.hint !== "" ||
       state.cardEditor.meaning !== "" ||
       state.cardEditor.kunyomi !== "" ||
+      state.cardEditor.kunyomiAccent !== -1 ||
       state.cardEditor.onyomi !== "" ||
+      state.cardEditor.onyomiAccent !== -1 ||
       state.cardEditor.audio !== "" ||
       state.cardEditor.tags.length !== 0; /// O MY GOD HAVE TO FIX THIS OM
   } else {
@@ -258,7 +285,9 @@ const mapStateToProps: (state: State) => CardEditorProps = (state: State) => {
       state.cardEditor.hint !== currentCard.notes ||
       state.cardEditor.meaning !== currentCard.meaning ||
       state.cardEditor.kunyomi !== currentCard.kunyomi ||
+      state.cardEditor.kunyomiAccent !== currentCard.kunyomiAccent ||
       state.cardEditor.onyomi !== currentCard.onyomi ||
+      state.cardEditor.onyomiAccent !== currentCard.onyomiAccent ||
       state.cardEditor.audio !== currentCard.audio ||
       state.cardEditor.tags.toString() !==
         (currentCard.tags ? currentCard.tags.toString() : "");
@@ -270,7 +299,9 @@ const mapStateToProps: (state: State) => CardEditorProps = (state: State) => {
     hint: state.cardEditor.hint,
     answer: state.cardEditor.meaning,
     kunyomi: state.cardEditor.kunyomi,
+    kunyomiAccent: state.cardEditor.kunyomiAccent,
     onyomi: state.cardEditor.onyomi,
+    onyomiAccent: state.cardEditor.onyomiAccent,
     audio: state.cardEditor.audio,
 
     allTags: allTags,
@@ -301,9 +332,13 @@ const mapDispatchToProps: (
     onKunyomiChange: (event: React.ChangeEvent<HTMLInputElement>) => {
       dispatch(updateCardBufferKunyomi(event.target.value));
     },
+    onKunyomiAccentChange: (accentIndex: number) =>
+      dispatch(updateCardBufferKunyomiAccent(accentIndex)),
     onOnyomiChange: (event: React.ChangeEvent<HTMLInputElement>) => {
       dispatch(updateCardBufferOnyomi(event.target.value));
     },
+    onOnyomiAccentChange: (accentIndex: number) =>
+      dispatch(updateCardBufferOnyomiAccent(accentIndex)),
     onAudioChange: (event: React.ChangeEvent<HTMLInputElement>) => {
       dispatch(updateCardBufferAudio(event.target.value));
     },

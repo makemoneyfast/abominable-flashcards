@@ -36,26 +36,44 @@ export function serialiseAssets(
 
   // Remove empty fields from the kanji record before serialising.
   output.assets.kanji = _(output.assets.kanji)
-    .map(({ character, meaning, notes, tags, onyomi, kunyomi, audio }) => {
-      const returnValue: Partial<KanjiAsset> = {
+    .map(
+      ({
         character,
         meaning,
         notes,
-      };
-      if (tags && tags.length !== 0) {
-        returnValue.tags = tags;
+        tags,
+        onyomi,
+        onyomiAccent,
+        kunyomi,
+        kunyomiAccent,
+        audio,
+      }) => {
+        const returnValue: Partial<KanjiAsset> = {
+          character,
+          meaning,
+          notes,
+        };
+        if (tags && tags.length !== 0) {
+          returnValue.tags = tags;
+        }
+        if (onyomi !== "") {
+          returnValue.onyomi = onyomi;
+          if (onyomiAccent > -1 && onyomiAccent < onyomi.length - 1) {
+            returnValue.onyomiAccent = onyomiAccent;
+          }
+        }
+        if (kunyomi !== "") {
+          returnValue.kunyomi = kunyomi;
+          if (kunyomiAccent > -1 && kunyomiAccent < kunyomi.length - 1) {
+            returnValue.kunyomiAccent = kunyomiAccent;
+          }
+        }
+        if (audio !== "") {
+          returnValue.audio = audio;
+        }
+        return returnValue as KanjiAsset;
       }
-      if (onyomi !== "") {
-        returnValue.onyomi = onyomi;
-      }
-      if (kunyomi !== "") {
-        returnValue.kunyomi = kunyomi;
-      }
-      if (audio !== "") {
-        returnValue.audio = audio;
-      }
-      return returnValue as KanjiAsset;
-    })
+    )
     .keyBy((asset) => asset.character)
     .value();
   return JSON.stringify(output);
