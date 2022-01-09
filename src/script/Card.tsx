@@ -158,6 +158,10 @@ const BasicCard: React.FunctionComponent<
   };
 
   const formattedKunyomi = formatWithAccent(props.kunyomi, props.kunyomiAccent);
+  const formattedOnyomi = formatWithAccent(
+    mapToKatakana(props.onyomi),
+    props.onyomiAccent
+  );
 
   switch (props.quizType) {
     case eQuizMode.meaning:
@@ -171,7 +175,7 @@ const BasicCard: React.FunctionComponent<
       break;
     case eQuizMode.character:
       // Need to apply the formatting here!!!
-      question = [...formattedKunyomi, <br></br>, mapToKatakana(props.onyomi)];
+      question = [...formattedKunyomi, <br></br>, ...formattedOnyomi];
       hint = [
         props.meaning,
         <br></br>,
@@ -194,7 +198,7 @@ const BasicCard: React.FunctionComponent<
     case eQuizMode.onyomi:
       question = [props.character];
       hint = [props.meaning];
-      answer = [props.onyomi];
+      answer = formattedOnyomi;
       questionLanguage = " japanese";
       vocabularyType =
         props.character.length === 1 ? " character" : " compound";
