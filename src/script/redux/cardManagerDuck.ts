@@ -1,5 +1,5 @@
 import { Action, UnhandledAction } from "./Action";
-import { State, CardManagerState } from "../common";
+import { CardManagerState } from "../common";
 import { DeleteCardAction, DELETE_CARD } from "./assetsDuck";
 import _ from "Lodash";
 
@@ -79,6 +79,12 @@ const initialState: CardManagerState = {
   tagModificationOperation: "add",
 };
 // Reducer
+/**
+ *
+ * @param {CardManagerState} state
+ * @param {CardManagerAction} action
+ * @return {CardManagerState}
+ */
 export default function reducer(
   state: CardManagerState,
   action: CardManagerAction
@@ -284,6 +290,11 @@ type ToggleCardSelectAction = Action<
   string
 >;
 
+/**
+ *
+ * @param {string} id
+ * @return {ToggleCardSelectAction}
+ */
 export function toggleCardSelection(id: string): ToggleCardSelectAction {
   return {
     type: TOGGLE_CARD_SELECTION,
@@ -296,6 +307,11 @@ type ToggleFilterSelectedAction = Action<
   FilterMode
 >;
 
+/**
+ *
+ * @param {FilterMode} mode
+ * @return {ToggleFilterSelectedAction}
+ */
 export function toggleFilterSelected(
   mode: FilterMode
 ): ToggleFilterSelectedAction {
@@ -310,6 +326,12 @@ type ChangeFilterTextToMatchAction = Action<
   { mode: FilterMode; text: string }
 >;
 
+/**
+ *
+ * @param {string} text
+ * @param {FilterMode} mode
+ * @return {ChangeFilterTextToMatchAction}
+ */
 export function changeFilterTextToMatch(
   text: string,
   mode: FilterMode
@@ -328,6 +350,12 @@ type ToggleMatchFieldAction = Action<
   }
 >;
 
+/**
+ *
+ * @param {FilterMode} mode
+ * @param {FilterField} field
+ * @return {ToggleMatchFieldAction}
+ */
 export function toggleMatchField(
   mode: FilterMode,
   field: FilterField
@@ -346,6 +374,12 @@ type ChangeTagSearchTextAction = Action<
   { mode: FilterMode; searchText: string }
 >;
 
+/**
+ *
+ * @param {string} searchText
+ * @param {FilterMode} mode
+ * @return {ChangeTagSearchTextAction}
+ */
 export function changeTagSearchText(
   searchText: string,
   mode: FilterMode
@@ -361,6 +395,12 @@ type ChangeTagsToMatchAction = Action<
   { mode: FilterMode; tags: string[] }
 >;
 
+/**
+ *
+ * @param {string[]} tags
+ * @param {FilterMode} mode
+ * @return {ChangeTagsToMatchAction}
+ */
 export function changeTagsToMatch(
   tags: string[],
   mode: FilterMode
@@ -376,6 +416,12 @@ type ChangeSetsToMatchAction = Action<
   { mode: FilterMode; sets: string[] }
 >;
 
+/**
+ *
+ * @param {string[]} sets
+ * @param {FilterMode} mode
+ * @return {ChangeSetsToMatchAction}
+ */
 export function changeSetsToMatch(
   sets: string[],
   mode: FilterMode
@@ -391,6 +437,11 @@ type ChangeTagsToModifyOnSelectedSearchTextAction = Action<
   { searchText: string }
 >;
 
+/**
+ *
+ * @param {string} searchText
+ * @return {ChangeTagsToModifyOnSelectedSearchTextAction}
+ */
 export function changeTagsToModifyOnSelectedSearchText(
   searchText: string
 ): ChangeTagsToModifyOnSelectedSearchTextAction {
@@ -405,6 +456,12 @@ type ChangeTagsToModifyOnSelectedAction = Action<
   { tags: string[] }
 >;
 
+/**
+ *
+ * @param {string[]} tags
+ * @param {SelectionEditMode} mode
+ * @return {ChangeTagsToModifyOnSelectedAction}
+ */
 export function changeTagsToModifyOnSelected(
   tags: string[],
   mode: SelectionEditMode
@@ -420,6 +477,11 @@ type ChangeTagOperationAction = Action<
   { operation: "add" | "remove" }
 >;
 
+/**
+ *
+ * @param {"add" | "remove"} operation
+ * @return {ChangeTagOperationAction}
+ */
 export function changeTagOperation(
   operation: "add" | "remove"
 ): ChangeTagOperationAction {
@@ -434,6 +496,11 @@ type ChangeSetsToModifyOnSelectedAction = Action<
   { sets: string[] }
 >;
 
+/**
+ *
+ * @param {string[]} sets
+ * @return {ChangeSetsToModifyOnSelectedAction}
+ */
 export function changeSetsToModifyOnSelected(
   sets: string[]
 ): ChangeSetsToModifyOnSelectedAction {
@@ -448,6 +515,11 @@ type ChangeSetOperationAction = Action<
   { operation: "add" | "remove" }
 >;
 
+/**
+ *
+ * @param {"add" | "remove"} operation
+ * @return {ChangeSetOperationAction}
+ */
 export function changeSetOperation(
   operation: "add" | "remove"
 ): ChangeSetOperationAction {
@@ -468,6 +540,15 @@ export type ApplyChangesToFilteredAction = Action<
   }
 >;
 
+/**
+ *
+ * @param {string[]} cardIDs
+ * @param {string[]} selectedSets
+ * @param {"add" | "remove"} setOperation
+ * @param {string[]} selectedTags
+ * @param {"add" | "remove"} tagOperation
+ * @return {ApplyChangesToFilteredAction}
+ */
 export function applyChangesToFiltered(
   cardIDs: string[],
   selectedSets: string[],
@@ -492,6 +573,10 @@ export type ResetFilterParametersAction = Action<
   null
 >;
 
+/**
+ *
+ * @return {ResetFilterParametersAction}
+ */
 export function resetFilterParameters(): ResetFilterParametersAction {
   return {
     type: RESET_FILTER_PARAMETERS,

@@ -38,6 +38,11 @@ const initialState: EmptyQuizState = {
   retesting: null,
 };
 // Reducer
+/**
+ * @param {QuizState} state
+ * @param {QuizAction} action
+ * @return {QuizState}
+ */
 export default function reducer(
   state: QuizState,
   action: QuizAction
@@ -122,7 +127,12 @@ type StartSetQuizAction = Action<
   "MorningThunder/quiz/START_SET_QUIZ",
   { setID: string; shuffledCardIDs: string[] }
 >;
-
+/**
+ *
+ * @param {string} setID
+ * @param {string[]} shuffledCardIDs
+ * @return {StartSetQuizAction}
+ */
 export function setQuizSelected(
   setID: string,
   shuffledCardIDs: string[]
@@ -141,6 +151,12 @@ type StartTagQuizAction = Action<
   { tag: string; shuffledCardIDs: string[] }
 >;
 
+/**
+ *
+ * @param {string} tag
+ * @param {string[]} shuffledCardIDs
+ * @return {StartQuizTagAction}
+ */
 export function tagQuizSelected(
   tag: string,
   shuffledCardIDs: string[]
@@ -159,12 +175,21 @@ type SelectQuizModeAction = Action<
   { mode: eQuizMode }
 >;
 
+/**
+ *
+ * @param {eQuizMode} mode
+ * @return {SelectQuizModeAction}
+ */
 export function quizModeChanged(mode: eQuizMode): SelectQuizModeAction {
   return { type: CHANGE_QUIZ_MODE, payload: { mode } };
 }
 
 type FlipAction = Action<"MorningThunder/quiz/FLIP", null>;
 
+/**
+ *
+ * @return {FlipCardAction}
+ */
 export function flipCard(): FlipAction {
   return { type: FLIP, payload: null };
 }
@@ -174,6 +199,11 @@ type StartRetestAction = Action<
   { shuffledKanji: string[] }
 >;
 
+/**
+ *
+ * @param {string[]} IDsOfKanjiToRetest
+ * @return {StartRetestAction}
+ */
 export function startRetest(IDsOfKanjiToRetest: string[]): StartRetestAction {
   const shuffledKanji = createShuffledArray(IDsOfKanjiToRetest);
   return {
@@ -184,6 +214,10 @@ export function startRetest(IDsOfKanjiToRetest: string[]): StartRetestAction {
 
 type ClearQuizAction = Action<"MorningThunder/quiz/CLEAR_QUIZ", undefined>;
 
+/**
+ *
+ * @return {ClearQuizAction}
+ */
 export function clearQuiz(): ClearQuizAction {
   return {
     type: CLEAR_QUIZ,
