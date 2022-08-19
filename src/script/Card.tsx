@@ -125,7 +125,7 @@ const mapDispatchToProps: (
 const BasicCard: React.FunctionComponent<
   CardPropsFromState & CardPropsFromDispatch
 > = (props: CardPropsFromState & CardPropsFromDispatch) => {
-  let question: any[];
+  let question: (string | JSX.Element)[];
   let hint: any[];
   let answer: any[];
   let questionLanguage: string;
@@ -189,7 +189,7 @@ const BasicCard: React.FunctionComponent<
     case eQuizMode.kunyomi:
       question = [props.character];
       hint = [props.meaning];
-      answer = formattedKunyomi;
+      answer = props.kunyomi ? formattedKunyomi : formattedOnyomi;
       questionLanguage = " japanese";
       vocabularyType =
         props.character.length === 1 ? " character" : " compound";
@@ -198,7 +198,7 @@ const BasicCard: React.FunctionComponent<
     case eQuizMode.onyomi:
       question = [props.character];
       hint = [props.meaning];
-      answer = formattedOnyomi;
+      answer = props.onyomi ? formattedOnyomi : formattedKunyomi;
       questionLanguage = " japanese";
       vocabularyType =
         props.character.length === 1 ? " character" : " compound";
@@ -323,7 +323,7 @@ const BasicCard: React.FunctionComponent<
       );
     case eCardState.answer:
       const tags = [];
-      for (let tag of props.tags) {
+      for (const tag of props.tags) {
         tags.push(
           <div className="tag" key={tag} id={tag}>
             {tag}
@@ -345,7 +345,7 @@ const BasicCard: React.FunctionComponent<
         const audio = new Audio(assetLocation);
         audio
           .play()
-          .catch((e) =>
+          .catch(() =>
             console.log(
               `Failed to play audio at ${assetLocation} - asset probably missing or invalid.`
             )
@@ -354,7 +354,11 @@ const BasicCard: React.FunctionComponent<
       };
 
       return (
-        <div className={cardClasses.join(" ")} onClick={flipHandler}>
+        <div
+          className={cardClasses.join(" ")}
+          onClick={flipHandler}
+          key={props.character}
+        >
           <div className="status japanese">{statusMessage}</div>
           {props.audio && <div className="audioIndicator">耳</div>}
           <div
