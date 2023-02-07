@@ -327,15 +327,6 @@ const BasicCard: React.FunctionComponent<
         </div>
       );
     case eCardState.answer:
-      const tags = [];
-      for (const tag of props.tags) {
-        tags.push(
-          <div className="tag" key={tag} id={tag}>
-            {tag}
-          </div>
-        );
-      }
-
       const cardClasses = ["card", "answer-mode"];
       if (props.retest) {
         cardClasses.push("retest");
@@ -381,7 +372,13 @@ const BasicCard: React.FunctionComponent<
               <div className="content english">{hint}</div>
             </div>
           </div>
-          <div className="tags">{tags}</div>
+          <div className="tags">
+            {props.tags.map((tag) => (
+              <div className="tag" key={tag} id={tag}>
+                {tag}
+              </div>
+            ))}
+          </div>
           <RetestButton />
         </div>
       );
