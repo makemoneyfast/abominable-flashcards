@@ -1,5 +1,4 @@
 import * as React from "react";
-import * as ReactDom from "react-dom";
 
 import { connect } from "react-redux";
 import { Dispatch, Action } from "redux";
@@ -43,20 +42,26 @@ interface CardPropsFromDispatch {
   onFlip: () => void;
 }
 
+const getCurrentSetId = (state: State) => {
+  return state.quiz.currentSetID !== null
+    ? state.assets.sets[state.quiz.currentSetID]
+    : undefined;
+};
+
+const getCurrentTag = (state: State) => {
+  return state.quiz.currentTagID !== null
+    ? state.assets.tags[state.quiz.currentTagID]
+    : undefined;
+};
+
 const mapStateToProps: (state: State) => CardPropsFromState = (
   state: State
 ) => {
   if (state.quiz.currentQuiz === null) {
     throw new Error("Can't render a card while there's no quiz set up");
   }
-  const currentSet =
-    state.quiz.currentSetID !== null
-      ? state.assets.sets[state.quiz.currentSetID]
-      : undefined;
-  const currentTag =
-    state.quiz.currentTagID !== null
-      ? state.assets.tags[state.quiz.currentTagID]
-      : undefined;
+  const currentSet = getCurrentSetId(state);
+  const currentTag = getCurrentTag(state);
   let currentCard: KanjiAsset | undefined;
   let canFlip: boolean;
   if (state.quiz.currentCardIndex !== null) {
