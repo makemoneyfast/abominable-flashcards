@@ -1,5 +1,4 @@
 import * as React from "react";
-import * as ReactDom from "react-dom";
 
 import { connect } from "react-redux";
 import { Dispatch, Action } from "redux";
@@ -43,20 +42,26 @@ interface CardPropsFromDispatch {
   onFlip: () => void;
 }
 
+const getCurrentSetId = (state: State) => {
+  return state.quiz.currentSetID !== null
+    ? state.assets.sets[state.quiz.currentSetID]
+    : undefined;
+};
+
+const getCurrentTag = (state: State) => {
+  return state.quiz.currentTagID !== null
+    ? state.assets.tags[state.quiz.currentTagID]
+    : undefined;
+};
+
 const mapStateToProps: (state: State) => CardPropsFromState = (
   state: State
 ) => {
   if (state.quiz.currentQuiz === null) {
     throw new Error("Can't render a card while there's no quiz set up");
   }
-  const currentSet =
-    state.quiz.currentSetID !== null
-      ? state.assets.sets[state.quiz.currentSetID]
-      : undefined;
-  const currentTag =
-    state.quiz.currentTagID !== null
-      ? state.assets.tags[state.quiz.currentTagID]
-      : undefined;
+  const currentSet = getCurrentSetId(state);
+  const currentTag = getCurrentTag(state);
   let currentCard: KanjiAsset | undefined;
   let canFlip: boolean;
   if (state.quiz.currentCardIndex !== null) {
@@ -125,7 +130,7 @@ const mapDispatchToProps: (
 const BasicCard: React.FunctionComponent<
   CardPropsFromState & CardPropsFromDispatch
 > = (props: CardPropsFromState & CardPropsFromDispatch) => {
-  let question: any[];
+  let question: (string | JSX.Element)[];
   let hint: any[];
   let answer: any[];
   let questionLanguage: string;
@@ -189,7 +194,7 @@ const BasicCard: React.FunctionComponent<
     case eQuizMode.kunyomi:
       question = [props.character];
       hint = [props.meaning];
-      answer = formattedKunyomi;
+      answer = props.kunyomi ? formattedKunyomi : formattedOnyomi;
       questionLanguage = " japanese";
       vocabularyType =
         props.character.length === 1 ? " character" : " compound";
@@ -198,7 +203,7 @@ const BasicCard: React.FunctionComponent<
     case eQuizMode.onyomi:
       question = [props.character];
       hint = [props.meaning];
-      answer = formattedOnyomi;
+      answer = props.onyomi ? formattedOnyomi : formattedKunyomi;
       questionLanguage = " japanese";
       vocabularyType =
         props.character.length === 1 ? " character" : " compound";
@@ -322,15 +327,6 @@ const BasicCard: React.FunctionComponent<
         </div>
       );
     case eCardState.answer:
-      const tags = [];
-      for (let tag of props.tags) {
-        tags.push(
-          <div className="tag" key={tag} id={tag}>
-            {tag}
-          </div>
-        );
-      }
-
       const cardClasses = ["card", "answer-mode"];
       if (props.retest) {
         cardClasses.push("retest");
@@ -345,7 +341,7 @@ const BasicCard: React.FunctionComponent<
         const audio = new Audio(assetLocation);
         audio
           .play()
-          .catch((e) =>
+          .catch(() =>
             console.log(
               `Failed to play audio at ${assetLocation} - asset probably missing or invalid.`
             )
@@ -354,7 +350,11 @@ const BasicCard: React.FunctionComponent<
       };
 
       return (
-        <div className={cardClasses.join(" ")} onClick={flipHandler}>
+        <div
+          className={cardClasses.join(" ")}
+          onClick={flipHandler}
+          key={props.character}
+        >
           <div className="status japanese">{statusMessage}</div>
           {props.audio && <div className="audioIndicator">耳</div>}
           <div
@@ -372,7 +372,13 @@ const BasicCard: React.FunctionComponent<
               <div className="content english">{hint}</div>
             </div>
           </div>
-          <div className="tags">{tags}</div>
+          <div className="tags">
+            {props.tags.map((tag) => (
+              <div className="tag" key={tag} id={tag}>
+                {tag}
+              </div>
+            ))}
+          </div>
           <RetestButton />
         </div>
       );
