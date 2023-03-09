@@ -1,6 +1,5 @@
 import { Action, UnhandledAction } from "./Action";
-import { Assets, KanjiAsset, SetAsset, TagAsset, LoaderState } from "../common";
-import _ from "Lodash";
+import { KanjiAsset, SetAsset, TagAsset, LoaderState } from "../common";
 
 // // Actions
 export const DATA_AVAILABLE = "MorningThunder/loader/DATA_AVAILABLE";
@@ -28,14 +27,10 @@ const initialState: LoaderState = {
   error: null,
 };
 
-// Reducer
 export default function reducer(
   state: LoaderState,
   action: LoaderAction
 ): LoaderState {
-  let currentQuizID: string;
-  let shuffledKanji: string[];
-
   if (state === undefined) {
     return Object.assign({}, initialState);
   }
@@ -79,6 +74,7 @@ type FileSelectedChangedAction = Action<
   "MorningThunder/loader/FILE_SELECTED_CHANGED",
   boolean
 >;
+
 export function fileSelectionChanged(
   fileIsSelected: boolean
 ): FileSelectedChangedAction {
@@ -99,6 +95,7 @@ export type DataAvailableAction = Action<
     allSets: string[];
   }
 >;
+
 export function dataAvailable(
   assets: {
     kanji: { [id: string]: KanjiAsset };
