@@ -1,15 +1,5 @@
 import { Action, UnhandledAction } from "./Action";
-import {
-  Assets,
-  State,
-  AssetsState,
-  QuizState,
-  eQuizMode,
-  eCardState,
-  KanjiAsset,
-  TagAsset,
-  SetAsset,
-} from "../common";
+import { AssetsState } from "../common";
 import {
   SAVE_NEW_CARD,
   SaveNewCardAction,
@@ -66,8 +56,6 @@ export default function reducer(
   state: AssetsState,
   action: AssetsAction
 ): AssetsState {
-  let currentQuizID: string;
-  let shuffledKanji: string[];
   let allKanji: typeof state.kanji;
   let allSets: typeof state.sets;
   let allTags: typeof state.tags;

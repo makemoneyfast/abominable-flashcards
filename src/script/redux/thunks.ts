@@ -1,4 +1,4 @@
-import { State, Assets, KanjiAsset, TagAsset, AppMode } from "../common";
+import { State, AppMode } from "../common";
 import {
   clearAllRetest,
   toggleRetest,
@@ -28,14 +28,12 @@ import {
   saveExistingCard,
   endCardEdit,
   flushBuffer,
-  CardEditBuffer,
   editNewCard,
   saveNewCard,
   saveNewTag,
   CardEditorAction,
 } from "./cardEditorDuck";
 import {
-  SetEditBuffer,
   saveNewSet,
   saveExistingSet,
   endSetEdit,
